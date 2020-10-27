@@ -20,11 +20,6 @@ public class HomeController {
     @RequestMapping(value = {"", "/", "/index"}, method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user = userService.findUserByEmail(authentication.getName());
-
-
-        modelAndView.addObject("fullname", user.getFullName());
         modelAndView.setViewName("frontend/layout/pages/index");
         return modelAndView;
     }

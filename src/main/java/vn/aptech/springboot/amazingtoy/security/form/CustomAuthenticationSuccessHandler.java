@@ -58,6 +58,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         roleTargetUrlMap.put("ADMIN", "/admin/dashboard");
         roleTargetUrlMap.put("STAFF", "/admin/dashboard");
 
+        return getRoles(authentication, roleTargetUrlMap);
+    }
+
+    static String getRoles(Authentication authentication, Map<String, String> roleTargetUrlMap) {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();

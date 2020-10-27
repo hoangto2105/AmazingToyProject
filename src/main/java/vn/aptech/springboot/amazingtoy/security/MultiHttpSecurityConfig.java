@@ -1,6 +1,7 @@
 package vn.aptech.springboot.amazingtoy.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import vn.aptech.springboot.amazingtoy.security.api.ApiJWTAuthenticationFilter;
 import vn.aptech.springboot.amazingtoy.security.api.ApiJWTAuthorizationFilter;
@@ -21,6 +22,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true
+)
 public class MultiHttpSecurityConfig {
 
     @Configuration
@@ -107,12 +113,6 @@ public class MultiHttpSecurityConfig {
                     .csrf()
                     .disable()
                     .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/register").permitAll()
-                    .antMatchers("/admin/**").hasAnyAuthority("ADMIN", "STAFF")
-                    .anyRequest()
-                    .authenticated()
                     .and()
                     .formLogin()
                     .loginPage("/login")
@@ -126,6 +126,7 @@ public class MultiHttpSecurityConfig {
                     .permitAll()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessHandler(customLogoutSuccessHandler)
+                    .logoutSuccessUrl("/login")
                     .deleteCookies("JSESSIONID")
                     .and()
                     .exceptionHandling();
