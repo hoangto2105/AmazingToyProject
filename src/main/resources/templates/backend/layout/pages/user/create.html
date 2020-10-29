@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="backend/layout/backend_layout">>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" layout:fragment="content">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>General Form</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">General Form</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8 offset-2">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h3 class="card-title">Create New User</h3>
+                </div>
+                <div class="col-sm-6">
+                  <a th:href="@{/admin/user}" class="btn float-right" title="List"><i class="fa fa-list"></i><span class="hidden-xs"> Back List</span></a>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-header -->
+           <div class="col-md-6 offset-md-3">
+             <!-- form start -->
+             <form role="form" th:action="@{/admin/user/create}" th:object="${userRegisterFormCommand}" enctype="multipart/form-data" method="post">
+               <div class="card-body">
+                 <div class="form-group">
+                   <label for="email">Email</label>
+                   <input type="email" class="form-control" th:field="*{email}" name="email" id="email" placeholder="Enter email">
+                   <span id="email-error" class="error invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+                 </div>
+                 <div class="form-group">
+                   <label for="password">Password</label>
+                   <input type="password" class="form-control"th:field="*{password}"  id="password" placeholder="Password">
+                   <span id="password-error" class="error invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                 </div>
+                 <div class="form-group">
+                   <label for="phoneNumber">Phone Number</label>
+                   <input type="tel" class="form-control" th:field="*{phoneNumber}" name="phoneNumber" id="phoneNumber" placeholder="Enter phone number">
+                   <span id="phoneNumber-error" class="error invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+                 </div>
+                 <div class="row">
+                   <div class="col-sm-6">
+                     <div class="form-group">
+                       <label for="firstName">First Name</label>
+                       <input type="text" class="form-control" th:field="*{firstName}" name="firstName" id="firstName" placeholder="Enter first name">
+                       <span id="firstName-error" class="error invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+                     </div>
+                   </div>
+                   <div class="col-sm-6">
+                     <div class="form-group">
+                       <label for="lastName">Last Name</label>
+                       <input type="tel" class="form-control" th:field="*{lastName}" name="lastName" id="lastName" placeholder="Enter last name">
+                       <span id="lastName-error" class="error invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+                     </div>
+                   </div>
+                 </div>
+                 <div class="row">
+                   <div class="col-sm-6">
+                     <!-- select -->
+                     <div class="form-group">
+                       <label>Gender</label>
+                       <select th:field="*{gender}" name="gender" th:id="gender" class="form-control">
+                         <option th:value="Male" th:utext="Male"></option>
+                         <option th:value="Female" th:utext="Female"></option>
+                       </select>
+                       <span id="gender-error" class="error invalid-feedback" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+                     </div>
+                   </div>
+                   <div class="col-sm-6">
+                     <div class="form-group">
+                       <label>Date Of Birth:</label>
+
+                       <div class="input-group">
+                         <input type="date" th:field="*{dateOfBirth}" id="dateOfBirth" name="dateOfBirth" lass="form-control float-right">
+                       </div>
+                       <span id="dateOfBirth-error" class="error invalid-feedback" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+                       <!-- /.input group -->
+                     </div>
+                   </div>
+                 </div>
+                 <div class="row">
+                   <div class="col-sm-6">
+                     <div class="form-group">
+                       <label for="profilePicture">Profile Image</label>
+                       <div class="input-group">
+                         <div class="custom-file">
+                           <input type="file" th:field="*{profilePicture}" class="custom-file-input" name="profilePicture"  id="profilePicture">
+                           <label class="custom-file-label" for="profilePicture">Choose file</label>
+                           <span id="profilePicture-error" class="error invalid-feedback" th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}"></span>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                   <div class="col-sm-6">
+                     <div class="form-group">
+                       <label>Role</label>
+                       <select multiple th:field="*{role}" name="roles" class="form-control">
+                           <option th:each="roleDto : ${roleDtos}" th:value="${roleDto.id}" th:utext="${roleDto.name}"></option>
+                       </select>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               <!-- /.card-body -->
+
+               <div class="card-footer d-flex justify-content-center">
+                 <button type="submit" class="btn btn-primary">Submit</button>
+               </div>
+             </form>
+           </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!--/.col (left) -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<script layout:fragment="scripts">
+  $(document).ready(function () {
+    bsCustomFileInput.init();
+  });
+</script>
+</body>
+</html>

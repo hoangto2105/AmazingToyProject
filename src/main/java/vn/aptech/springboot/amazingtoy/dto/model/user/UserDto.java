@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.Accessors;
-import vn.aptech.springboot.amazingtoy.model.user.Address;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Getter
@@ -18,7 +18,7 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
 
-    private String userId;
+    private Long id;
     private String email;
     private boolean emailConfirmed;
     private String password;
@@ -26,12 +26,16 @@ public class UserDto {
     private boolean phoneConfirmed;
     private String firstName;
     private String lastName;
-    public User.GenderType gender;
-    public Date dateOfBirth;
-    public String profilePicture;
-    public boolean status = false;
-    public AddressDto addressDto;
+    private User.GenderType gender;
+    private Date dateOfBirth;
+    private String profilePicture;
+    private boolean status = false;
+    private Timestamp createAt;
+    private Timestamp updateAt;
+    private AddressDto addressDto;
+    private String role;
     private Set<RoleDto> roleDtos;
+
 
     public UserDto() {
     }
@@ -52,8 +56,8 @@ public class UserDto {
         this.roleDtos = roleDtos;
     }
 
-    public UserDto(String userId, String email, boolean emailConfirmed, String password, String phoneNumber, boolean phoneConfirmed, String firstName, String lastName, User.GenderType gender, Date dateOfBirth, String profilePicture, boolean status, AddressDto addressDto, Set<RoleDto> roleDtos) {
-        this.userId = userId;
+    public UserDto(Long id, String email, boolean emailConfirmed, String password, String phoneNumber, boolean phoneConfirmed, String firstName, String lastName, User.GenderType gender, Date dateOfBirth, String profilePicture, boolean status, AddressDto addressDto, Set<RoleDto> roleDtos) {
+        this.id = id;
         this.email = email;
         this.emailConfirmed = emailConfirmed;
         this.password = password;

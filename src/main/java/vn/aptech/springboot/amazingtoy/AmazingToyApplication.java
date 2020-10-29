@@ -1,7 +1,6 @@
 package vn.aptech.springboot.amazingtoy;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import vn.aptech.springboot.amazingtoy.model.user.Address;
 import vn.aptech.springboot.amazingtoy.model.user.Role;
@@ -14,7 +13,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Date;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -65,8 +67,8 @@ public class AmazingToyApplication {
                 admin.setFirstName("Trinh Hao");
                 admin.setLastName("Hiep");
                 admin.setGender(User.GenderType.Male);
-                admin.setDateOfBirth(new Date(1999, 07, 26));
-                admin.setProfilePicture("/backend/dist/img/user-picture/avatar.png");
+                admin.setDateOfBirth(Date.valueOf("1999-07-26"));
+                admin.setProfilePicture("avatar.png");
                 admin.setStatus(true);
 
                 Address adminAddress = new Address();
@@ -97,8 +99,8 @@ public class AmazingToyApplication {
                 staff.setFirstName("Nguyen Nhat");
                 staff.setLastName("Hoang Ha");
                 staff.setGender(User.GenderType.Male);
-                staff.setDateOfBirth(new Date(1999, 07, 26));
-                staff.setProfilePicture("/backend/dist/img/user-picture/avatar2.png");
+                staff.setDateOfBirth(Date.valueOf("1999-07-26"));
+                staff.setProfilePicture("avatar2.png");
                 staff.setStatus(true);
 
                 Address staffAddress = new Address();
@@ -130,8 +132,8 @@ public class AmazingToyApplication {
                 customer.setFirstName("To Dao");
                 customer.setLastName("Viet Hoang");
                 customer.setGender(User.GenderType.Male);
-                customer.setDateOfBirth(new Date(1999, 07, 26));
-                customer.setProfilePicture("/backend/dist/img/user-picture/avatar3.png");
+                customer.setDateOfBirth(Date.valueOf("1999-07-26"));
+                customer.setProfilePicture("avatar3.png");
                 customer.setStatus(true);
 
                 Address customerAddress = new Address();

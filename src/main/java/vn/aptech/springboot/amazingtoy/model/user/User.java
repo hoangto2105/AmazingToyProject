@@ -1,14 +1,11 @@
 package vn.aptech.springboot.amazingtoy.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
+import java.sql.Date;
 import java.util.Set;
 
 @Getter
@@ -16,13 +13,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @Entity
 @Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "user_id", unique = true)
-    private String userId;
+public class User extends BaseEntity {
 
     @Column(name = "email", unique = true)
     private String email;
@@ -54,9 +45,6 @@ public class User {
     @Column(name = "profile_picture")
     public String profilePicture;
 
-    @Column(name = "status")
-    public boolean status = false;
-
     @OneToOne()
     @JoinColumn(name = "address_id")
     public Address address;
@@ -73,23 +61,6 @@ public class User {
     }
 
     public User(String email, boolean emailConfirmed, String password, String phoneNumber, boolean phoneConfirmed, String firstName, String lastName, GenderType gender, Date dateOfBirth, String profilePicture, boolean status, Address address, Set<Role> roles) {
-        this.email = email;
-        this.emailConfirmed = emailConfirmed;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.phoneConfirmed = phoneConfirmed;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.profilePicture = profilePicture;
-        this.status = status;
-        this.address = address;
-        this.roles = roles;
-    }
-
-    public User(String userId, String email, boolean emailConfirmed, String password, String phoneNumber, boolean phoneConfirmed, String firstName, String lastName, GenderType gender, Date dateOfBirth, String profilePicture, boolean status, Address address, Set<Role> roles) {
-        this.userId = userId;
         this.email = email;
         this.emailConfirmed = emailConfirmed;
         this.password = password;

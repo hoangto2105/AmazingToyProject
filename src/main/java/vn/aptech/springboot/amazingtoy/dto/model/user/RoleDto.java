@@ -18,7 +18,7 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleDto {
 
-    private int roleId;
+    private Long id;
 
     private String name;
 
@@ -36,8 +36,8 @@ public class RoleDto {
         this.userDtos = userDtos;
     }
 
-    public RoleDto(int roleId, String role, Set<UserDto> userDtos) {
-        this.roleId = roleId;
+    public RoleDto(Long id, String role, Set<UserDto> userDtos) {
+        this.id = id;
         this.name = name;
         this.userDtos = userDtos;
     }

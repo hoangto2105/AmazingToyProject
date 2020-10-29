@@ -11,12 +11,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Entity
 @Table(name = "addresses")
-public class Address {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
-    private Integer addressId;
+public class Address extends BaseEntity {
 
     @Column(name = "country")
     private String country;
@@ -37,15 +32,6 @@ public class Address {
     }
 
     public Address(String country, String address, String city, String stateOrRegion, String postalCode) {
-        this.country = country;
-        this.address = address;
-        this.city = city;
-        this.stateOrRegion = stateOrRegion;
-        this.postalCode = postalCode;
-    }
-
-    public Address(Integer addressId, String country, String address, String city, String stateOrRegion, String postalCode) {
-        this.addressId = addressId;
         this.country = country;
         this.address = address;
         this.city = city;
