@@ -12,12 +12,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @Entity
 @Table(name = "roles")
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private int roleId;
+public class Role extends BaseEntity {
 
     @Column(name = "name")
     private String name;
@@ -37,9 +32,5 @@ public class Role {
         this.users = users;
     }
 
-    public Role(int roleId, String name, Set<User> users) {
-        this.roleId = roleId;
-        this.name = name;
-        this.users = users;
-    }
+
 }
