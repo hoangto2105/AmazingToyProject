@@ -1,20 +1,15 @@
 package vn.aptech.springboot.amazingtoy.model.subcategory;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
+import vn.aptech.springboot.amazingtoy.model.products.Product;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.Collection;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 @Entity
@@ -36,9 +31,32 @@ public class Subcategory implements Serializable {
     @Column(name = "sub_name")
     private String subName;
 
-    @JoinColumn(name = "cat_id", referencedColumnName = "category_ID")
-    @ManyToOne(optional = false)
-    private Category catId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Category category;
+
+    @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Product> products;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Collection<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Collection<Product> products) {
+        this.products = products;
+    }
 
     public Subcategory() {
     }
@@ -47,9 +65,11 @@ public class Subcategory implements Serializable {
         this.subcatId = subcatId;
     }
 
-    public Subcategory(Integer subcatId, String subName) {
+    public Subcategory(Integer subcatId, String subName, Category category, Collection<Product> products) {
         this.subcatId = subcatId;
         this.subName = subName;
+        this.category = category;
+        this.products = products;
     }
 
     public Integer getSubcatId() {
@@ -66,39 +86,6 @@ public class Subcategory implements Serializable {
 
     public void setSubName(String subName) {
         this.subName = subName;
-    }
-
-    public Category getCatId() {
-        return catId;
-    }
-
-    public void setCatId(Category catId) {
-        this.catId = catId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (subcatId != null ? subcatId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Subcategory)) {
-            return false;
-        }
-        Subcategory other = (Subcategory) object;
-        if ((this.subcatId == null && other.subcatId != null) || (this.subcatId != null && !this.subcatId.equals(other.subcatId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory[ subcatId=" + subcatId + " ]";
     }
 
 }

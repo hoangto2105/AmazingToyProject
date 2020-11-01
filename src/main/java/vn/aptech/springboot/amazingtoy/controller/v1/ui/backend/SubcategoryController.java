@@ -51,8 +51,8 @@ public class SubcategoryController {
     @RequestMapping(value= "/createSubcategory", method = RequestMethod.POST)
     public String createSubcategory(Model model,
                                     @ModelAttribute("subcategory") Subcategory subcategory) {
-        Category category = categoryService.findPk(subcategory.getCatId().getCategoryID());
-        subcategory.setCatId(category);
+        Category category = categoryService.findPk(subcategory.getCategory().getCategoryID());
+        subcategory.setCategory(category);
         subService.create(subcategory);
         return "redirect:/admin/category";
     }
@@ -75,8 +75,8 @@ public class SubcategoryController {
     @RequestMapping(value = "/doUpdateSubcategory", method = RequestMethod.POST)
     public String doUpdate(Model model,
                            @ModelAttribute("subcategory") Subcategory subcategory) {
-        Category category = categoryService.findPk(subcategory.getCatId().getCategoryID());
-        subcategory.setCatId(category);
+        Category category = categoryService.findPk(subcategory.getCategory().getCategoryID());
+        subcategory.setCategory(category);
         subService.update(subcategory);
         return "redirect:/admin/category";
 
