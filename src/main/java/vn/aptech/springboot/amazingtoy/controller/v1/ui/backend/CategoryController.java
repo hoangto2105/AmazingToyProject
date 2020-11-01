@@ -74,7 +74,7 @@ public class CategoryController {
     public String deleteCategory(RedirectAttributes redirectAttributes, @PathVariable("idDelete") String id) {
         Category category = categoryService.findPk(Integer.parseInt(id));
 
-        if (category.getSubcategoryCollection().stream().count() > 0) {
+        if (category.getSubcategories().stream().count() > 0) {
             redirectAttributes.addFlashAttribute("error", "There are many subcategories inside. Remove is not allowed");
         } else {
             categoryService.delete(Integer.parseInt(id));
