@@ -40,7 +40,7 @@ public class UserRegisterFormCommand {
 
     private MultipartFile profilePicture;
 
-    private String role;
+    private List<String> roles;
 
     public enum GenderType {
         Male,

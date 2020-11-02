@@ -81,14 +81,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto register(UserDto userDto, MultipartFile profilePicture) throws IOException {
         Set<Role> roles = new HashSet<>();
-        Optional<Role> role = roleRepository.findById(Long.parseLong(userDto.getRole()));
+
         User user = userRepository.findByEmail(userDto.getEmail());
 
         try {
             String uniqueFileName = FileUtil.UploadedFile(profilePicture, PROFILE_IMAGE_PATH);
 
             if (user == null) {
-                roles.add(role.get());
+                for (String roleId : userDto.getRoles()) {
+                    roles.add(roleRepository.findById(Long.parseLong(roleId)).get());
+                }
                 user = new User()
                         .setEmail(userDto.getEmail())
                         .setEmailConfirmed(true)

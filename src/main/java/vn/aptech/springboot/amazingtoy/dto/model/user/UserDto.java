@@ -8,6 +8,7 @@ import vn.aptech.springboot.amazingtoy.model.user.User;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -33,7 +34,7 @@ public class UserDto {
     private Timestamp createAt;
     private Timestamp updateAt;
     private AddressDto addressDto;
-    private String role;
+    private List<String> roles;
     private Set<RoleDto> roleDtos;
 
 
