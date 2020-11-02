@@ -119,7 +119,7 @@
                    <div class="col-sm-6">
                      <div class="form-group">
                        <label>Role</label>
-                       <select multiple th:field="*{role}" name="roles" class="form-control">
+                       <select multiple th:field="*{roles}" name="roles" id="roles" class="form-control">
                            <option th:each="roleDto : ${roleDtos}" th:value="${roleDto.id}" th:utext="${roleDto.name}"></option>
                        </select>
                      </div>

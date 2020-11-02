@@ -49,7 +49,7 @@ public class User extends BaseEntity {
     @JoinColumn(name = "address_id")
     public Address address;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

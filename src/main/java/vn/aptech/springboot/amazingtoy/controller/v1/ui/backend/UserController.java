@@ -113,7 +113,7 @@ public class UserController {
                 .setPhoneNumber(userRegisterFormCommand.getPhoneNumber())
                 .setGender(userRegisterFormCommand.getGender())
                 .setDateOfBirth(userRegisterFormCommand.getDateOfBirth())
-                .setRole(userRegisterFormCommand.getRole());
+                .setRoles(userRegisterFormCommand.getRoles());
 
         UserDto user = userService.register(userDto, userRegisterFormCommand.getProfilePicture());
 
