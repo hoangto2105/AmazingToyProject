@@ -64,65 +64,30 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-edit"></i>
+                        <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Forms
+                            Products
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+
                         <li class="nav-item">
-                            <a href="pages/forms/general.html" class="nav-link">
+                            <a th:href="@{/admin/products/index}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>General Elements</p>
+                                <p>List All Products</p>
+                            </a>
+
+                            <a th:href="@{/admin/products/createFormProduct}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create New Product</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="pages/forms/advanced.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Advanced Elements</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/forms/editors.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Editors</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/forms/validation.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Validation</p>
-                            </a>
-                        </li>
+
                     </ul>
                 </li>
-                <!--                <li class="nav-item has-treeview">-->
-                <!--                    <a href="#" class="nav-link">-->
-                <!--                        <i class="nav-icon fas fa-table"></i>-->
-                <!--                        <p>-->
-                <!--                            Subcategory-->
-                <!--                            <i class="fas fa-angle-left right"></i>-->
-                <!--                        </p>-->
-                <!--                    </a>-->
-                <!--                    <ul class="nav nav-treeview">-->
-
-                <!--                        <li class="nav-item">-->
-                <!--                            <a th:href="@{/admin/subcategory/index}" class="nav-link">-->
-                <!--                                <i class="far fa-circle nav-icon"></i>-->
-                <!--                                <p>List All Subcategory</p>-->
-                <!--                            </a>-->
-
-                <!--                            <a th:href="@{/admin/subcategory/createFormSubcategory}" class="nav-link">-->
-                <!--                                <i class="far fa-circle nav-icon"></i>-->
-                <!--                                <p>Create New Subcategory</p>-->
-                <!--                            </a>-->
-                <!--                        </li>-->
-
-                <!--                    </ul>-->
-                <!--                </li>-->
-                <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' menu-open' : ''}">
-                    <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' active' : ''}">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon far fa-plus-square"></i>
                         <p>
                             Users
