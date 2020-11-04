@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
+import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.service.CategoryService;
 import vn.aptech.springboot.amazingtoy.service.SubcategoryService;
@@ -38,6 +39,7 @@ public class SubcategoryController {
 
     @RequestMapping(value= "/createFormSubcategory")
     public String displayCreateFormSubcat(Model model) {
+
         Subcategory subcategory = new Subcategory();
         List<Category> categoryList = categoryService.findAllCat();
         model.addAttribute("categories", categoryList);
