@@ -2675,6 +2675,19 @@ li.megamenu-img a {
     color: #4CBB76;
 }
 
+.out-stock {
+    color: red;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.out-stock i {
+    font-size: 16px;
+    margin-right: 5px;
+    color: red;
+}
+
 .socila-sharing li {
     color: #666;
     line-height: 1;

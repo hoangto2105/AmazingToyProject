@@ -62,8 +62,8 @@
 
                     </ul>
                 </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/products') ? ' menu-open' : ''}">
+                    <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/products') ? ' active' : ''}">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             Products
@@ -73,12 +73,12 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a th:href="@{/admin/products/index}" class="nav-link">
+                            <a th:href="@{/admin/products/index}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/products/index') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List All Products</p>
                             </a>
 
-                            <a th:href="@{/admin/products/createFormProduct}" class="nav-link">
+                            <a th:href="@{/admin/products/createFormProduct}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/products/createFormProduct') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Create New Product</p>
                             </a>
@@ -86,8 +86,8 @@
 
                     </ul>
                 </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' menu-open' : ''}">
+                    <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' active' : ''}">
                         <i class="nav-icon far fa-plus-square"></i>
                         <p>
                             Users
