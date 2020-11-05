@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.password.PasswordEncoder;
 import vn.aptech.springboot.amazingtoy.security.api.ApiJWTAuthenticationFilter;
 import vn.aptech.springboot.amazingtoy.security.api.ApiJWTAuthorizationFilter;
+import vn.aptech.springboot.amazingtoy.security.form.CustomAccessDeniedHandler;
 import vn.aptech.springboot.amazingtoy.security.form.CustomAuthenticationSuccessHandler;
 import vn.aptech.springboot.amazingtoy.security.form.CustomLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class MultiHttpSecurityConfig {
         private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
         @Autowired
-        private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+        private CustomAccessDeniedHandler customAccessDeniedHandler;
 
         @Autowired
         private CustomUserDetailsService userDetailsService;
@@ -125,11 +126,11 @@ public class MultiHttpSecurityConfig {
                     .logout()
                     .permitAll()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessHandler(customLogoutSuccessHandler)
+//                    .logoutSuccessHandler(customLogoutSuccessHandler)
                     .logoutSuccessUrl("/login")
                     .deleteCookies("JSESSIONID")
                     .and()
-                    .exceptionHandling();
+                    .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
         }
 
         @Override

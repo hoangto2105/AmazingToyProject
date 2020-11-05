@@ -26,7 +26,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("ADMIN".equals(auth.getAuthority()) || "STAFF".equals(auth.getAuthority())) {
-                redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/admin/dashboard/accessDenied");
+                redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/admin/accessDenied");
             } else {
                 redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/accessDenied");
             }

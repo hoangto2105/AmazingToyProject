@@ -14,8 +14,7 @@
             <div class="breadcrumb">
                 <ul class="d-flex align-items-center">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="register.html">account</a></li>
-                    <li class="active"><a href="contact.html">contact us</a></li>
+                    <li class="active"><a th:href="@{/login}">Login</a></li>
                 </ul>
             </div>
         </div>
@@ -33,7 +32,7 @@
                             <h3 class="custom-title">new customer</h3>
                             <p class="mtb-10"><strong>Register</strong></p>
                             <p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made</p>
-                            <a class="customer-btn" href="register.html">continue</a>
+                            <a class="customer-btn" th:href="@{/register}">continue</a>
                         </div>
                     </div>
                 </div>

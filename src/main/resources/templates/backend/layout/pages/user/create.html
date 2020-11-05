@@ -64,7 +64,7 @@
                    <label for="phoneNumber">Phone Number</label>
                    <input type="tel" class="form-control" th:field="*{phoneNumber}" th:if="${#fields.hasErrors('phoneNumber')}" th:classappend="is-invalid" name="phoneNumber" id="phoneNumber" placeholder="Enter phone number">
                    <input type="tel" class="form-control" th:field="*{phoneNumber}" th:unless="${#fields.hasErrors('phoneNumber')}" name="phoneNumber" id="phoneNumber" placeholder="Enter phone number">
-                   <span class="error invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+                   <span class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
                  </div>
                  <div class="row">
                    <div class="col-sm-6">
@@ -72,7 +72,7 @@
                        <label for="firstName">First Name</label>
                        <input type="text" class="form-control" th:field="*{firstName}" th:if="${#fields.hasErrors('firstName')}" th:classappend="is-invalid" name="firstName" id="firstName" placeholder="Enter first name">
                        <input type="text" class="form-control" th:field="*{firstName}" th:unless="${#fields.hasErrors('firstName')}" name="firstName" id="firstName" placeholder="Enter first name">
-                       <span class="error invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+                       <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                      </div>
                    </div>
                    <div class="col-sm-6">
@@ -80,7 +80,7 @@
                        <label for="lastName">Last Name</label>
                        <input type="text" class="form-control" th:field="*{lastName}" th:if="${#fields.hasErrors('lastName')}" th:classappend="is-invalid" name="lastName" id="lastName" placeholder="Enter last name">
                        <input type="text" class="form-control" th:field="*{lastName}" th:unless="${#fields.hasErrors('lastName')}" name="lastName" id="lastName" placeholder="Enter last name">
-                       <span class="error invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+                       <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                      </div>
                    </div>
                  </div>
@@ -93,7 +93,7 @@
                          <option th:value="Male" th:utext="Male"></option>
                          <option th:value="Female" th:utext="Female"></option>
                        </select>
-                       <span class="error invalid-feedback" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+                       <span class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
                      </div>
                    </div>
                    <div class="col-sm-6">

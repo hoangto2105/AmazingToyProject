@@ -3,6 +3,7 @@ package vn.aptech.springboot.amazingtoy.service.impl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import vn.aptech.springboot.amazingtoy.controller.v1.command.UserUpdateFormCommand;
 import vn.aptech.springboot.amazingtoy.dto.mapper.UserMapper;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.exception.ApplicationException;
@@ -22,6 +23,7 @@ import vn.aptech.springboot.amazingtoy.service.UserService;
 import vn.aptech.springboot.amazingtoy.util.FileUtil;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -79,18 +81,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto register(UserDto userDto, MultipartFile profilePicture) throws IOException {
+    public boolean checkIfValidOldPassword(UserUpdateFormCommand userUpdateFormCommand) {
+        User currentUser = userRepository.findByEmail(userUpdateFormCommand.getEmail());
+
+        return passwordEncoder.matches(userUpdateFormCommand.getPassword(), currentUser.getPassword());
+    }
+
+    @Override
+    public UserDto register(UserDto userDto) throws IOException {
         Set<Role> roles = new HashSet<>();
-
         User user = userRepository.findByEmail(userDto.getEmail());
+        UserDto returnUser = null;
 
-        try {
-            String uniqueFileName = FileUtil.UploadedFile(profilePicture, PROFILE_IMAGE_PATH);
+        if (userDto.isAdmin()) {
+            try {
+                String uniqueFileName = FileUtil.UploadedFile(userDto.getMultipartFile(), PROFILE_IMAGE_PATH);
 
-            if (user == null) {
-                for (String roleId : userDto.getRoles()) {
-                    roles.add(roleRepository.findById(Long.parseLong(roleId)).get());
+                if (user == null) {
+                    for (String roleId : userDto.getRoles()) {
+                        roles.add(roleRepository.findById(Long.parseLong(roleId)).get());
+                    }
+                    user = new User()
+                            .setEmail(userDto.getEmail())
+                            .setEmailConfirmed(true)
+                            .setPassword(passwordEncoder.encode(userDto.getPassword()))
+                            .setPhoneNumber(userDto.getPhoneNumber())
+                            .setPhoneConfirmed(true)
+                            .setFirstName(userDto.getFirstName())
+                            .setLastName(userDto.getLastName())
+                            .setGender(userDto.getGender())
+                            .setDateOfBirth(userDto.getDateOfBirth())
+                            .setProfilePicture(uniqueFileName)
+                            .setAddress(addressRepository.save(new Address()))
+                            .setRoles(roles);
+
+                    returnUser = UserMapper.toUserDto(userRepository.save(user));
+                    return returnUser;
                 }
+                throw exception(USER, DUPLICATE_ENTITY, userDto.getEmail());
+            } catch (IOException ioException) {
+                throw new RuntimeException(ioException.getMessage());
+            }
+        } else {
+            if (user == null) {
+                Role role = roleRepository.findByName("CUSTOMER");
+                roles.add(role);
                 user = new User()
                         .setEmail(userDto.getEmail())
                         .setEmailConfirmed(true)
@@ -99,46 +134,78 @@ public class UserServiceImpl implements UserService {
                         .setPhoneConfirmed(true)
                         .setFirstName(userDto.getFirstName())
                         .setLastName(userDto.getLastName())
-                        .setGender(userDto.getGender())
-                        .setDateOfBirth(userDto.getDateOfBirth())
-                        .setProfilePicture(uniqueFileName)
+                        .setGender(User.GenderType.Other)
+                        .setDateOfBirth(new Date(1970, 01, 01))
                         .setAddress(addressRepository.save(new Address()))
                         .setRoles(roles);
-                return UserMapper.toUserDto(userRepository.save(user));
+
+                returnUser = UserMapper.toUserDto(userRepository.save(user));
+                return returnUser;
             }
             throw exception(USER, DUPLICATE_ENTITY, userDto.getEmail());
-        } catch (IOException ioException) {
-            throw new RuntimeException(ioException.getMessage());
         }
-
     }
 
     @Override
     public UserDto update(UserDto userDto, MultipartFile filePicture) throws IOException {
-        Optional<User> user = userRepository.findById(userDto.getId());
+        User user = userRepository.findByEmail(userDto.getEmail());
+        UserDto returnUser = null;
         String uniqueFileName = null;
 
-        if (user.isPresent()) {
-            User userUpdate = user.get();
-            String originPicture = userUpdate.getProfilePicture();
-            if (!(userDto.getPassword().isEmpty())) {
-                userUpdate.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            }
-            if (!filePicture.isEmpty()) {
-                uniqueFileName = FileUtil.UploadedFile(filePicture, PROFILE_IMAGE_PATH);
-                if (uniqueFileName != null) {
-                    userUpdate.setProfilePicture(uniqueFileName);
-                    FileUtil.DeletedFile(PROFILE_IMAGE_PATH, originPicture);
+        if (user != null) {
+            if (userDto.isAdmin()) {
+                User userUpdate = user;
+                String originPicture = userUpdate.getProfilePicture();
+                if (!(userDto.getPassword().isEmpty())) {
+                    userUpdate.setPassword(passwordEncoder.encode(userDto.getPassword()));
                 }
+                if (!filePicture.isEmpty()) {
+                    uniqueFileName = FileUtil.UploadedFile(filePicture, PROFILE_IMAGE_PATH);
+                    if (uniqueFileName != null) {
+                        userUpdate.setProfilePicture(uniqueFileName);
+                        FileUtil.DeletedFile(PROFILE_IMAGE_PATH, originPicture);
+                    }
+                }
+                userUpdate.setPhoneNumber(userDto.getPhoneNumber());
+                userUpdate.setFirstName(userDto.getFirstName());
+                userUpdate.setLastName(userDto.getLastName());
+                userUpdate.setGender(userDto.getGender());
+                userUpdate.setDateOfBirth(userDto.getDateOfBirth());
+
+                returnUser = UserMapper.toUserDto(userRepository.save(userUpdate));
+                return returnUser;
+            } else {
+                User userUpdate = user;
+                String originPicture = userUpdate.getProfilePicture();
+                if (!(userDto.getPassword().isEmpty())) {
+                    userUpdate.setPassword(passwordEncoder.encode(userDto.getPassword()));
+                }
+                if (!filePicture.isEmpty()) {
+                    uniqueFileName = FileUtil.UploadedFile(filePicture, PROFILE_IMAGE_PATH);
+                    if (uniqueFileName != null) {
+                        userUpdate.setProfilePicture(uniqueFileName);
+                        FileUtil.DeletedFile(PROFILE_IMAGE_PATH, originPicture);
+                    }
+                }
+                userUpdate.setPhoneNumber(userDto.getPhoneNumber());
+                userUpdate.setFirstName(userDto.getFirstName());
+                userUpdate.setLastName(userDto.getLastName());
+                userUpdate.setGender(userDto.getGender());
+                userUpdate.setDateOfBirth(userDto.getDateOfBirth());
+
+                Optional<Address> address = addressRepository.findById(userUpdate.getAddress().getId());
+                Address addressUpdate = address.get();
+                addressUpdate.setAddress(userDto.getAddressDto().getAddress());
+                addressUpdate.setCity(userDto.getAddressDto().getCity());
+                addressUpdate.setCountry(userDto.getAddressDto().getCountry());
+                addressUpdate.setPostalCode(userDto.getAddressDto().getPostalCode());
+                addressUpdate.setStateOrRegion(userDto.getAddressDto().getStateOrRegion());
+                userUpdate.setAddress(addressUpdate);
+
+
+                returnUser = UserMapper.toUserDto(userRepository.save(userUpdate));
+                return returnUser;
             }
-            userUpdate.setPhoneNumber(userDto.getPhoneNumber());
-            userUpdate.setFirstName(userDto.getFirstName());
-            userUpdate.setLastName(userDto.getLastName());
-            userUpdate.setGender(userDto.getGender());
-            userUpdate.setDateOfBirth(userDto.getDateOfBirth());
-
-
-            return UserMapper.toUserDto(userRepository.save(userUpdate));
         }
         throw exception(USER, ENTITY_NOT_FOUND, userDto.getId().toString());
     }
