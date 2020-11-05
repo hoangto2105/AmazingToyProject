@@ -460,7 +460,7 @@
                                                 </div>
                                                 <div class="pro-actions">
                                                     <div class="actions-primary">
-                                                        <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
+                                                        <a th:href="@{/shop/cart/add?id={id}(id=${product.id})}" title="Add to Cart"> + Add To Cart</a>
                                                     </div>
                                                     <div class="actions-secondary">
                                                         <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
