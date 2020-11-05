@@ -3,6 +3,7 @@ package vn.aptech.springboot.amazingtoy.controller.v1.command;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.web.multipart.MultipartFile;
+import vn.aptech.springboot.amazingtoy.annotation.FieldMatch;
 import vn.aptech.springboot.amazingtoy.dto.model.user.RoleDto;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 
@@ -25,6 +26,11 @@ public class UserRegisterFormCommand {
     private String password;
 
     @NotBlank
+    @Size(min = 5)
+    @FieldMatch(first = "password", second = "confirmPassword", message = "Passowords are not equal.")
+    private String passwordConfirm;
+
+    @NotBlank
     @Size(min = 5, max = 13)
     private String phoneNumber;
 
@@ -44,7 +50,8 @@ public class UserRegisterFormCommand {
 
     public enum GenderType {
         Male,
-        Female
+        Female,
+        Other
     }
 
 }

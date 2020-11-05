@@ -47,7 +47,12 @@ public class UserMapper {
                 .setLastName(user.getLastName())
                 .setGender(user.getGender())
                 .setDateOfBirth(user.getDateOfBirth())
-                .setProfilePicture(user.getProfilePicture());
+                .setProfilePicture(user.getProfilePicture())
+                .setAddress(user.getAddressDto().getAddress())
+                .setCountry(user.getAddressDto().getCountry())
+                .setCity(user.getAddressDto().getCity())
+                .setStateOrRegion(user.getAddressDto().getStateOrRegion())
+                .setPostalCode(user.getAddressDto().getPostalCode());
 
     }
 
