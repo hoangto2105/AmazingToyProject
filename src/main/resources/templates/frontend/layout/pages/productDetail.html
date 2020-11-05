@@ -100,9 +100,9 @@
                                 </div>
                             </div>
                             <div class="pro-ref mt-20">
-                                <p><span class="in-stock" th:if="${product.addedQuantity>0}"><i class="ion-checkmark-round"></i> IN STOCK</span></p>
+                                <p><span class="in-stock" th:if="${product.inventoryOnHand>0}"><i class="ion-checkmark-round"></i> IN STOCK</span></p>
 
-                                <p><span class="out-stock" th:unless="${product.addedQuantity>0}"><i class="fa fa-times"></i> Out of Stock</span></p>
+                                <p><span class="out-stock" th:unless="${product.inventoryOnHand>0}"><i class="fa fa-times"></i> Out of Stock</span></p>
                             </div>
                             <div class="socila-sharing mt-25">
                                 <ul class="d-flex">
