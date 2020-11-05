@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import org.springframework.web.multipart.MultipartFile;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.model.images.Image;
+import vn.aptech.springboot.amazingtoy.model.inventory.Inventory;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 import vn.aptech.springboot.amazingtoy.model.review.Review;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
@@ -39,8 +40,6 @@ public class Product extends BaseEntity {
     @Basic(optional = false)
     @Column(name = "sale_price")
     private int salePrice;
-    @Column(name = "added_quantity")
-    private Integer addedQuantity;
 
     @Basic(optional = false)
     @Column(name = "description")
@@ -52,6 +51,10 @@ public class Product extends BaseEntity {
     @ToString.Exclude
     private Subcategory subcategory;
 
+
+    @Column(name = "inventory_shipped")
+    private Integer inventoryShipped;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private Collection<Image> imagesCollection;
 
@@ -61,18 +64,27 @@ public class Product extends BaseEntity {
     private Collection<Review> reviewsCollection;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Inventory> inventory;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Collection<OrderDetail> orderDetails;
 
     public Product() {
     }
 
-    public Product(String name, int unitPrice, int salePrice, Integer addedQuantity, String description, Subcategory subcategory, Collection<Image> imagesCollection) {
+    public Product(String name, int unitPrice, int salePrice, String description, Subcategory subcategory, Integer inventoryShipped, Collection<Image> imagesCollection, Collection<Review> reviewsCollection, Collection<Inventory> inventory) {
         this.name = name;
         this.unitPrice = unitPrice;
         this.salePrice = salePrice;
-        this.addedQuantity = addedQuantity;
         this.description = description;
         this.subcategory = subcategory;
+        this.inventoryShipped = inventoryShipped;
         this.imagesCollection = imagesCollection;
+        this.reviewsCollection = reviewsCollection;
+        this.inventory = inventory;
     }
 }

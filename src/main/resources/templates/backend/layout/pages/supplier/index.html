@@ -4,7 +4,7 @@
       xmlns:td="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>View All Products</title>
+    <title>Supplier</title>
 </head>
 <body>
 <!-- Content Wrapper. Contains page content -->
@@ -14,13 +14,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>View All Products </h1>
+                    <h1>Supplier </h1>
                 </div>
 
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">View All Products</li>
+                        <li class="breadcrumb-item active">Supplier</li>
                     </ol>
                 </div>
             </div>
@@ -49,8 +49,8 @@
 
 
                         <div class="card-header clearfix">
-                            <a style="margin:5px" class="btn btn-success float-left" th:href="@{/admin/products/createFormProduct}" >
-                                <i class="fas fa-plus"> </i>   Add Product </a>
+                            <a style="margin:5px" class="btn btn-success float-left" th:href="@{/admin/supplier/createFormSupplier}" >
+                                <i class="fas fa-plus"> </i>   Add Supplier </a>
 
 
                         </div>
@@ -60,58 +60,33 @@
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Image</th>
                                     <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Unit price</th>
-                                    <th>Sale Price</th>
-                                    <th>Category</th>
-                                    <th>Subcategory</th>
-                                    <th>Status</th>
-                                    <th>Description</th>
+                                    <th>Telephone</th>
+                                    <th>Address</th>
                                     <th>Action</th>
 
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr th:each="product : ${products}">
-                                    <td>  <img th:each="image : ${product.getImagesCollection()}" th:if="${image.mainImage} == true" class="primary-img" th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" width="50" height="50" alt="single-product"></td>
-                                    <td th:text="${product.name}"></td>
-                                    <td></td>
-                                    <td th:text="${product.unitPrice}"></td>
-                                    <td th:text="${product.salePrice}"></td>
-                                    <td th:text="${product.getSubcategory().getCategory().getName()}"></td>
-                                    <td th:text="${product.getSubcategory().getSubName()}"></td>
+                                <tr th:each="supplier : ${suppliers}">
 
-                                    <td>
-                                        <span th:if="${product.status != true}" th:utext="Hide" class="badge badge-danger"></span>
-                                        <span th:unless="${product.status != true}" th:utext="Show" class="badge badge-succes"></span>
-                                    </td>
+                                    <td th:text="${supplier.name}"></td>
+                                    <td th:text="${supplier.telephone}"></td>
+                                    <td th:text="${supplier.address}"></td>
 
-                                    <td th:text="${product.description}"></td>
                                     <td>
                                         <div class="row">
                                             <div>
 
-                                                <a style="margin:5px" class="btn btn-info" th:href="@{'/admin/products/displayUpdateProduct/'+ ${product.id}}"><i class="fas fa-edit"></i></a>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <a style="margin:5px" class="btn btn-danger " th:href="@{/admin/products/delete/{idDelete}(idDelete=${product.id})}" onclick="return confirm('Are you sure you want to Remove?');" ><i class="fas fa-trash"></i></a>
+                                                <a style="margin:5px" class="btn btn-info" th:href="@{'/admin/supplier/displayUpdateSupplier/'+ ${supplier.id}}"><i class="fas fa-edit"></i></a>
 
                                             </div>
 
                                             <div>
-
-                                                <a style="margin:5px" class="btn btn-warning" th:href="@{'/admin/products/imageList/' + ${product.id}}"><i class="fas fa-edit"></i>Image</a>
+                                                <a style="margin:5px" class="btn btn-danger " th:href="@{/admin/supplier/delete/{idDelete}(idDelete=${supplier.id})}" onclick="return confirm('Are you sure you want to Remove?');" ><i class="fas fa-trash"></i></a>
 
                                             </div>
-
-
 
                                         </div>
                                     </td>
@@ -121,15 +96,9 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Image</th>
                                     <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Unit price</th>
-                                    <th>Sale Price</th>
-                                    <th>Category</th>
-                                    <th>Subcategory</th>
-                                    <th>Status</th>
-                                    <th>Description</th>
+                                    <th>Telephone</th>
+                                    <th>Address</th>
                                     <th>Action</th>
 
                                 </tr>
