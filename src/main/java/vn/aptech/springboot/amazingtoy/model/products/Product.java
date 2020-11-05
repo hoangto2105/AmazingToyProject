@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import org.springframework.web.multipart.MultipartFile;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.model.images.Image;
+import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 import vn.aptech.springboot.amazingtoy.model.review.Review;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
@@ -58,6 +59,9 @@ public class Product extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Review> reviewsCollection;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Collection<OrderDetail> orderDetails;
 
     public Product() {
     }
