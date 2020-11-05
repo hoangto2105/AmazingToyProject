@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.web.multipart.MultipartFile;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 
 import java.sql.Date;
@@ -36,6 +37,8 @@ public class UserDto {
     private AddressDto addressDto;
     private List<String> roles;
     private Set<RoleDto> roleDtos;
+    private MultipartFile multipartFile;
+    private boolean isAdmin;
 
 
     public UserDto() {

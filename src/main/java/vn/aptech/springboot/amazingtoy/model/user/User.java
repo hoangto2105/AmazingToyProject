@@ -82,6 +82,7 @@ public class User extends BaseEntity {
 
     public enum GenderType {
         Male,
-        Female
+        Female,
+        Other
     }
 }

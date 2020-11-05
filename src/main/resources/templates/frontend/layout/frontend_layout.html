@@ -57,28 +57,39 @@
                         <li><a href="checkout.html">Checkout</a></li>
                     </ul>
                     <ul>
-                        <li><span>Language</span> <a href="#">English<i class="lnr lnr-chevron-down"></i></a>
-                            <!-- Dropdown Start -->
-                            <ul class="ht-dropdown">
-                                <li><a href="#"><img th:src="@{/frontend/img/header/1.jpg}" alt="language-selector">English</a></li>
-                                <li><a href="#"><img th:src="@{/frontend/img/header/2.jpg}" alt="language-selector">Francis</a></li>
-                            </ul>
-                            <!-- Dropdown End -->
+<!--                        <li><span>Language</span> <a href="#">English<i class="lnr lnr-chevron-down"></i></a>-->
+<!--                            &lt;!&ndash; Dropdown Start &ndash;&gt;-->
+<!--                            <ul class="ht-dropdown">-->
+<!--                                <li><a href="#"><img th:src="@{/frontend/img/header/1.jpg}" alt="language-selector">English</a></li>-->
+<!--                                <li><a href="#"><img th:src="@{/frontend/img/header/2.jpg}" alt="language-selector">Francis</a></li>-->
+<!--                            </ul>-->
+<!--                            &lt;!&ndash; Dropdown End &ndash;&gt;-->
+<!--                        </li>-->
+<!--                        <li><span>Currency</span><a href="#"> USD $ <i class="lnr lnr-chevron-down"></i></a>-->
+<!--                            &lt;!&ndash; Dropdown Start &ndash;&gt;-->
+<!--                            <ul class="ht-dropdown">-->
+<!--                                <li><a href="#">&#36; USD</a></li>-->
+<!--                                <li><a href="#"> € Euro</a></li>-->
+<!--                                <li><a href="#">&#163; Pound Sterling</a></li>-->
+<!--                            </ul>-->
+<!--                            &lt;!&ndash; Dropdown End &ndash;&gt;-->
+<!--                        </li>-->
+                        <li sec:authorize="hasAnyAuthority('ADMIN', 'STAFF')"><a th:href="@{/admin/dashboard}">Admin Page</a>
                         </li>
-                        <li><span>Currency</span><a href="#"> USD $ <i class="lnr lnr-chevron-down"></i></a>
-                            <!-- Dropdown Start -->
-                            <ul class="ht-dropdown">
-                                <li><a href="#">&#36; USD</a></li>
-                                <li><a href="#"> € Euro</a></li>
-                                <li><a href="#">&#163; Pound Sterling</a></li>
-                            </ul>
-                            <!-- Dropdown End -->
-                        </li>
-                        <li><a href="#">My Account<i class="lnr lnr-chevron-down"></i></a>
+                        <li sec:authorize="!isAuthenticated()"><a href="#" >My Account<i class="lnr lnr-chevron-down"></i></a>
                             <!-- Dropdown Start -->
                             <ul class="ht-dropdown">
                                 <li><a th:href="@{/login}">Login</a></li>
                                 <li><a href="register.html">Register</a></li>
+                            </ul>
+                            <!-- Dropdown End -->
+                        </li>
+                        <li sec:authorize="isAuthenticated()"><a href="#" th:utext="${#request.userPrincipal.principal.getFullName()}"><i class="lnr lnr-chevron-down"></i></a>
+                            <!-- Dropdown Start -->
+                            <ul class="ht-dropdown">
+                                <li><a th:href="@{/account/dashboard}">Dashboard</a></li>
+                                <li><a th:href="@{/account/profile}">My Profile</a></li>
+                                <li><a th:href="@{/logout}">Logout</a></li>
                             </ul>
                             <!-- Dropdown End -->
                         </li>

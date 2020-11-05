@@ -107,15 +107,16 @@ public class UserController {
         UserDto userDto = new UserDto()
                 .setEmail(userRegisterFormCommand.getEmail())
                 .setPassword(userRegisterFormCommand.getPassword())
-                .setPassword(userRegisterFormCommand.getPhoneNumber())
                 .setFirstName(userRegisterFormCommand.getFirstName())
                 .setLastName(userRegisterFormCommand.getLastName())
                 .setPhoneNumber(userRegisterFormCommand.getPhoneNumber())
                 .setGender(userRegisterFormCommand.getGender())
                 .setDateOfBirth(userRegisterFormCommand.getDateOfBirth())
-                .setRoles(userRegisterFormCommand.getRoles());
+                .setRoles(userRegisterFormCommand.getRoles())
+                .setMultipartFile(userRegisterFormCommand.getProfilePicture())
+                .setAdmin(true);
 
-        UserDto user = userService.register(userDto, userRegisterFormCommand.getProfilePicture());
+        UserDto user = userService.register(userDto);
 
         return user;
     }
@@ -129,7 +130,8 @@ public class UserController {
                 .setFirstName(userUpdateFormCommand.getFirstName())
                 .setLastName(userUpdateFormCommand.getLastName())
                 .setGender(userUpdateFormCommand.getGender())
-                .setDateOfBirth(userUpdateFormCommand.getDateOfBirth());
+                .setDateOfBirth(userUpdateFormCommand.getDateOfBirth())
+                .setAdmin(true);
 
         return userService.update(userDto, userUpdateFormCommand.getFilePicture());
     }
