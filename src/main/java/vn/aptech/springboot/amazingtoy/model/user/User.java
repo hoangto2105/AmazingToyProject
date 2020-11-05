@@ -1,11 +1,15 @@
 package vn.aptech.springboot.amazingtoy.model.user;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
+import vn.aptech.springboot.amazingtoy.model.blog.Blog;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Set;
 
 @Getter
@@ -85,4 +89,9 @@ public class User extends BaseEntity {
         Female,
         Other
     }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
+    // MapopedBy trỏ tới tên biến Address ở trong Person.
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private Collection<Blog> blogs;
 }
