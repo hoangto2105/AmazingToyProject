@@ -5,26 +5,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import vn.aptech.springboot.amazingtoy.controller.v1.command.ProductStoreFormCommand;
 import vn.aptech.springboot.amazingtoy.dto.mapper.UserMapper;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.model.images.Image;
+import vn.aptech.springboot.amazingtoy.model.products.BidDetail;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 import vn.aptech.springboot.amazingtoy.service.*;
 import vn.aptech.springboot.amazingtoy.util.FileUtil;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "admin/products")
+@RequestMapping(value = "admin/product")
 public class ProductController {
 
     private final String PRODUCTS_IMAGE_PATH = "backend/dist/img/products";
@@ -42,6 +46,9 @@ public class ProductController {
     private SubcategoryService subcategoryService;
 
     @Autowired
+    private BidDetailService bidDetailService;
+
+    @Autowired
     private CategoryService categoryService;
 
     // SHOW ALL
@@ -56,7 +63,6 @@ public class ProductController {
     @RequestMapping(value = "/imageList/{productId}")
     public String displayImageList(Model model, @PathVariable("productId") Long id){
         Product product = productService.findPk(id);
-        List<Image> imageList = (List<Image>) product.getImagesCollection();
         model.addAttribute("product", product);
         return "backend/layout/pages/image/index";
     }
@@ -101,33 +107,60 @@ public class ProductController {
             storeImage.setProduct(product);
             imageService.saveImage(storeImage);
         }
-        return "redirect:/admin/products/imageList/" + product.getId();
+        return "redirect:/admin/product/imageList/" + product.getId();
     }
 
 
 
     //CREATE - GET
 
-    @RequestMapping(value= "/createFormProduct")
-    public String displayCreateFormProduct(Model model) {
-        Product product = new Product();
-        List<Subcategory> subcategoryList = subcategoryService.findAllSubcat();
+    @RequestMapping(value= "/create" , method = RequestMethod.GET)
+    public String create(Model model) {
+        ProductStoreFormCommand productStoreFormCommand = new ProductStoreFormCommand();
+        List<Subcategory> subcategories = subcategoryService.findAllSubcat();
+        productStoreFormCommand.setSubcategories(subcategories);
 
-        model.addAttribute("subcategories", subcategoryList);
-        model.addAttribute("product",product);
+        model.addAttribute("productStoreFormCommand", productStoreFormCommand);
         return "backend/layout/pages/product/create";
     }
 
 
     //CREATE - POST
 
-    @RequestMapping(value= "/createProduct", method = RequestMethod.POST)
-    public String createProduct(Model model,
-                                    @ModelAttribute("Product") Product product) {
-        Subcategory subcategory = subcategoryService.findPk(product.getSubcategory().getSubcatId());
+    @RequestMapping(value= "/create", method = RequestMethod.POST)
+    public String create(@Valid ProductStoreFormCommand productStoreFormCommand, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "backend/layout/pages/product/create";
+        } else {
+            Product product = storedProduct(productStoreFormCommand);
+            return "redirect:/admin/product";
+        }
+    }
+
+    private Product storedProduct(ProductStoreFormCommand productStoreFormCommand) {
+
+        Subcategory subcategory = subcategoryService.findPk(Integer.parseInt(productStoreFormCommand.getCategory()));
+
+        Product product = new Product();
+        product.setSlug(productStoreFormCommand.getSlug());
+        product.setSku(productStoreFormCommand.getSku());
+        product.setProductName(productStoreFormCommand.getProductName());
+        product.setProductDescription(productStoreFormCommand.getProductDescription());
+        product.setProductContent(productStoreFormCommand.getProductContent());
+        product.setUnitPrice(productStoreFormCommand.getUnitPrice());
+        product.setSavePrice(productStoreFormCommand.getSavePrice());
+        product.setUnitWeight(productStoreFormCommand.getUnitWeight());
+        product.setStock(productStoreFormCommand.getStock());
+        product.setProductType(productStoreFormCommand.getProductType());
+        BidDetail bidDetail = bidDetailService.stored(new BidDetail()
+                .setBidIncrement(productStoreFormCommand.getBidIncrement())
+                .setAuctionStart(productStoreFormCommand.getAuctionStart())
+                .setAuctionEnd(productStoreFormCommand.getAuctionEnd()));
+        product.setBidDetail(bidDetail);
         product.setSubcategory(subcategory);
-        productService.create(product);
-        return "redirect:/admin/products";
+
+        return productService.create(product);
     }
 
 
@@ -151,7 +184,7 @@ public class ProductController {
         Subcategory subcategory = subcategoryService.findPk(product.getSubcategory().getSubcatId());
         product.setSubcategory(subcategory);
         productService.update(product);
-        return "redirect:/admin/products";
+        return "redirect:/admin/product";
 
     }
 
@@ -161,9 +194,9 @@ public class ProductController {
         Product product = productService.findPk(Long.parseLong(id));
 
         productService.delete(Long.parseLong(id));
-        redirectAttributes.addFlashAttribute("success", "Deleted product " + product.getName() + " successfully");
+        redirectAttributes.addFlashAttribute("success", "Deleted product " + product.getProductName() + " successfully");
 
-        return "redirect:/admin/products";
+        return "redirect:/admin/product";
     }
 
 }

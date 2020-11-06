@@ -12,6 +12,7 @@ import vn.aptech.springboot.amazingtoy.model.inventory.Inventory;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 import vn.aptech.springboot.amazingtoy.model.review.Review;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
+import vn.aptech.springboot.amazingtoy.model.user.Address;
 import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
 
 import java.util.Collection;
@@ -28,22 +29,42 @@ import javax.xml.bind.annotation.XmlTransient;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "Products")
+@Table(name = "products")
 public class Product extends BaseEntity {
 
-    @Basic(optional = false)
-    @Column(name = "name")
-    private String name;
-    @Basic(optional = false)
-    @Column(name = "unit_price")
-    private int unitPrice;
-    @Basic(optional = false)
-    @Column(name = "sale_price")
-    private int salePrice;
+    @Column(name = "slug")
+    private String slug;
 
-    @Basic(optional = false)
-    @Column(name = "description")
-    private String description;
+    @Column(name = "sku")
+    private String sku;
+
+    @Column(name = "product_name", nullable = false, unique = true)
+    private String productName;
+
+    @Column(name = "product_description")
+    private String productDescription;
+
+    @Column(name = "product_content", columnDefinition = "TEXT")
+    private String productContent;
+
+    @Column(name = "unit_price", nullable = false)
+    private int unitPrice;
+
+    @Column(name = "save_price", nullable = false)
+    private int savePrice;
+
+    @Column(name = "weight")
+    private double unitWeight;
+
+    @Column(name = "stock", nullable = false)
+    private int stock;
+
+    @Column(name = "product_type")
+    private ProductType productType;
+
+    @OneToOne()
+    @JoinColumn(name = "bid_detail_id")
+    public BidDetail bidDetail;
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
@@ -66,25 +87,7 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Inventory> inventory;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Collection<OrderDetail> orderDetails;
 
-    public Product() {
-    }
 
-    public Product(String name, int unitPrice, int salePrice, String description, Subcategory subcategory, Integer inventoryShipped, Collection<Image> imagesCollection, Collection<Review> reviewsCollection, Collection<Inventory> inventory) {
-        this.name = name;
-        this.unitPrice = unitPrice;
-        this.salePrice = salePrice;
-        this.description = description;
-        this.subcategory = subcategory;
-        this.inventoryShipped = inventoryShipped;
-        this.imagesCollection = imagesCollection;
-        this.reviewsCollection = reviewsCollection;
-        this.inventory = inventory;
-    }
 }

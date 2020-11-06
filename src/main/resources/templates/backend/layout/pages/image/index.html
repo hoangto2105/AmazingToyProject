@@ -34,10 +34,10 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">All Images of Product <a th:href="@{'/admin/products/' + ${product.getId()}}" th:utext="${product.getName()}"></a></h3>
+                            <h3 class="card-title">All Images of Product <a th:href="@{'/admin/product/' + ${product.getId()}}" th:utext="${product.getProductName()}"></a></h3>
                         </div>
                         <div class="card-header clearfix">
-                            <a style="margin:5px" class="btn btn-success float-left" th:href="@{'/admin/products/createImages/' + ${product.getId()}}" >
+                            <a style="margin:5px" class="btn btn-success float-left" th:href="@{'/admin/product/createImages/' + ${product.getId()}}" >
                                 <i class="fas fa-plus"> </i>   Add Image </a>
 
 
@@ -64,7 +64,7 @@
                                         Default
                                     </td>
                                     <td th:unless="${image.isMainImage()} == true">
-                                        <a th:href="@{'/admin/products/doDefaultImage/' + ${image.imageId}}">Set Default</a>
+                                        <a th:href="@{'/admin/product/doDefaultImage/' + ${image.imageId}}">Set Default</a>
                                     </td>
                                 </tr>
                                 </tbody>

@@ -74,7 +74,7 @@ public class Cart {
 
     public void ToCart(Product product) {
         this.id = product.getId();
-        this.name = product.getName();
+        this.name = product.getProductName();
         this.price = product.getUnitPrice();
         this.quantity = 1;
         this.photo = product.getImagesCollection();
