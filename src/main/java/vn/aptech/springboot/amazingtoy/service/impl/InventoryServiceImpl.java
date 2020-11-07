@@ -7,6 +7,7 @@ import vn.aptech.springboot.amazingtoy.model.supplier.Supplier;
 import vn.aptech.springboot.amazingtoy.repository.inventory.InventoryRepository;
 import vn.aptech.springboot.amazingtoy.service.InventoryService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    @Transactional
     public void create(Inventory inventory) {
         inventoryRepository.save(inventory);
 

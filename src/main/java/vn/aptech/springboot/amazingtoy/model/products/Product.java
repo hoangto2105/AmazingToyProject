@@ -89,5 +89,11 @@ public class Product extends BaseEntity {
     @ToString.Exclude
     private Collection<OrderDetail> orderDetails;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Inventory> inventory;
+
+
 
 }
