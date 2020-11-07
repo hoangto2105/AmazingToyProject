@@ -16,6 +16,7 @@ import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.model.images.Image;
 import vn.aptech.springboot.amazingtoy.model.products.BidDetail;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
+import vn.aptech.springboot.amazingtoy.model.products.ProductType;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 import vn.aptech.springboot.amazingtoy.service.*;
@@ -139,26 +140,46 @@ public class ProductController {
     }
 
     private Product storedProduct(ProductStoreFormCommand productStoreFormCommand) {
-
+        Product product = new Product();
         Subcategory subcategory = subcategoryService.findPk(Integer.parseInt(productStoreFormCommand.getCategory()));
 
-        Product product = new Product();
-        product.setSlug(productStoreFormCommand.getSlug());
-        product.setSku(productStoreFormCommand.getSku());
-        product.setProductName(productStoreFormCommand.getProductName());
-        product.setProductDescription(productStoreFormCommand.getProductDescription());
-        product.setProductContent(productStoreFormCommand.getProductContent());
-        product.setUnitPrice(productStoreFormCommand.getUnitPrice());
-        product.setSavePrice(productStoreFormCommand.getSavePrice());
-        product.setUnitWeight(productStoreFormCommand.getUnitWeight());
-        product.setStock(productStoreFormCommand.getStock());
-        product.setProductType(productStoreFormCommand.getProductType());
-        BidDetail bidDetail = bidDetailService.stored(new BidDetail()
-                .setBidIncrement(productStoreFormCommand.getBidIncrement())
-                .setAuctionStart(productStoreFormCommand.getAuctionStart())
-                .setAuctionEnd(productStoreFormCommand.getAuctionEnd()));
-        product.setBidDetail(bidDetail);
-        product.setSubcategory(subcategory);
+        if (productStoreFormCommand.getProductType() == ProductType.Auction) {
+
+            product.setSlug(productStoreFormCommand.getSlug());
+            product.setSku(productStoreFormCommand.getSku());
+            product.setProductName(productStoreFormCommand.getProductName());
+            product.setProductDescription(productStoreFormCommand.getProductDescription());
+            product.setProductContent(productStoreFormCommand.getProductContent());
+            product.setUnitPrice(productStoreFormCommand.getUnitPrice());
+            product.setSavePrice(productStoreFormCommand.getSavePrice());
+            product.setUnitWeight(productStoreFormCommand.getUnitWeight());
+            product.setStock(productStoreFormCommand.getStock());
+            product.setProductType(productStoreFormCommand.getProductType());
+            BidDetail bidDetail = bidDetailService.stored(new BidDetail()
+                    .setBidIncrement(productStoreFormCommand.getBidIncrement())
+                    .setAuctionStart(productStoreFormCommand.getAuctionStart())
+                    .setAuctionEnd(productStoreFormCommand.getAuctionEnd()));
+            product.setBidDetail(bidDetail);
+            product.setSubcategory(subcategory);
+        } else {
+            product.setSlug(productStoreFormCommand.getSlug());
+            product.setSku(productStoreFormCommand.getSku());
+            product.setProductName(productStoreFormCommand.getProductName());
+            product.setProductDescription(productStoreFormCommand.getProductDescription());
+            product.setProductContent(productStoreFormCommand.getProductContent());
+            product.setUnitPrice(productStoreFormCommand.getUnitPrice());
+            product.setSavePrice(productStoreFormCommand.getSavePrice());
+            product.setUnitWeight(productStoreFormCommand.getUnitWeight());
+            product.setStock(productStoreFormCommand.getStock());
+            product.setProductType(productStoreFormCommand.getProductType());
+            product.setSubcategory(subcategory);
+        }
+
+        if (productStoreFormCommand.getProductType() == ProductType.Auction) {
+            product.setProductType(ProductType.Auction);
+        } else {
+            product.setProductType(ProductType.Sell);
+        }
 
         return productService.create(product);
     }
