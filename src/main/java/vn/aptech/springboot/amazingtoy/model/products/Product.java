@@ -93,7 +93,4 @@ public class Product extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Inventory> inventory;
-
-
-
 }
