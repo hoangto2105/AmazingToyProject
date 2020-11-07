@@ -328,6 +328,9 @@
 <!-- /.content-wrapper -->
 <script layout:fragment="scripts">
     $(function () {
+
+        document.getElementById("auctionStart").defaultValue = "1970-01-01";
+        document.getElementById("auctionEnd").defaultValue = "1970-01-01";
         // Summernote
         $('.textarea').summernote();
         //Initialize Select2 Elements

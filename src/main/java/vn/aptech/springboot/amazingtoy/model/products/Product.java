@@ -89,5 +89,4 @@ public class Product extends BaseEntity {
     @ToString.Exclude
     private Collection<OrderDetail> orderDetails;
 
-
 }
