@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.service.CategoryService;
+import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,29 +56,15 @@ public class CategoryController {
 //    }
 
     //cua thang em lao
-        @RequestMapping(value= "/createCat", method = RequestMethod.POST)
-    public String createBook(Model model,
+        @RequestMapping(value= "/create", method = RequestMethod.POST)
+    public String create(Model model,
                              @ModelAttribute("category") Category cat,
-                             BindingResult result,
-                             final RedirectAttributes ra,@RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
-
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        cat.setImage(fileName);
-        Category saveCate = categoryService.create(cat);
-            String uploadDir = "D:/SpringMVC/AmazingToyProject/src/main/resources/static/backend/dist/img/category-image/" + saveCate.getCategoryID();
-            Path uploadPath = Paths.get(uploadDir);
-
-            if(!Files.exists(uploadPath)){
-                Files.createDirectories(uploadPath);
-            }
-            try {
-                InputStream inputStream = multipartFile.getInputStream();
-                Path filePath = uploadPath.resolve(fileName);
-                Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                throw new IOException("Could not save uploaded file: " + fileName);
-            }
-            ra.addFlashAttribute("message","The user has been saved successfully");
+                             BindingResult result) {
+        String uniqueSlug = RandomStringUtil.makeSlug(cat.getName());
+        if (!categoryService.checkSlugExists(uniqueSlug)) {
+            cat.setSlug(uniqueSlug);
+            Category saveCate = categoryService.create(cat);
+        }
 
         return "redirect:/admin/category/index";
     }

@@ -10,5 +10,7 @@ public interface CategoryService {
     Category create(Category cat);
     void update(Category cat);
     Category findPk(int id);
+    Category findBySlug(String slug);
+    boolean checkSlugExists(String slug);
     void delete(int id);
 }

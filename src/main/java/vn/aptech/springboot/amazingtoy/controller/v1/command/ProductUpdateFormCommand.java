@@ -2,12 +2,9 @@ package vn.aptech.springboot.amazingtoy.controller.v1.command;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import vn.aptech.springboot.amazingtoy.model.category.Category;
-import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.model.products.ProductType;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 
-import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -16,7 +13,9 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class ProductStoreFormCommand {
+public class ProductUpdateFormCommand {
+
+    private Long id;
 
     @NotNull
     private String slug;
@@ -52,7 +51,9 @@ public class ProductStoreFormCommand {
 
     private Date auctionEnd;
 
-    private String category;
+    private boolean isAuction = false;
+
+    private int category;
 
     List<Subcategory> subcategories;
 }

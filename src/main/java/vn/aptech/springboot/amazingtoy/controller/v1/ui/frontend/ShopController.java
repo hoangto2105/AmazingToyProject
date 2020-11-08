@@ -19,12 +19,7 @@ import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.service.ReviewService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 
-import javax.jws.WebParam;
 import java.security.Principal;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ShopController {

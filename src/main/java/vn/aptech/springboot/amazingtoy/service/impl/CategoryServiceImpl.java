@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.repository.category.CategoryRepository;
 import vn.aptech.springboot.amazingtoy.service.CategoryService;
+import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
 
 import java.util.ArrayList;
@@ -51,6 +52,20 @@ public class CategoryServiceImpl implements CategoryService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Category findBySlug(String slug) {
+        return catRepo.findBySlug(slug);
+    }
+
+    @Override
+    public boolean checkSlugExists(String slug) {
+        if (catRepo.findBySlug(slug) != null) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override

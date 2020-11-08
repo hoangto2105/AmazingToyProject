@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.aptech.springboot.amazingtoy.controller.v1.command.ProductStoreFormCommand;
+import vn.aptech.springboot.amazingtoy.controller.v1.command.ProductUpdateFormCommand;
 import vn.aptech.springboot.amazingtoy.dto.mapper.UserMapper;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
@@ -135,7 +136,7 @@ public class ProductController {
             return "backend/layout/pages/product/create";
         } else {
             Product product = storedProduct(productStoreFormCommand);
-            return "redirect:/admin/product";
+            return "redirect:/admin/product/imageList/" + product.getId();
         }
     }
 
@@ -186,21 +187,41 @@ public class ProductController {
 
 
     //UPDATE - GET
-    @RequestMapping(value = "/displayUpdateProduct/{idUpdate}")
-    public String displayUpdateProduct(Model model, @PathVariable("idUpdate") String id) {
-        Product product = productService.findPk(Long.parseLong(id));
+    @RequestMapping(value = "/edit/{productId}")
+    public String edit(Model model, @PathVariable("productId") Long productId) {
+        Product product = productService.findPk(productId);
         if(product != null) {
-            List<Subcategory> subcategoryList = subcategoryService.findAllSubcat();
-            model.addAttribute("subcategory",subcategoryList);
-            model.addAttribute("product", product);
+            ProductUpdateFormCommand productUpdateFormCommand = new ProductUpdateFormCommand();
+            productUpdateFormCommand.setId(product.getId());
+            productUpdateFormCommand.setSlug(product.getSlug());
+            productUpdateFormCommand.setSku(product.getSku());
+            productUpdateFormCommand.setProductName(product.getProductName());
+            productUpdateFormCommand.setProductDescription(product.getProductDescription());
+            productUpdateFormCommand.setProductContent(product.getProductContent());
+            productUpdateFormCommand.setUnitPrice(product.getUnitPrice());
+            productUpdateFormCommand.setSavePrice(product.getSavePrice());
+            productUpdateFormCommand.setUnitWeight(product.getUnitWeight());
+            productUpdateFormCommand.setStock(product.getStock());
+            productUpdateFormCommand.setProductType(product.getProductType());
+            productUpdateFormCommand.setStatus(product.isStatus());
+            productUpdateFormCommand.setSubcategories(subcategoryService.findAllSubcat());
+
+            if (product.getBidDetail() != null) {
+                productUpdateFormCommand.setBidIncrement(product.getBidDetail().getBidIncrement());
+                productUpdateFormCommand.setAuctionStart(product.getBidDetail().getAuctionStart());
+                productUpdateFormCommand.setAuctionEnd(product.getBidDetail().getAuctionEnd());
+                productUpdateFormCommand.setAuction(true);
+            }
+
+            model.addAttribute("productUpdateFormCommand", productUpdateFormCommand);
         }
         return "backend/layout/pages/product/update";
     }
 
     //UPDATE - POST
 
-    @RequestMapping(value = "/doUpdateProduct", method = RequestMethod.POST)
-    public String doUpdate(Model model,
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String edit(Model model,
                            @ModelAttribute("product") Product product) {
         Subcategory subcategory = subcategoryService.findPk(product.getSubcategory().getSubcatId());
         product.setSubcategory(subcategory);

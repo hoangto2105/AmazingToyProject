@@ -61,14 +61,14 @@
             <!-- Hot Deal Product Activation Start -->
             <div class="hot-deal-active owl-carousel">
                 <!-- Single Product Start -->
-                <div class="single-product">
+                <div class="single-product" th:each="product : ${productAuctionList}">
                     <!-- Product Image Start -->
                     <div class="pro-img">
-                        <a href="shop.html">
-                            <img class="primary-img" th:src="@{/frontend/img/products/1.jpg}" alt="single-product">
-                            <img class="secondary-img" th:src="@{/frontend/img/products/7.jpg}" alt="single-product">
+                        <a th:href="@{'/product/' + ${product.getSlug()}}">
+                            <img th:each="image : ${product.getImagesCollection()}" th:if="${image.mainImage} == true" class="primary-img" width="268px" height="268px" th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}">
+                            <img class="secondary-img" th:src="@{'/backend/dist/img/products/' + ${product.imagesCollection[1].getName()}}" width="268px" height="268px" th:alt="${product.imagesCollection[1].getName()}">
                         </a>
-                        <div class="countdown" data-countdown="2020/12/01"></div>
+                        <div class="countdown" th:attr="data-countdown=${product.getBidDetail().getAuctionEnd()}"></div>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                         <a href="#0" class="bid"><i class="fa fa-balance-scale" aria-hidden="true"></i></a>
                     </div>
@@ -76,7 +76,7 @@
                     <!-- Product Content Start -->
                     <div class="pro-content">
                         <div class="pro-info">
-                            <h4><a href="shop.html">Poly and Bark Vortex Side</a></h4>
+                            <h4><a th:href="@{'/product/' + ${product.getSlug()}}" th:utext="${product.getProductName()}"></a></h4>
                             <div class="bid-area">
                                 <div class="bid-amount">
                                     <div class="icon">
@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="amount-content">
                                         <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
+                                        <div class="amount" th:utext="${product.getBidDetail().getCurrentPrice()}"></div>
                                     </div>
                                 </div>
                                 <div class="bid-amount">
@@ -93,287 +93,17 @@
                                     </div>
                                     <div class="amount-content">
                                         <div class="current">Buy Now</div>
-                                        <div class="prev-price">$5,00</div>
+                                        <div class="prev-price" th:utext="${product.getUnitPrice()}"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="button-bid text-center">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
+                                <a href="cart.html" title="Bid Now">Bid now</a>
                             </div>
                         </div>
                         <div class="pro-actions">
                             <div class="actions-primary">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                            <div class="actions-secondary">
-                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Content End -->
-                </div>
-                <!-- Single Product End -->
-                <!-- Single Product Start -->
-                <div class="single-product">
-                    <!-- Product Image Start -->
-                    <div class="pro-img">
-                        <a href="shop.html">
-                            <img class="primary-img" th:src="@{/frontend/img/products/1.jpg}" alt="single-product">
-                            <img class="secondary-img" th:src="@{/frontend/img/products/7.jpg}" alt="single-product">
-                        </a>
-                        <div class="countdown" data-countdown="2020/12/01"></div>
-                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                        <a href="#0" class="bid"><i class="fa fa-balance-scale" aria-hidden="true"></i></a>
-                    </div>
-                    <!-- Product Image End -->
-                    <!-- Product Content Start -->
-                    <div class="pro-content">
-                        <div class="pro-info">
-                            <h4><a href="shop.html">Poly and Bark Vortex Side</a></h4>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="prev-price">$5,00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="button-bid text-center">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                        </div>
-                        <div class="pro-actions">
-                            <div class="actions-primary">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                            <div class="actions-secondary">
-                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Content End -->
-                </div>
-                <!-- Single Product End -->
-                <!-- Single Product Start -->
-                <div class="single-product">
-                    <!-- Product Image Start -->
-                    <div class="pro-img">
-                        <a href="shop.html">
-                            <img class="primary-img" th:src="@{/frontend/img/products/1.jpg}" alt="single-product">
-                            <img class="secondary-img" th:src="@{/frontend/img/products/7.jpg}" alt="single-product">
-                        </a>
-                        <div class="countdown" data-countdown="2020/12/01"></div>
-                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                        <a href="#0" class="bid"><i class="fa fa-balance-scale" aria-hidden="true"></i></a>
-                    </div>
-                    <!-- Product Image End -->
-                    <!-- Product Content Start -->
-                    <div class="pro-content">
-                        <div class="pro-info">
-                            <h4><a href="shop.html">Poly and Bark Vortex Side</a></h4>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="prev-price">$5,00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="button-bid text-center">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                        </div>
-                        <div class="pro-actions">
-                            <div class="actions-primary">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                            <div class="actions-secondary">
-                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Content End -->
-                </div>
-                <!-- Single Product End -->
-                <!-- Single Product Start -->
-                <div class="single-product">
-                    <!-- Product Image Start -->
-                    <div class="pro-img">
-                        <a href="shop.html">
-                            <img class="primary-img" th:src="@{/frontend/img/products/1.jpg}" alt="single-product">
-                            <img class="secondary-img" th:src="@{/frontend/img/products/7.jpg}" alt="single-product">
-                        </a>
-                        <div class="countdown" data-countdown="2020/12/01"></div>
-                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                        <a href="#0" class="bid"><i class="fa fa-balance-scale" aria-hidden="true"></i></a>
-                    </div>
-                    <!-- Product Image End -->
-                    <!-- Product Content Start -->
-                    <div class="pro-content">
-                        <div class="pro-info">
-                            <h4><a href="shop.html">Poly and Bark Vortex Side</a></h4>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="prev-price">$5,00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="button-bid text-center">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                        </div>
-                        <div class="pro-actions">
-                            <div class="actions-primary">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                            <div class="actions-secondary">
-                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Content End -->
-                </div>
-                <!-- Single Product End -->
-                <!-- Single Product Start -->
-                <div class="single-product">
-                    <!-- Product Image Start -->
-                    <div class="pro-img">
-                        <a href="shop.html">
-                            <img class="primary-img" th:src="@{/frontend/img/products/1.jpg}" alt="single-product">
-                            <img class="secondary-img" th:src="@{/frontend/img/products/7.jpg}" alt="single-product">
-                        </a>
-                        <div class="countdown" data-countdown="2020/12/01"></div>
-                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                        <a href="#0" class="bid"><i class="fa fa-balance-scale" aria-hidden="true"></i></a>
-                    </div>
-                    <!-- Product Image End -->
-                    <!-- Product Content Start -->
-                    <div class="pro-content">
-                        <div class="pro-info">
-                            <h4><a href="shop.html">Poly and Bark Vortex Side</a></h4>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="prev-price">$5,00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="button-bid text-center">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                        </div>
-                        <div class="pro-actions">
-                            <div class="actions-primary">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                            <div class="actions-secondary">
-                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Content End -->
-                </div>
-                <!-- Single Product End -->
-                <!-- Single Product Start -->
-                <div class="single-product">
-                    <!-- Product Image Start -->
-                    <div class="pro-img">
-                        <a href="shop.html">
-                            <img class="primary-img" th:src="@{/frontend/img/products/1.jpg}" alt="single-product">
-                            <img class="secondary-img" th:src="@{/frontend/img/products/7.jpg}" alt="single-product">
-                        </a>
-                        <div class="countdown" data-countdown="2020/12/01"></div>
-                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                        <a href="#0" class="bid"><i class="fa fa-balance-scale" aria-hidden="true"></i></a>
-                    </div>
-                    <!-- Product Image End -->
-                    <!-- Product Content Start -->
-                    <div class="pro-content">
-                        <div class="pro-info">
-                            <h4><a href="shop.html">Poly and Bark Vortex Side</a></h4>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="prev-price">$5,00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="button-bid text-center">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
-                            </div>
-                        </div>
-                        <div class="pro-actions">
-                            <div class="actions-primary">
-                                <a href="cart.html" title="Add to Cart">Bid now</a>
+                                <a href="cart.html" title="Bid Now">Bid now</a>
                             </div>
                             <div class="actions-secondary">
                                 <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>

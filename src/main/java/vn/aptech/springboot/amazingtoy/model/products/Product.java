@@ -17,13 +17,7 @@ import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
 
 import java.util.Collection;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 
 @Getter
 @Setter
