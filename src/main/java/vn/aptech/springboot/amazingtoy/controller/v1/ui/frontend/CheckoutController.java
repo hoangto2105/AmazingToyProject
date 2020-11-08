@@ -82,7 +82,7 @@ public class CheckoutController {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
             orderDetail.setProduct(entry.getValue().getProduct());
-            orderDetail.setPrice(entry.getValue().getProduct().getSalePrice());
+            orderDetail.setPrice(entry.getValue().getProduct().getSavePrice());
             orderDetail.setQuantity(entry.getValue().getQuantity());
             orderDetail.setStatus(true);
             orderDetailService.save(orderDetail);

@@ -164,9 +164,9 @@
                                                     <span class="pro-quantity" th:text="${map.value.quantity} + 'X'"></span>
                                                 </div>
                                                 <div class="cart-content">
-                                                    <h6><a href="product.html" th:text="${map.value.product.name}"></a></h6>
+                                                    <h6><a href="product.html" th:text="${map.value.product.productName}"></a></h6>
                                                     <div style="display: flex; align-items: center";>
-                                                        <span th:text="${map.value.product.getSalePrice()}+' X '+ ${map.value.quantity} + ' = '"></span>
+                                                        <span th:text="${map.value.product.getSavePrice()}+' X '+ ${map.value.quantity} + ' = '"></span>
                                                         <span class="cart-price" th:text="${map.value.product.getSalePrice()}*${map.value.quantity}"></span>
                                                     </div>
 

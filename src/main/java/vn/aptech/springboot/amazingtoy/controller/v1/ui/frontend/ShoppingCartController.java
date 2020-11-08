@@ -80,7 +80,7 @@ public class ShoppingCartController {
     public double totalPrice(HashMap<Long, Cart> cartItems){
         int count = 0;
         for(Map.Entry<Long,Cart> list: cartItems.entrySet()){
-            count += list.getValue().getProduct().getSalePrice()*list.getValue().getQuantity();
+            count += list.getValue().getProduct().getSavePrice()*list.getValue().getQuantity();
         }
         return count;
     }
