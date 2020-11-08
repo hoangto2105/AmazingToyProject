@@ -20,6 +20,9 @@ import java.util.Collection;
 @Table(name = "bid_details")
 public class BidDetail extends BaseEntity {
 
+    @Column(name = "current_price")
+    private int currentPrice;
+
     @Column(name = "bid_increment")
     private int bidIncrement;
 

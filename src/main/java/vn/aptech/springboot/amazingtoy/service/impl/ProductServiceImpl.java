@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.repository.product.ProductRepository;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
+import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product create(Product pro) {
-        return productRepository.save(pro);
+
+        Product storedProduct = productRepository.save(pro);
+        String makeSlug = RandomStringUtil.makeSlug(storedProduct.getProductName() + "-" + storedProduct.getId());
+        storedProduct.setSlug(makeSlug);
+        return productRepository.save(storedProduct);
     }
 
     @Override
@@ -46,6 +51,11 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Product findBySlug(String productSlug) {
+        return productRepository.findBySlug(productSlug);
     }
 
     @Override

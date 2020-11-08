@@ -40,8 +40,6 @@ public class ProductStoreFormCommand {
     @NotNull
     private int stock;
 
-    private String type;
-
     private ProductType productType;
 
     private boolean status;

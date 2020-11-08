@@ -80,7 +80,7 @@ public class ProductController {
         }
 
         productService.create(product);
-        return "redirect:/admin/products/imageList/" + product.getId();
+        return "redirect:/admin/product/imageList/" + product.getId();
     }
 
     //create image of product
@@ -175,11 +175,11 @@ public class ProductController {
             product.setSubcategory(subcategory);
         }
 
-        if (productStoreFormCommand.getProductType() == ProductType.Auction) {
-            product.setProductType(ProductType.Auction);
-        } else {
-            product.setProductType(ProductType.Sell);
-        }
+//        if (productStoreFormCommand.getProductType() == ProductType.Auction) {
+//            product.setProductType(ProductType.Auction);
+//        } else {
+//            product.setProductType(ProductType.Sell);
+//        }
 
         return productService.create(product);
     }

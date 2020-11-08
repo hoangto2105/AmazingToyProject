@@ -98,8 +98,8 @@
                                     <td th:if="${product.getBidDetail() != null}" th:utext="${product.getBidDetail().getAuctionEnd()}"></td>
                                     <td th:unless="${product.getBidDetail() != null}">NULL</td>
                                     <td>
-                                        <span class="badge badge-success" th:if="${product.isStatus()}">ON</span>
-                                        <span class="badge badge-danger" th:unless="${product.isStatus()}">OFF</span>
+                                        <span class="badge badge-success" th:if="${product.isStatus() == true}">ON</span>
+                                        <span class="badge badge-danger" th:unless="${product.isStatus() == true}">OFF</span>
                                     </td>
                                     <td>
                                         <div class="row">
