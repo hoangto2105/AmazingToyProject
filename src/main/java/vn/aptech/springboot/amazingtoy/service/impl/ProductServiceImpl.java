@@ -6,6 +6,7 @@ import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.repository.product.ProductRepository;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void create(Product pro) {
-        productRepository.save(pro);
+    public Product create(Product pro) {
+        return productRepository.save(pro);
     }
 
     @Override
+    @Transactional
     public void update(Product pro) {
         productRepository.save(pro);
     }

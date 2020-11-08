@@ -1,7 +1,9 @@
 package vn.aptech.springboot.amazingtoy.controller.v1.ui.backend;
 
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,14 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.aptech.springboot.amazingtoy.model.inventory.Inventory;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
+import vn.aptech.springboot.amazingtoy.model.review.Review;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.supplier.Supplier;
 import vn.aptech.springboot.amazingtoy.service.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "admin/inventory")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
 public class InventoryController {
 
     @Autowired
@@ -34,8 +39,17 @@ public class InventoryController {
     // SHOW ALL
     @RequestMapping(value = {"", "/", "index"})
     public String inventory(Model model) {
+
         model.addAttribute("inventory",inventoryService.findAllInventory());
         return "backend/layout/pages/inventory/index";
+    }
+
+    // Invoice detail of product
+    @RequestMapping(value = "/inventoryDetailProduct/{productId}", method = RequestMethod.GET)
+    public String inventoryDetailProduct(Model model, @PathVariable("productId") Long id){
+        Product product = productService.findPk(id);
+        model.addAttribute("inventoryProduct",  product);
+        return "backend/layout/pages/inventory/inventoryDetail";
     }
 
 
@@ -61,9 +75,13 @@ public class InventoryController {
                                 @ModelAttribute("inventory") Inventory inventory) {
         Product product = productService.findPk(inventory.getProduct().getId());
         Supplier supplier = supplierService.findPk(inventory.getSupplier().getId());
+        Integer total = inventory.getStartingInventory() + inventory.getQuantityReceived();
+        Integer stockTotal = product.getStock() + total;
+        product.setStock(stockTotal);
         inventory.setProduct(product);
         inventory.setSupplier(supplier);
-        inventory.setInventoryOnHand(inventory.getStartingInventory() + inventory.getQuantityReceived());
+        inventory.setInventoryOnHand(total);
+        productService.update(product);
         inventoryService.create(inventory);
         return "redirect:/admin/inventory/index";
     }

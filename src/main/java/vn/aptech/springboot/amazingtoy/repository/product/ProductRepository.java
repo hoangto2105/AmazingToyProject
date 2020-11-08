@@ -1,7 +1,9 @@
 package vn.aptech.springboot.amazingtoy.repository.product;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 
-public interface ProductRepository extends CrudRepository<Product,Long> {
+@Repository
+public interface ProductRepository extends CrudRepository<Product, Long> {
 }

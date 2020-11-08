@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductService {
 
     List<Product> findAllPro();
-    void create(Product pro);
+    Product create(Product pro);
     void update(Product pro);
     Product findPk(Long id);
     void delete(Long id);
