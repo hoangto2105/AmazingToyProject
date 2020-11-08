@@ -11,5 +11,6 @@ public interface ProductService {
     Product create(Product pro);
     void update(Product pro);
     Product findPk(Long id);
+    Product findBySlug(String productSlug);
     void delete(Long id);
 }

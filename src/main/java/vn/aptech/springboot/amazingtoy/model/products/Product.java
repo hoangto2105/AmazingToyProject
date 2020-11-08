@@ -62,6 +62,9 @@ public class Product extends BaseEntity {
     @Column(name = "product_type")
     private ProductType productType;
 
+    @Column(name = "hot")
+    private int hot;
+
     @OneToOne()
     @JoinColumn(name = "bid_detail_id")
     public BidDetail bidDetail;

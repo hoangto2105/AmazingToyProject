@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="frontend/layout/frontend_layout"
-      xmlns:td="http://www.thymeleaf.org">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="frontend/layout/frontend_layout">
 <head>
     <meta charset="UTF-8">
-    <title>View All Products</title>
+    <title th:utext="${productDetail.getProductName()}"></title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -31,15 +30,15 @@
                     <div class="col-lg-5 mb-all-40">
                         <!-- Thumbnail Large Image start -->
                         <div class="tab-content">
-                            <div th:each="image: ${product.getImagesCollection()}" th:id="'thumb' + ${image.imageId}" th:class="${image.mainImage} == true ? 'tab-pane fade show active' : 'tab-pane fade'">
-                                <a data-fancybox="images" href="img\\products\\1.jpg"><img th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" alt="product-view"></a>
+                            <div th:each="image : ${productDetail.getImagesCollection()}" th:id="'thumb' + ${image.getImageId()}" th:classappend="${image.isMainImage() ? 'tab-pane fade show active' : 'tab-pane fade'}">
+                                <a data-fancybox="images" th:href="@{'/backend/dist/img/products/' + ${image.getName()}}"><img th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}"></a>
                             </div>
                         </div>
                         <!-- Thumbnail Large Image End -->
                         <!-- Thumbnail Image End -->
                         <div class="product-thumbnail mt-15">
                             <div class="thumb-menu owl-carousel nav tabs-area" role="tablist">
-                                <a th:each="image: ${product.getImagesCollection()}" th:classappend="${image.mainImage} ? 'active':''" data-toggle="tab" th:href="'#thumb'+${image.imageId}"><img th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" alt="product-thumbnail"></a>
+                                <a th:each="image : ${productDetail.getImagesCollection()}" th:classappend="${image.isMainImage() ? 'active' : ''}" data-toggle="tab" th:href="@{'#thumb' + ${image.getImageId()}}"><img th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}"></a>
                             </div>
                         </div>
                         <!-- Thumbnail image end -->
@@ -48,7 +47,7 @@
                     <!-- Thumbnail Description Start -->
                     <div class="col-lg-7">
                         <div class="thubnail-desc fix">
-                            <h3 class="product-header">[[${product.name}]]</h3>
+                            <h3 class="product-header" th:utext="${productDetail.getProductName()}"></h3>
                             <div class="rating-summary fix mtb-10">
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
@@ -58,36 +57,17 @@
                                     <i class="fa fa-star-o"></i>
                                 </div>
                                 <div class="rating-feedback">
-                                    <a href="#">(1 review)</a>
-                                    <a href="#">add to your review</a>
+                                    <a href="#">(<span th:utext="${productDetail.getReviewsCollection().size()}"></span> review)</a>
+                                    <a href="#review">add to your review</a>
                                 </div>
                             </div>
                             <div class="pro-price mtb-30">
-                                <p class="d-flex align-items-center"><span class="prev-price">[[${product.salePrice}]]</span><span class="price">[[${product.unitPrice}]]</span><span class="saving-price">save 8%</span></p>
+                                <p class="d-flex align-items-center"><span class="prev-price" th:utext="${productDetail.getSavePrice()}"></span><span class="price" th:utext="${productDetail.getUnitPrice()}"></span><span class="saving-price">save <span th:utext="${productDetail.savePrice * 100 / productDetail.getUnitPrice() + '%'}"></span></span></p>
                             </div>
-                            <p class="mb-20 pro-desc-details">[[${product.description}]]</p>
-                            <div class="product-size mb-20 clearfix">
-                                <label>Size</label>
-                                <select class="">
-                                <option>S</option>
-                                <option>M</option>
-                                <option>L</option>
-                                </select>
-                            </div>
-                            <div class="color clearfix mb-20">
-                                <label>color</label>
-                                <ul class="color-list">
-                                    <li>
-                                        <a class="orange active" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="paste" href="#"></a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <p class="mb-20 pro-desc-details" th:utext="${productDetail.getProductDescription()}"></p>
                             <div class="box-quantity d-flex hot-product2">
                                 <form action="#">
-                                <input class="quantity mr-15" type="number" min="1" value="1">
+                                    <input class="quantity mr-15" type="number" min="1" value="1">
                                 </form>
                                 <div class="pro-actions">
                                     <div class="actions-primary">
@@ -100,19 +80,19 @@
                                 </div>
                             </div>
                             <div class="pro-ref mt-20">
-                                <p><span class="in-stock" th:if="${product.inventoryOnHand>0}"><i class="ion-checkmark-round"></i> IN STOCK</span></p>
+<!--                                <p><span class="in-stock" th:if="${product.getStock()>0}"><i class="ion-checkmark-round"></i> IN STOCK</span></p>-->
 
-                                <p><span class="out-stock" th:unless="${product.inventoryOnHand>0}"><i class="fa fa-times"></i> Out of Stock</span></p>
+<!--                                <p><span class="out-stock" th:unless="${product.getStock()>0}"><i class="fa fa-times"></i> OUT OF STOCK</span></p>-->
                             </div>
-                            <div class="socila-sharing mt-25">
-                                <ul class="d-flex">
-                                    <li>share</li>
-                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-                                </ul>
-                            </div>
+<!--                            <div class="socila-sharing mt-25">-->
+<!--                                <ul class="d-flex">-->
+<!--                                    <li>share</li>-->
+<!--                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>-->
+<!--                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>-->
+<!--                                    <li><a href="#"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a></li>-->
+<!--                                    <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <!-- Thumbnail Description End -->
@@ -135,57 +115,38 @@
                     <!-- Product Thumbnail Tab Content Start -->
                     <div class="tab-content thumb-content border-default">
                         <div id="dtail" class="tab-pane fade show active">
-                            <p>Fashion has been creating well-designed collections since 2010. The brand offers feminine designs delivering stylish separates and statement dresses which have since evolved into a full ready-to-wear collection in which every item is a vital part of a woman's wardrobe. The result? Cool, easy, chic looks with youthful elegance and unmistakable signature style. All the beautiful pieces are made in Italy and manufactured with the greatest attention. Now Fashion extends to a range of accessories including shoes, hats, belts and more!</p>
+                            <p th:utext="${productDetail.getProductContent()}" th:remove="tag"></p>
                         </div>
                         <div id="review" class="tab-pane fade">
                             <!-- Reviews Start -->
-                            <div class="review border-default universal-padding" th:each="review : ${product.getReviewsCollection()}">
+                            <div class="review border-default universal-padding" th:if="${productDetail.getReviewsCollection() != null}" th:each="review : ${productDetail.getReviewsCollection()}">
                                 <div class="group-title">
                                     <h2 th:text="${review.user.getFullName()}"></h2>
                                 </div>
-                                <h4 class="review-mini-title" th:text="${review.rating}"></h4>
-                                <p th:text="${review.content}"></p>
-                                <p th:text="${review.createAt}"></p>
+                                <h4 class="review-mini-title" th:text="${review.content}"></h4>
                             </div>
                             <!-- Reviews End -->
                             <!-- Reviews Start -->
-                            <div>
-                                <th:block sec:authorrize = "!isAuthenticated()">
-                                    <h3 style="color:blue"><a th:href="@{/login}">You must login to do review</a></h3>
-                                </th:block>
-                            </div>
-                            <div class="review border-default universal-padding mt-30" sec:authorize="isAuthenticated()">
-                                <h2 class="review-title mb-30">You're reviewing: <span style="color:blue">[[${product.name}]]</span></h2>
-                                <p class="review-mini-title">your rating</p>
-                                <ul class="review-list">
-                                    <!-- Single Review List Start -->
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </li>
-
-                                </ul>
+                            <div class="review border-default universal-padding mt-30">
+                                <h2 class="review-title mb-30">You're reviewing: <br><span th:utext="${productDetail.getProductName()}"></span></h2>
                                 <!-- Reviews Field Start -->
-<!--                                <div class="riview-field mt-40">-->
-<!--                                    <form autocomplete="off" th:action="sendReview" method="post">-->
-<!--                                        <div class="form-group">-->
-<!--                                            <label class="req" for="sure-name">Email</label>-->
-<!--                                            <input type="readOnly" class="form-control" id="sure-name" th:text="${review.getUser().getEmail()}">-->
-<!--                                            <input type="hidden" th:value="${review.getUser().id}">-->
-<!--                                        </div>-->
-<!--                                        <div class="form-group">-->
-<!--                                            <input type="hidden" class="form-control" id="subject" th:value="${product.id}">-->
-<!--                                        </div>-->
-<!--                                        <div class="form-group">-->
-<!--                                            <label class="req" for="comments">Review</label>-->
-<!--                                            <textarea class="form-control" rows="5" id="comments" required="required"></textarea>-->
-<!--                                        </div>-->
-<!--                                        <button type="submit" class="customer-btn">Submit Review</button>-->
-<!--                                    </form>-->
-<!--                                </div>-->
+                                <div class="riview-field mt-40">
+                                    <form autocomplete="off" action="#">
+                                        <div class="form-group">
+                                            <label class="req" for="sure-name">Nickname</label>
+                                            <input type="text" class="form-control" id="sure-name" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="req" for="subject">Summary</label>
+                                            <input type="text" class="form-control" id="subject" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="req" for="comments">Review</label>
+                                            <textarea class="form-control" rows="5" id="comments" required="required"></textarea>
+                                        </div>
+                                        <button type="submit" class="customer-btn">Submit Review</button>
+                                    </form>
+                                </div>
                                 <!-- Reviews Field Start -->
                             </div>
                             <!-- Reviews End -->
@@ -214,8 +175,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\1.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\1.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\17.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\18.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
@@ -245,8 +206,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\2.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\2.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\19.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\20.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
@@ -276,8 +237,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\3.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\3.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\21.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\22.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
@@ -307,8 +268,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\7.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\7.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\22.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\23.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
@@ -338,8 +299,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\1.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\1.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\8.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\9.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
@@ -369,8 +330,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\15.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\16.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\15.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\16.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
@@ -399,8 +360,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\13.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\14.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\13.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\14.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
@@ -429,8 +390,8 @@
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="product.html">
-                            <img class="primary-img" src="img\\products\\1.jpg" alt="single-product">
-                            <img class="secondary-img" src="img\\products\\7.jpg" alt="single-product">
+                            <img class="primary-img" src="img\products\1.jpg" alt="single-product">
+                            <img class="secondary-img" src="img\products\7.jpg" alt="single-product">
                         </a>
                         <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                     </div>
