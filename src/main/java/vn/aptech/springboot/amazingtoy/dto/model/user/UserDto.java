@@ -7,6 +7,8 @@ import lombok.experimental.Accessors;
 import org.springframework.web.multipart.MultipartFile;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;

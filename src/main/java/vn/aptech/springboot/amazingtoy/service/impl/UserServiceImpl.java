@@ -25,7 +25,6 @@ import vn.aptech.springboot.amazingtoy.util.FileUtil;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static vn.aptech.springboot.amazingtoy.exception.EntityType.USER;
 import static vn.aptech.springboot.amazingtoy.exception.ExceptionType.DUPLICATE_ENTITY;
@@ -135,7 +134,7 @@ public class UserServiceImpl implements UserService {
                         .setFirstName(userDto.getFirstName())
                         .setLastName(userDto.getLastName())
                         .setGender(User.GenderType.Other)
-                        .setDateOfBirth(new Date(1970, 01, 01))
+                        .setDateOfBirth(Date.valueOf("1999-07-26"))
                         .setAddress(addressRepository.save(new Address()))
                         .setRoles(roles);
 

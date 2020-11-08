@@ -8,14 +8,14 @@
         <nav>
             <ul class="vertical-menu-list">
                 <li class="" th:each="category: ${@getCategoryList}">
-                    <a href="shop.html">
+                    <a th:href="@{'/collection/' + ${category.getSlug()}}">
                         <span>
                             <img th:src="@{frontend/img/vertical-menu/1.png}" alt="menu-icon">
                         </span><th:block th:utext="${category.getName()}"></th:block><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 
                     <ul class="ht-dropdown mega-child">
                         <li th:each="subcategory : ${category.getSubcategories()}">
-                            <a href="shop.html" th:utext="${subcategory.getSubName()}">Sagittis Eget</a>
+                            <a th:href="@{'/collection/' + ${category.getSlug()} + '/' + ${subcategory.getSlug()}}" th:utext="${subcategory.getSubName()}"></a>
                         </li>
                     </ul>
                     <!-- category submenu end-->

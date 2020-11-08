@@ -50,6 +50,20 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
+    public Subcategory findBySlug(String slug) {
+        return subcategoryRepo.findBySlug(slug);
+    }
+
+    @Override
+    public boolean checkSlugExists(String slug) {
+        if (subcategoryRepo.findBySlug(slug) != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public void delete(int id) {
         Subcategory subcategory = subcategoryRepo.findById(id).get();
         subcategoryRepo.delete(subcategory);

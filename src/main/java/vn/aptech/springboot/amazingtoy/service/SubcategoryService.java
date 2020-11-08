@@ -9,5 +9,7 @@ public interface SubcategoryService {
     void create(Subcategory subcategory);
     void update(Subcategory subcategory);
     Subcategory findPk(int id);
+    Subcategory findBySlug(String slug);
+    boolean checkSlugExists(String slug);
     void delete(int id);
 }

@@ -37,9 +37,9 @@
             </div>
             <div class="product-details-slider-wrapper">
                 <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
-                    <div class="slide-bottom-item">
+                    <div class="slide-bottom-item" th:each="image : ${productDetail.getImagesCollection()}">
                         <div class="slide-inner">
-                            <img th:each="image : ${productDetail.getImagesCollection()}" th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}">
+                            <img th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}">
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                             </li>
                             <li>
                                 <span class="details">Bid Increment</span>
-                                <h5 class="info" th:utext="${productDetail.getBidDetail().getBidIncrement()}"></h5>
+                                <h5 class="info" th:utext="${'$' + productDetail.getBidDetail().getBidIncrement()}"></h5>
                             </li>
                         </ul>
                         <div class="product-bid-area">

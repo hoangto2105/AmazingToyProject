@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
+import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
+import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.user.User;
+import vn.aptech.springboot.amazingtoy.service.CategoryService;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -24,11 +30,31 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @RequestMapping(value = {"", "/", "/index"}, method = RequestMethod.GET)
-    public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("frontend/layout/pages/index");
-        return modelAndView;
+    public String index(Model model) {
+        List<Product> productAuctionList = new ArrayList<>();
+        List<Category> categories = categoryService.findAllCat();
+
+        if (categories.size() == 0) {
+            return "redirect:/accessDenied";
+        }
+
+        for (Category category : categories) {
+            for (Subcategory subcategory : category.getSubcategories()) {
+                for (Product product : subcategory.getProducts()) {
+                    if (product.getBidDetail() != null) {
+                        productAuctionList.add(product);
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("productAuctionList", productAuctionList);
+
+        return "frontend/layout/pages/index";
     }
 
     @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
@@ -36,18 +62,5 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("frontend/layout/pages/accessDenied");
         return modelAndView;
-    }
-
-    @RequestMapping(value = "/{productSlug}", method = RequestMethod.GET)
-    public String productDetail(Model model, @PathVariable("productSlug") String productSlug) {
-
-        Product product = productService.findBySlug(productSlug);
-        model.addAttribute("productDetail", product);
-
-        if (product.getBidDetail() != null) {
-            return "frontend/layout/pages/bidDetail";
-        }
-
-        return "frontend/layout/pages/productDetail";
     }
 }

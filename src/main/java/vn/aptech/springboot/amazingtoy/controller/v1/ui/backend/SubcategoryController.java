@@ -14,6 +14,7 @@ import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.service.CategoryService;
 import vn.aptech.springboot.amazingtoy.service.SubcategoryService;
+import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
 
 import java.util.List;
@@ -53,8 +54,10 @@ public class SubcategoryController {
     @RequestMapping(value= "/createSubcategory", method = RequestMethod.POST)
     public String createSubcategory(Model model,
                                     @ModelAttribute("subcategory") Subcategory subcategory) {
+        String uniqueSlug = RandomStringUtil.makeSlug(subcategory.getSubName());
         Category category = categoryService.findPk(subcategory.getCategory().getCategoryID());
         subcategory.setCategory(category);
+        subcategory.setSlug(uniqueSlug);
         subService.create(subcategory);
         return "redirect:/admin/category";
     }
