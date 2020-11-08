@@ -410,11 +410,9 @@
                                         <div class="single-product">
                                             <!-- Product Image Start -->
                                             <div class="pro-img">
-                                                <a href="product.html">
-                                                    <a th:href="@{'/product/' + ${product.getSlug()}}">
-                                                        <img th:each="image : ${product.getImagesCollection()}" th:if="${image.mainImage} == true" class="primary-img" width="268px" height="268px" th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}">
-                                                        <img class="secondary-img" th:src="@{'/backend/dist/img/products/' + ${product.imagesCollection[1].getName()}}" width="268px" height="268px" th:alt="${product.imagesCollection[1].getName()}">
-                                                    </a>
+                                                <a th:href="@{'/product/' + ${product.getSlug()}}">
+                                                    <img th:each="image : ${product.getImagesCollection()}" th:if="${image.mainImage} == true" class="primary-img" width="268px" height="268px" th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}">
+                                                    <img class="secondary-img" th:src="@{'/backend/dist/img/products/' + ${product.imagesCollection[1].getName()}}" width="268px" height="268px" th:alt="${product.imagesCollection[1].getName()}">
                                                 </a>
                                                 <div class="countdown" th:attr="data-countdown=${product.getBidDetail().getAuctionEnd()}"></div>
                                                 <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>

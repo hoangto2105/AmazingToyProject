@@ -98,12 +98,12 @@
                                 </div>
                             </div>
                             <div class="button-bid text-center">
-                                <a href="cart.html" title="Bid Now">Bid now</a>
+                                <a th:href="@{'/product/' + ${product.getSlug()}}" title="Bid Now">Bid now</a>
                             </div>
                         </div>
                         <div class="pro-actions">
                             <div class="actions-primary">
-                                <a href="cart.html" title="Bid Now">Bid now</a>
+                                <a th:href="@{'/product/' + ${product.getSlug()}}" title="Bid Now">Bid now</a>
                             </div>
                             <div class="actions-secondary">
                                 <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
