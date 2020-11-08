@@ -154,35 +154,23 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="cart-box mt-all-30">
                             <ul class="d-flex justify-content-lg-end justify-content-center align-items-center">
-                                <li><a href="#"><i class="lnr lnr-cart"></i><span class="my-cart"><span class="total-pro">2</span><span>cart</span></span></a>
+                                <li><a href="#"><i class="lnr lnr-cart"></i><span class="my-cart"><span class="total-pro"><th:block th:text="${session.myCartNum}"></th:block></span><span>cart</span></span></a>
                                     <ul class="ht-dropdown cart-box-width">
                                         <li>
                                             <!-- Cart Box Start -->
-                                            <div class="single-cart-box">
+                                            <div class="single-cart-box" th:each="map : ${session.myCartItems}">
                                                 <div class="cart-img">
-                                                    <a href="#"><img th:src="@{/frontend/img/products/1.jpg}" alt="cart-image"></a>
-                                                    <span class="pro-quantity">1X</span>
+                                                    <a href="#"><img th:each="image: ${map.value.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image"></a>
+                                                    <span class="pro-quantity" th:text="${map.value.quantity} + 'X'"></span>
                                                 </div>
                                                 <div class="cart-content">
-                                                    <h6><a href="product.html">Printed Summer Red </a></h6>
-                                                    <span class="cart-price">27.45</span>
-                                                    <span>Size: S</span>
-                                                    <span>Color: Yellow</span>
-                                                </div>
-                                                <a class="del-icone" href="#"><i class="ion-close"></i></a>
-                                            </div>
-                                            <!-- Cart Box End -->
-                                            <!-- Cart Box Start -->
-                                            <div class="single-cart-box">
-                                                <div class="cart-img">
-                                                    <a href="#"><img th:src="@{/frontend/img/products/2.jpg}" alt="cart-image"></a>
-                                                    <span class="pro-quantity">1X</span>
-                                                </div>
-                                                <div class="cart-content">
-                                                    <h6><a href="product.html">Printed Round Neck</a></h6>
-                                                    <span class="cart-price">45.00</span>
-                                                    <span>Size: XL</span>
-                                                    <span>Color: Green</span>
+                                                    <h6><a href="product.html" th:text="${map.value.product.name}"></a></h6>
+                                                    <div style="display: flex; align-items: center";>
+                                                        <span th:text="${map.value.product.getSalePrice()}+' X '+ ${map.value.quantity} + ' = '"></span>
+                                                        <span class="cart-price" th:text="${map.value.product.getSalePrice()}*${map.value.quantity}"></span>
+                                                    </div>
+
+
                                                 </div>
                                                 <a class="del-icone" href="#"><i class="ion-close"></i></a>
                                             </div>
@@ -190,10 +178,7 @@
                                             <!-- Cart Footer Inner Start -->
                                             <div class="cart-footer">
                                                 <ul class="price-content">
-                                                    <li>Subtotal <span>$57.95</span></li>
-                                                    <li>Shipping <span>$7.00</span></li>
-                                                    <li>Taxes <span>$0.00</span></li>
-                                                    <li>Total <span>$64.95</span></li>
+                                                    <li>Total <span th:text="${session.myCartTotal}"></span></li>
                                                 </ul>
                                                 <div class="cart-actions text-center">
                                                     <a class="cart-checkout" href="checkout.html">Checkout</a>

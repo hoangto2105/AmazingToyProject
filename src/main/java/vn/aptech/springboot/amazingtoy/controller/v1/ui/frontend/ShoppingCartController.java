@@ -2,111 +2,86 @@ package vn.aptech.springboot.amazingtoy.controller.v1.ui.frontend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMethod;
 import vn.aptech.springboot.amazingtoy.model.cart.Cart;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
+@RequestMapping(value = "cart")
 public class ShoppingCartController {
+
     @Autowired
     private ProductService productService;
-    @RequestMapping(value = "/shop/cart")
-    public ModelAndView cart(Cart cart, HttpSession session){
-        ModelAndView mav = new ModelAndView("frontend/layout/pages/cart");
-        List<Cart> list = (List<Cart>) session.getAttribute("cart");
-        mav.addObject("listCart",list);
-        return mav;
+
+    @RequestMapping(value = {"/",""})
+    public String cart(){
+        return "frontend/layout/pages/cart";
     }
-    @RequestMapping(value = "/shop/cart/add")
-    public ModelAndView addCart(@RequestParam long id, HttpSession session){
-        ModelAndView mav = new ModelAndView("frontend/layout/pages/cart");
-        Product product = productService.findPk(id);
-        Cart cart = new Cart();
-        List<Cart> list = (List<Cart>) session.getAttribute("cart");
-        if(list == null){
-            list = new ArrayList<Cart>();
+
+    @RequestMapping(value = "add/{productId}", method = RequestMethod.GET)
+    public String viewAdd(ModelMap mm, HttpSession session, @PathVariable("productId") Long productId){
+        HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
+        if(cartItems == null){
+            cartItems = new HashMap<>();
         }
-        if(product!=null){
-            cart.ToCart(product);
-            Integer total = addToCart(list,cart);
-            mav.addObject("total",total);
-            session.setAttribute("cart",list);
-        }
-        mav.addObject("listCart",list);
-        return mav;
-    }
-    private Integer addToCart(List<Cart> list, Cart cart){
-        Integer total = new Integer(0);
-        boolean isExist = false;
-        for(Cart c : list){
-            if(c.equals(cart)){
-                c.setQuantity(c.getQuantity() + 1);
-                isExist = true;
+        Product product = productService.findPk(productId);
+        if(product != null){
+            if(cartItems.containsKey(productId)){
+                Cart item = cartItems.get(productId);
+                item.setProduct(product);
+                item.setQuantity(item.getQuantity() + 1);
+                cartItems.put(productId, item);
+            }else {
+                Cart item = new Cart();
+                item.setProduct(product);
+                item.setQuantity(1);
+                cartItems.put(productId,item);
             }
-            total = total + c.getPrice()*(new Integer(cart.getQuantity()));
         }
-        if(isExist == false){
-            list.add(cart);
-            total = total + cart.getPrice()*(new Integer(cart.getQuantity()));
-        }
-        return total;
+        session.setAttribute("myCartItems", cartItems);
+        session.setAttribute("myCartTotal", totalPrice(cartItems));
+        session.setAttribute("myCartNum", cartItems.size());
+        return "frontend/layout/pages/cart";
     }
-    @RequestMapping(value = "/shop/cart/remove")
-    public ModelAndView removeCart(@RequestParam long id, HttpSession session){
-        ModelAndView mav = new ModelAndView("frontend/layout/pages/cart");
-        List<Cart> list = (List<Cart>) session.getAttribute("cart");
-        if(list!=null){
-            Integer total = removeCartItem(list,id);
-            mav.addObject("total", total);
-            session.setAttribute("cart",list);
+
+    @RequestMapping(value = "update/{productId}", method = RequestMethod.GET)
+    public String viewUpdate(ModelMap mm, HttpSession session, @PathVariable("productId") Long productId){
+        HashMap<Long,Cart> cartItems = (HashMap<Long,Cart>) session.getAttribute("myCartItems");
+        if(cartItems == null){
+            cartItems = new HashMap<>();
         }
-        mav.addObject("listCart", list);
-        return mav;
+        session.setAttribute("myCartItems", cartItems);
+        return "frontend/layout/pages/cart";
     }
-    private Integer removeCartItem(List<Cart> list,long id){
-        Integer total = new Integer(0);
-        Cart temp = null;
-        for(Cart c : list){
-            if(c.getId() == (id)){
-                temp = c;
-                continue;
-            }
-            total = total + c.getPrice()*(new Integer(c.getQuantity()));
+
+    @RequestMapping(value = "remove/{productId}", method = RequestMethod.GET)
+    public String viewRemove(ModelMap mm, HttpSession session, @PathVariable("productId") Long productId){
+        HashMap<Long,Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
+        if(cartItems == null){
+            cartItems = new HashMap<>();
         }
-        if(temp!=null){
-            list.remove(temp);
+        if(cartItems.containsKey(productId)){
+            cartItems.remove(productId);
         }
-        return total;
+        session.setAttribute("myCartItems", cartItems);
+        session.setAttribute("myCartTotal", totalPrice(cartItems));
+        session.setAttribute("myCartNum", cartItems.size());
+        return "frontend/layout/pages/cart";
     }
-    @RequestMapping("/shop/cart/update")
-    public ModelAndView updateCart(@RequestParam long id,
-                                   @RequestParam int quantity,
-                                   HttpSession session){
-        ModelAndView mav = new ModelAndView("frontend/layout/pages/cart");
-        List<Cart> list = (List<Cart>) session.getAttribute("cart");
-        if(list!=null){
-            Integer total = updateCartItem(list, id, quantity);
-            mav.addObject("total",total);
-            session.setAttribute("cart",list);
+
+    public double totalPrice(HashMap<Long, Cart> cartItems){
+        int count = 0;
+        for(Map.Entry<Long,Cart> list: cartItems.entrySet()){
+            count += list.getValue().getProduct().getSalePrice()*list.getValue().getQuantity();
         }
-        mav.addObject("listCart", list);
-        return mav;
-    }
-    private Integer updateCartItem(List<Cart> list, long id, int quantity){
-        Integer total = new Integer(0);
-        for(Cart c : list){
-            if(c.getId() == id){
-                c.setQuantity(quantity);
-            }
-            total = total + c.getPrice()*(new Integer(c.getQuantity()));
-        }
-        return total;
+        return count;
     }
 }

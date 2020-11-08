@@ -30,8 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public void create(Category cat) {
-        catRepo.save(cat);
+    public Category create(Category cat) {
+        return catRepo.save(cat);
     }
 
     @Override

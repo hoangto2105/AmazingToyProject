@@ -25,9 +25,6 @@ public class OrderDetail extends BaseEntity {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "amount")
-    private int amount;
-
     @Column(name = "quantity")
     private int quantity;
 

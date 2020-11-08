@@ -66,6 +66,7 @@
                                 <tr>
                                     <th>Category ID</th>
                                     <th>Name</th>
+                                    <th>Image</th>
                                     <th>Sub Category</th>
                                     <th>Action</th>
 
@@ -77,6 +78,7 @@
 
                                     <td th:text="${category.categoryID}"></td>
                                     <td th:text="${category.name}"></td>
+                                    <td><img th:src="@{/backend/dist/img/category-image/{id}(id=${category.categoryID})/{photo}(photo = ${category.image})}" alt=""></td>
                                     <td>
                                         <div class="row" th:each="subcategory : ${category.subcategories}">
                                             <div class="col-lg-8" th:utext="'+  ' + ${subcategory.subName}"></div>

@@ -1,36 +1,45 @@
 package vn.aptech.springboot.amazingtoy.model.shippingaddress;
 
+import lombok.*;
+import vn.aptech.springboot.amazingtoy.model.order.Order;
 import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "shipping")
+@Table(name = "shipping_address")
 public class ShippingAddress extends BaseEntity {
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @Column(name = "country")
     private String country;
 
-    @Column(name = "state")
-    private String state;
+    @Column(name = "state_region")
+    private String stateOrRegion;
 
     @Column(name = "city")
     private String city;
 
-    @Column(name = "street")
-    private String street;
+    @Column(name = "address")
+    private String address;
 
-    @Column(name = "number")
-    private String number;
 
-    @Column(name = "ship_fee")
-    private String shipfee;
+    @Column(name = "postal_code")
+    private String postalCode;
 
-    @Column(name = "ship_method")
-    private String shipmethod;
-
-    @Column(name = "zidcode")
-    private int zipcode;
+    @OneToMany(mappedBy = "shippingAddress",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Collection<Order> orders;
 }

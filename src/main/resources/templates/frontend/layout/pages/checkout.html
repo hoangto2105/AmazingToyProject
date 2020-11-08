@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="frontend/layout/frontend_layout"
-      xmlns:td="http://www.thymeleaf.org">
+      xmlns:td="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>View All Products</title>
 </head>
 <body>
     <div layout:fragment="content">
+
+        <h1 class="text-center">SHOPPING CART</h1>
         <!-- Breadcrumb Start -->
         <div class="breadcrumb-area mt-30">
             <div class="container">
@@ -55,19 +57,6 @@
                                 </div>
                             </div>
                             <!-- ACCORDION END -->
-                            <!-- ACCORDION START -->
-                            <h3>Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>
-                            <div id="checkout_coupon" class="coupon-checkout-content">
-                                <div class="coupon-info">
-                                    <form action="#">
-                                        <p class="checkout-coupon">
-                                            <input type="text" class="code" placeholder="Coupon code">
-                                            <input type="submit" value="Apply Coupon">
-                                        </p>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- ACCORDION END -->
                         </div>
                     </div>
                 </div>
@@ -81,159 +70,55 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="checkbox-form mb-sm-40">
                             <h3>Billing Details</h3>
-                            <div class="row">
+                                <div sec:authorize="isAuthenticated()"></div>
+                                <form th:action="@{/doCheckout}" th:object="${order}" method="post">
                                 <div class="col-md-6">
                                     <div class="checkout-form-list mb-sm-30">
                                         <label>First Name <span class="required">*</span></label>
-                                        <input type="text" placeholder="" th:value="${order.getUser().getFirstName()}">
+                                        <input type="text" th:field="*{shippingAddress.firstName}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list mb-30">
                                         <label>Last Name <span class="required">*</span></label>
-                                        <input type="text" placeholder="" th:value="${order.getUser().getLastName()}">
+                                        <input type="text" placeholder="" th:field="*{shippingAddress.lastName}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list mb-30">
                                         <label>Address <span class="required">*</span></label>
-                                        <input type="text" placeholder="Street address" th:value="${order.getUser().getAddress().getAddress()}">
+                                        <input type="text" placeholder="Street address" th:field="*{shippingAddress.address}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list mb-30">
                                         <label>Town / City <span class="required">*</span></label>
-                                        <input type="text" placeholder="Town / City" th:value="${order.getUser().getAddress().getCity()}">
+                                        <input type="text" placeholder="Town / City" th:field="*{shippingAddress.city}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list mb-30">
                                         <label>State / County <span class="required">*</span></label>
-                                        <input type="text" placeholder="" th:value="${order.getUser().getAddress().getCountry()}">
+                                        <input type="text" placeholder="" th:field="*{shippingAddress.country}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list mb-30">
                                         <label>Postcode / Zip <span class="required">*</span></label>
-                                        <input type="text" placeholder="Postcode / Zip" th:value="${order.getUser().getAddress().getPostalCode()}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="checkout-form-list mb-30">
-                                        <label>Email Address <span class="required">*</span></label>
-                                        <input type="email" placeholder="" th:value="${order.getUser().getEmail()}">
+                                        <input type="text" placeholder="Postcode / Zip" th:field="*{shippingAddress.postalCode}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list mb-30">
                                         <label>Phone  <span class="required">*</span></label>
-                                        <input type="text" placeholder="Postcode / Zip" th:value="${order.getUser().getPhoneNumber()}">
+                                        <input type="text" placeholder="Postcode / Zip" th:field="*{shippingAddress.phoneNumber}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="checkout-form-list create-acc mb-30">
-                                        <input id="cbox" type="checkbox">
-                                        <label>Create an account?</label>
-                                    </div>
-                                    <div id="cbox_info" class="checkout-form-list create-accounts mb-25">
-                                        <p class="mb-10">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
-                                        <label>Account password  <span class="required">*</span></label>
-                                        <input type="password" placeholder="password">
-                                    </div>
+                                    <a href="#" class="readmore pull-left">Shopping Cart</a>
+                                    <input type="submit" class="readmore pull-right" value="Check out"/>
                                 </div>
-                            </div>
-                            <div class="different-address">
-                                <div class="ship-different-title">
-                                    <h3>
-                                        <label>Ship to a different address?</label>
-                                        <input id="ship-box" type="checkbox">
-                                    </h3>
-                                </div>
-                                <div id="ship-box-info">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="country-select clearfix mb-30">
-                                                <label>Country <span class="required">*</span></label>
-                                                <select class="wide">
-                                                    <option value="volvo">Bangladesh</option>
-                                                    <option value="saab">Algeria</option>
-                                                    <option value="mercedes">Afghanistan</option>
-                                                    <option value="audi">Ghana</option>
-                                                    <option value="audi2">Albania</option>
-                                                    <option value="audi3">Bahrain</option>
-                                                    <option value="audi4">Colombia</option>
-                                                    <option value="audi5">Dominican Republic</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>First Name <span class="required">*</span></label>
-                                                <input type="text" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>Last Name <span class="required">*</span></label>
-                                                <input type="text" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>Company Name</label>
-                                                <input type="text" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>Address <span class="required">*</span></label>
-                                                <input type="text" placeholder="Street address">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="checkout-form-list mb-30">
-                                                <input type="text" placeholder="Apartment, suite, unit etc. (optional)">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>Town / City <span class="required">*</span></label>
-                                                <input type="text" placeholder="Town / City">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>State / County <span class="required">*</span></label>
-                                                <input type="text" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>Postcode / Zip <span class="required">*</span></label>
-                                                <input type="text" placeholder="Postcode / Zip">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>Email Address <span class="required">*</span></label>
-                                                <input type="email" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkout-form-list mb-30">
-                                                <label>Phone  <span class="required">*</span></label>
-                                                <input type="text" placeholder="Postcode / Zip">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="order-notes">
-                                    <div class="checkout-form-list">
-                                        <label>Order Notes</label>
-                                        <textarea id="checkout-mess" cols="30" rows="10" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
-                                    </div>
-                                </div>
-                            </div>
+                                </form>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
@@ -250,23 +135,35 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="cart_item" th:each="test: ${listCart}">
-                                        <td class="product-image"><img th:each="image: ${test.photo}" th:if="${image.mainImage}==true" th:src="@{'/backend/dist/img/products/' + ${image.name}}" width="50" height="50" alt="single-product"></td>
-                                        <td class="product-name">[[${test.name}]]</td>
-                                        <td class="product-quantity">x[[${test.quantity}]]</td>
+                                    <tr class="cart_item" th:each="map: ${session.myCartItems}">
+                                        <td class="product-image">
+                                            <img width="70" height="70" th:each="image: ${map.value.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image">
+                                        </td>
+                                        <td class="product-name" th:text="${map.value.product.name}"></td>
+                                        <td class="product-quantity" th:text="'X ' + ${map.value.quantity}"></td>
                                         <td class="product-total">
-                                            <span class="amount" th:text="${test.price} * ${test.quantity}"></span>
+                                            <span class="amount" th:text="${map.value.product.salePrice} * ${map.value.quantity}"></span>
                                         </td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr class="cart-subtotal">
+                                        <th></th>
+                                        <th></th>
                                         <th>Cart Subtotal</th>
-                                        <td><span class="amount">£215.00</span></td>
+                                        <td><span class="amount" th:text="${session.myCartTotal}"></span></td>
+                                    </tr>
+                                    <tr class="cart-subtotal">
+                                        <th></th>
+                                        <th></th>
+                                        <th>Price Ship</th>
+                                        <td><span class="amount">10%</span></td>
                                     </tr>
                                     <tr class="order-total">
+                                        <th></th>
+                                        <th></th>
                                         <th>Order Total</th>
-                                        <td><span class=" total amount">£215.00</span>
+                                        <td><span class=" total amount" th:text="${session.myCartTotal} * 0.1"></span>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -277,45 +174,46 @@
                                     <div class="card">
                                         <div class="card-header" id="headingone">
                                             <h5 class="mb-0">
-                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                    Direct Bank Transfer
+                                                <button class="btn btn-link">
+                                                    Coupon Code to sale off
                                                 </button>
                                             </h5>
                                         </div>
-
-                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingone" data-parent="#accordion">
                                             <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                <div id="checkout_coupon">
+                                                    <div class="coupon-info">
+                                                        <form action="#">
+                                                            <p class="checkout-coupon">
+                                                                <input type="text" class="code" placeholder="Coupon code">
+                                                                <input type="submit" value="Apply Coupon">
+                                                            </p>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
                                     <div class="card">
                                         <div class="card-header" id="headingtwo">
                                             <h5 class="mb-0">
-                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                    Cheque Payment
+                                                <button class="btn btn-link">
+                                                    Method Payment
                                                 </button>
                                             </h5>
                                         </div>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingtwo" data-parent="#accordion">
                                             <div class="card-body">
-                                                <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                                <div>
+                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                                    <label class="form-check-label" for="gridRadios1">
+                                                        Ship COD
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                                    <label class="form-check-label" for="gridRadios2">
+                                                        Paypal
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="headingthree">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                    PayPal
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseThree" class="collapse" aria-labelledby="headingthree" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
