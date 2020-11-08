@@ -45,10 +45,10 @@
                                         <td class="product-thumbnail">
                                             <a href="#"><img th:each="image: ${map.value.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image"></a>
                                         </td>
-                                        <td class="product-name"><a href="#" th:text="${map.value.product.name}"></a></td>
-                                        <td class="product-price"><span class="amount" th:text="${map.value.product.salePrice}"></span></td>
+                                        <td class="product-name"><a href="#" th:text="${map.value.product.productName}"></a></td>
+                                        <td class="product-price"><span class="amount" th:text="${map.value.product.savePrice}"></span></td>
                                         <td class="product-quantity"><input type="number" th:value="${map.value.quantity}"></td>
-                                        <td class="product-subtotal" th:text="${map.value.product.salePrice} * ${map.value.quantity}"></td>
+                                        <td class="product-subtotal" th:text="${map.value.product.savePrice} * ${map.value.quantity}"></td>
                                         <td class="product-remove"> <a th:href="@{'/cart/remove/'+${map.value.product.id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                     </tr>
                                     </tbody>
