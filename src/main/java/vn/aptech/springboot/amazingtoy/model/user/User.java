@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import vn.aptech.springboot.amazingtoy.model.blog.Blog;
+import vn.aptech.springboot.amazingtoy.model.order.Order;
+import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -53,6 +55,8 @@ public class User extends BaseEntity {
     @JoinColumn(name = "address_id")
     public Address address;
 
+
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -60,6 +64,7 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
 
     public User() {
     }
@@ -94,4 +99,7 @@ public class User extends BaseEntity {
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private Collection<Blog> blogs;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Collection<Order> orders;
+
 }
