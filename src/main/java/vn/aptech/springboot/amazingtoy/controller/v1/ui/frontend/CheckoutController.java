@@ -1,12 +1,10 @@
 package vn.aptech.springboot.amazingtoy.controller.v1.ui.frontend;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,11 +12,8 @@ import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.model.cart.Cart;
 import vn.aptech.springboot.amazingtoy.model.order.Order;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
-import vn.aptech.springboot.amazingtoy.model.shippingaddress.ShippingAddress;
-import vn.aptech.springboot.amazingtoy.model.user.User;
 import vn.aptech.springboot.amazingtoy.service.OrderDetailService;
 import vn.aptech.springboot.amazingtoy.service.OrderService;
-import vn.aptech.springboot.amazingtoy.service.ShippingAddressService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -28,54 +23,36 @@ import java.util.Map;
 @Controller
 public class CheckoutController {
     @Autowired
-    private ShippingAddressService shippingAddressService;
-    @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderDetailService orderDetailService;
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private OrderDetailService orderDetailService;
-
-    @RequestMapping(value = "/checkout",method = RequestMethod.GET)
-    public String viewCheckout(ModelMap mm,HttpSession session,@ModelAttribute("order") Order order){
-        HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
-        if (cartItems == null) {
-            cartItems = new HashMap<>();
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findByEmail(authentication.getName());
-        User currentUser = new ModelMapper().map(userDto, User.class);
-        mm.addAttribute("userDetail", currentUser);
-        mm.addAttribute("order",order);
-        return "frontend/layout/pages/checkout";
-    }
-
-    @RequestMapping(value = "/doCheckout", method = RequestMethod.POST)
-    public String doCheckout(ModelMap mm, HttpSession session, @ModelAttribute("order") Order order) {
+    @RequestMapping(value = "checkout")
+    public String addUser(Model model,HttpSession session) {
         HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
         if (cartItems == null) {
             cartItems = new HashMap<>();
         }
         session.setAttribute("myCartItems", cartItems);
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDto userDto = userService.findByEmail(authentication.getName());
-//        User currentUser = new ModelMapper().map(userDto, User.class);
-//        ShippingAddress shippingAddress = new ShippingAddress();
-//        if(userDto != null) {
-//            shippingAddress.setFirstName(currentUser.getFirstName());
-//            shippingAddress.setLastName(currentUser.getLastName());
-//            shippingAddress.setPhoneNumber(currentUser.getPhoneNumber());
-//            shippingAddress.setAddress(currentUser.getAddress().getAddress());
-//            shippingAddress.setCountry(currentUser.getAddress().getCountry());
-//            shippingAddress.setCity(currentUser.getAddress().getCity());
-//            shippingAddress.setStateOrRegion(currentUser.getAddress().getStateOrRegion());
-//            shippingAddress.setPostalCode(currentUser.getAddress().getPostalCode());
-//        }
-        ShippingAddress shippingAddress = new ShippingAddress();
-        order.setShippingAddress(shippingAddress);
-        shippingAddressService.save(shippingAddress);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        if(email!= "anonymousUser") {
+            UserDto currentUser = userService.findByEmail(email);
+            model.addAttribute("currentUser", currentUser);
+        }
+        model.addAttribute("order", new Order());
+        return "frontend/layout/pages/checkout";
+    }
+    @RequestMapping(value = "/doCheckout", method = RequestMethod.POST)
+    public String doCheckout(HttpSession session,@ModelAttribute("order") Order order) {
+        HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
+        if (cartItems == null) {
+            cartItems = new HashMap<>();
+        }
         order.setStatus(true);
         orderService.save(order);
         for(Map.Entry<Long,Cart> entry: cartItems.entrySet()){

@@ -10,6 +10,7 @@ import vn.aptech.springboot.amazingtoy.model.cart.Cart;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +22,15 @@ public class ShoppingCartController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = {"/",""})
-    public String cart(){
+    @RequestMapping(value = {"/",""},method = RequestMethod.GET)
+    public String cart(ModelMap mm, HttpSession session){
+        HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
+        if(cartItems == null){
+            cartItems = new HashMap<>();
+        }
+        session.setAttribute("myCartItems", cartItems);
+        session.setAttribute("myCartTotal", totalPrice(cartItems));
+        session.setAttribute("myCartNum", cartItems.size());
         return "frontend/layout/pages/cart";
     }
 
@@ -52,11 +60,15 @@ public class ShoppingCartController {
         return "frontend/layout/pages/cart";
     }
 
-    @RequestMapping(value = "update/{productId}", method = RequestMethod.GET)
-    public String viewUpdate(ModelMap mm, HttpSession session, @PathVariable("productId") Long productId){
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public String viewUpdate(ModelMap mm, HttpSession session, HttpServletRequest request){
         HashMap<Long,Cart> cartItems = (HashMap<Long,Cart>) session.getAttribute("myCartItems");
         if(cartItems == null){
             cartItems = new HashMap<>();
+        }
+        String[] quantity = request.getParameterValues("quantity");
+        for (int i=0; i<cartItems.size();i++){
+            cartItems.get(i).setQuantity(Integer.parseInt(quantity[i]));
         }
         session.setAttribute("myCartItems", cartItems);
         return "frontend/layout/pages/cart";
@@ -84,4 +96,5 @@ public class ShoppingCartController {
         }
         return count;
     }
+
 }

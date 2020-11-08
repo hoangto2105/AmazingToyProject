@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <!-- Form Start -->
-                        <form action="#">
+                        <form th:action="@{/cart/update}" method="post">
                             <!-- Table Content Start -->
                             <div class="table-content table-responsive mb-45">
                                 <table>
@@ -47,7 +47,7 @@
                                         </td>
                                         <td class="product-name"><a href="#" th:text="${map.value.product.productName}"></a></td>
                                         <td class="product-price"><span class="amount" th:text="${map.value.product.savePrice}"></span></td>
-                                        <td class="product-quantity"><input type="number" th:value="${map.value.quantity}"></td>
+                                        <td class="product-quantity"><input type="number" th:name="quantity" th:value="${map.value.quantity}"></td>
                                         <td class="product-subtotal" th:text="${map.value.product.savePrice} * ${map.value.quantity}"></td>
                                         <td class="product-remove"> <a th:href="@{'/cart/remove/'+${map.value.product.id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                     </tr>
@@ -59,8 +59,8 @@
                                 <!-- Cart Button Start -->
                                 <div class="col-md-8 col-sm-12">
                                     <div class="buttons-cart">
-                                        <a href="#">Update Cart</a>
-                                        <a href="#">Continue Shopping</a>
+                                        <input type="submit" value="Update"/>
+                                        <a th:href="@{/shop}">Continue Shopping</a>
                                     </div>
                                 </div>
                                 <!-- Cart Button Start -->
