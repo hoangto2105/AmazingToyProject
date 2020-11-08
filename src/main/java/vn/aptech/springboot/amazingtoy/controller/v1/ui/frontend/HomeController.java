@@ -38,16 +38,16 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/{productSlug}", method = RequestMethod.GET)
-    public String productDetail(Model model, @PathVariable("productSlug") String productSlug) {
-
-        Product product = productService.findBySlug(productSlug);
-        model.addAttribute("productDetail", product);
-
-        if (product.getBidDetail() != null) {
-            return "frontend/layout/pages/bidDetail";
-        }
-
-        return "frontend/layout/pages/productDetail";
-    }
+//    @RequestMapping(value = "/{productSlug}", method = RequestMethod.GET)
+//    public String productDetail(Model model, @PathVariable("productSlug") String productSlug) {
+//
+//        Product product = productService.findBySlug(productSlug);
+//        model.addAttribute("productDetail", product);
+//
+//        if (product.getBidDetail() != null) {
+//            return "frontend/layout/pages/bidDetail";
+//        }
+//
+//        return "frontend/layout/pages/productDetail";
+//    }
 }

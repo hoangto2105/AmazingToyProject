@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
-import vn.aptech.springboot.amazingtoy.model.shippingaddress.ShippingAddress;
 import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
-import vn.aptech.springboot.amazingtoy.model.user.User;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -21,17 +19,38 @@ import java.util.Collection;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private Collection<OrderDetail> orderDetails;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "state_region")
+    private String stateOrRegion;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "postal_code")
+    private String postalCode;
+
     @Column(name = "amount")
     private int amount;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private Collection<OrderDetail> orderDetails;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @Column(name = "payment_method")
+    public PaymentMethod paymentMethod;
 
-    @ManyToOne
-    @JoinColumn(name="shipping_address_id")
-    private ShippingAddress shippingAddress;
+
 }
