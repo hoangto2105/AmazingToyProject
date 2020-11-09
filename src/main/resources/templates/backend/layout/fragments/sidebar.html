@@ -141,6 +141,8 @@
 
                     </ul>
                 </li>
+
+
                 <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' menu-open' : ''}">
                     <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' active' : ''}">
                         <i class="nav-icon far fa-plus-square"></i>
@@ -157,66 +159,57 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>Blogs<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="@{/admin/blog/index}" class="nav-link">
+
+                                <i class="far fa-circle nav-icon"></i>
+                                    <p>List all new Blogs</p>
+                            </a>
+                            <a th:href="@{/admin/blog/create}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Creat new Blogs</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
-
-                    <p>
-                        Blogs
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
+                        <p>About Us<i class="fas fa-angle-left right"></i></p>
                     </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a th:href="@{/admin/blog/index}" class="nav-link">
-
-                            <i class="far fa-circle nav-icon"></i>
-                                <p>List all new Blogs</p>
-                        </a>
-                        <a th:href="@{/admin/blog/create}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Creat new Blogs</p>
-                        </a>
-                    </li>
-                            </i>
-                        </a>
-                    </li>
-
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-edit"></i>
-
-                            <p>
-                                About Us
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a th:href="@{/admin/about/index}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>List About Us</p>
-                                </a>
-                            </li>
-                            <li class="nav-item has-treeview">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-edit"></i>
-
-                                    <p>
-                                        Contact Us
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a th:href="@{/admin/contactUs/index}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Message</p>
-                                        </a>
-                                    </li>
-                        </ul>
-                </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="@{/admin/about/index}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List About Us</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>Contact Us<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="@{/admin/contactUs/index}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Message</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/order') ? ' menu-open' : ''}">
@@ -236,7 +229,6 @@
                         </li>
                     </ul>
                 </li>
-
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

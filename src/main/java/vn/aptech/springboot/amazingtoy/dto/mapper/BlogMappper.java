@@ -12,8 +12,8 @@ public class BlogMappper {
         return new BlogDto()
                 .setId(blog.getId())
                 .setTitle(blog.getTitle())
+                .setImage(blog.getImage())
                 .setDescription(blog.getDescription())
-                .setUserDto(UserMapper.toUserDto(blog.getUser()))
                 .setCreateAt(blog.getCreateAt());
     }
 }
