@@ -25,9 +25,6 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogRepository blogRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Override
     public List<BlogDto> findAll() {
         List<BlogDto> result = new ArrayList<>();
@@ -39,7 +36,6 @@ public class BlogServiceImpl implements BlogService {
             blogDto.setTitle(blog.getTitle());
             blogDto.setDescription(blog.getDescription());
             blogDto.setImage(blog.getImage());
-            blogDto.setUserDto(UserMapper.toUserDto(blog.getUser()));
             blogDto.setCreateAt(blog.getCreateAt());
             result.add(blogDto);
         }
@@ -49,14 +45,49 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogDto create(BlogDto blogDto) throws IOException {
         Blog blog = new Blog();
-        User user = userRepository.findByEmail(blogDto.getUserDto().getEmail());
 
         String uniqueFileName = FileUtil.UploadedFile(blogDto.getMultipartFile(), BLOG_IMAGE_PATH);
         blog.setTitle(blogDto.getTitle());
         blog.setDescription(blogDto.getDescription());
-        blog.setUser(user);
         blog.setImage(uniqueFileName);
 
         return BlogMappper.toBlogDto(blogRepository.save(blog));
     }
+
+    @Override
+    public Blog update(BlogDto blogDto) throws IOException {
+        Blog blog = new Blog();
+
+
+
+        String uniqueFileName = FileUtil.UploadedFile(blogDto.getMultipartFile(),BLOG_IMAGE_PATH);
+        blog.setId(blogDto.getId());
+        blog.setTitle(blogDto.getTitle());
+        blog.setDescription((blogDto.getDescription()));
+        blog.setImage(uniqueFileName);
+
+        return blogRepository.save(blog);
+    }
+
+    @Override
+    public BlogDto findById(long id) throws IOException {
+        try {
+            Blog blog = blogRepository.findById(id).get();
+            BlogDto blogDto = new BlogDto();
+            return BlogMappper.toBlogDto(blogRepository.save(blog));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void delete(long id) {
+   Blog blog = blogRepository.findById((id)).get();
+   BlogDto blogDto = new BlogDto();
+   blogRepository.delete(blog);
+    }
+
+
 }

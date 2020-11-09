@@ -50,12 +50,12 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="contactUs : ${contactUses}">
-                                    <td th:text="${contactUs.id}"></td>
-                                    <td th:text="${contactUs.name}"></td>
-                                    <td th:text="${contactUs.email}"></td>
-                                    <td th:text="${contactUs.subject}"></td>
-                                    <td th:text="${contactUs.phone}"></td>
-                                    <td th:text="${contactUs.message}"></td>
+                                    <td th: utext="${contactUs.id}"></td>
+                                    <td th: utext="${contactUs.name}"></td>
+                                    <td th: utext="${contactUs.email}"></td>
+                                    <td th: utext="${contactUs.subject}"></td>
+                                    <td th: utext="${contactUs.phone}"></td>
+                                    <td th: utext="${contactUs.message}"></td>
 
 
                                 </tr>

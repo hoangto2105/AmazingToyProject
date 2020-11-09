@@ -22,7 +22,7 @@ public class ContactUsDto {
     private String name;
     private String subject;
     private String email;
-    private int phone;
+    private String phone;
     private String message;
     private Timestamp createAt;
     private UserDto userDto;

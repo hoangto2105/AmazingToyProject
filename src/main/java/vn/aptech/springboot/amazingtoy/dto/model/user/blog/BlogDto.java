@@ -24,7 +24,6 @@ public class BlogDto {
     private String title;
     private String description;
     private Timestamp createAt;
-    private UserDto userDto;
     private MultipartFile multipartFile;
     private String image;
 }

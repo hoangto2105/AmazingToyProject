@@ -15,26 +15,31 @@
             <div class="address-wrapper row">
                 <div class="col-md-12">
                     <div class="address-fname">
+                        <label>Name</label>
                         <input class="form-control" type="text" th:field="*{name}" name="name" placeholder="Name">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="address-email">
+                        <label>Email</label>
                         <input class="form-control" type="email" th:field="*{email}" name="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="address-web">
-                        <input class="form-control" type="text" th:field="*{phone}" name="Phone" placeholder="Phone Number">
+                        <label>Phone Number</label>
+                        <input class="form-control" type="text" th:field="*{phone}" placeholder="Phone Number">
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="address-subject">
+                        <label>Subject</label>
                         <input class="form-control" type="text" th:field="*{subject}"name="subject" placeholder="Subject">
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="address-textarea">
+                        <label>Message</label>
                         <textarea name="message" class="form-control" th:field="*{message}"placeholder="Write your message"></textarea>
                     </div>
                 </div>
