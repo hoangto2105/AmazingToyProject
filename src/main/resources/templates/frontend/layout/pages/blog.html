@@ -29,19 +29,19 @@
                     <div th:each="blog:${blogs}" class="col-lg-6 col-sm-12">
                         <div class="single-latest-blog">
                             <div class="blog-img">
-                                <a href="single-blog.html"><img th:src="@{'/backend/dist/img/blog/' + ${blog.image}}" alt="blog-image"></a>
+                                <a href="blogDetail.html"><img th:src="@{'/backend/dist/img/blog/' + ${blog.image}}" alt="blog-image"></a>
                             </div>
                             <div class="blog-desc">
-                                <h4><a href="single-blog.html">[[${blog.title}]]</a></h4>
+                                <h4><a href="blogDetail.html">[[${blog.title}]]</a></h4>
                                 <ul class="meta-box d-flex">
                                     <li><a href="#">By Truemart</a></li>
                                 </ul>
-                                <p>[[${blog.description}]]</p>
-                                <a class="readmore" href="single-blog.html">Read More</a>
+                                <div style="width: 100%;overflow: hidden;text-overflow: ellipsis;line-height: 25px;-webkit-line-clamp:  3;height: 75px;
+display: -webkit-box; -webkit-box-orient: vertical" th:utext="${blog.description}"></div>
+                                <a class="readmore" th:href="@{'/blog/' + ${blog.getId()}}">Read More</a>
                             </div>
                             <div class="blog-date">
-                                <span th:text="${blog.createAt.date}"></span>
-                                month:[[${blog.createAt.month}]]
+                                <span th:text="${blog.createAt.getMonth() + '/' + blog.createAt.getDay()}"></span>
                             </div>
                         </div>
                     </div>
