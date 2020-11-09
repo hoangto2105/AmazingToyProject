@@ -6,6 +6,8 @@ import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 import vn.aptech.springboot.amazingtoy.repository.OrderDetailRepository;
 import vn.aptech.springboot.amazingtoy.service.OrderDetailService;
 
+import java.util.List;
+
 @Service
 public class OrderDetailServiceImpl implements OrderDetailService {
     @Autowired
@@ -15,5 +17,10 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetail save(OrderDetail orderDetail) {
         return orderDetailRepository.save(orderDetail);
+    }
+
+    @Override
+    public List<OrderDetail> findAll() {
+        return (List<OrderDetail>) orderDetailRepository.findAll();
     }
 }

@@ -36,6 +36,7 @@ public class HomeController {
     @RequestMapping(value = {"", "/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
         List<Product> productAuctionList = new ArrayList<>();
+        List<Product> productArrivals = new ArrayList<>();
         List<Category> categories = categoryService.findAllCat();
 
         if (categories.size() == 0) {
@@ -45,13 +46,18 @@ public class HomeController {
         for (Category category : categories) {
             for (Subcategory subcategory : category.getSubcategories()) {
                 for (Product product : subcategory.getProducts()) {
-                    if (product.getBidDetail() != null) {
-                        productAuctionList.add(product);
+                    if(product.isStatus()) {
+                        if (product.getBidDetail() != null) {
+                            productAuctionList.add(product);
+                        } else {
+                            productArrivals.add(product);
+                        }
                     }
                 }
             }
         }
 
+        model.addAttribute("productArrivals", productArrivals);
         model.addAttribute("productAuctionList", productAuctionList);
 
         return "frontend/layout/pages/index";

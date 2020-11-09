@@ -2,6 +2,7 @@ package vn.aptech.springboot.amazingtoy.controller.v1.ui.backend;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -31,6 +32,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "admin/product")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
 public class ProductController {
 
     private final String PRODUCTS_IMAGE_PATH = "backend/dist/img/products";

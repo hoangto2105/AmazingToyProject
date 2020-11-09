@@ -1,5 +1,5 @@
 # our base build image
-FROM maven:3.6.0-jdk-8 as maven
+FROM maven:3.6.3-jdk-8 as maven
 
 # copy the project files
 COPY ./pom.xml ./pom.xml
@@ -17,10 +17,10 @@ RUN mvn package -DskipTests
 FROM openjdk:8-jre-alpine
 
 # set deployment directory
-WORKDIR /my-project
+WORKDIR /amazingtoy-project
 
 # copy over the built artifact from the maven image
-COPY --from=maven target/springboot-starterkit-1.0.jar ./
+COPY --from=maven target/amazingtoy-1.0.jar ./
 
 # set the startup command to run your binary
-CMD ["java", "-jar", "./springboot-starterkit-1.0.jar"]
+CMD ["java", "-jar", "./amazingtoy-1.0.jar"]
