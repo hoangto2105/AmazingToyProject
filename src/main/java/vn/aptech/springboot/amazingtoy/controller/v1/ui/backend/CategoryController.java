@@ -1,6 +1,7 @@
 package vn.aptech.springboot.amazingtoy.controller.v1.ui.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,7 @@ import java.nio.file.StandardCopyOption;
 
 @Controller
 @RequestMapping(value = "admin/category")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
 public class CategoryController {
 
     @Autowired

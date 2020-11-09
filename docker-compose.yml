@@ -1,31 +1,34 @@
-version: '3.5'
+version: '3.8'
 services:
-  mongodb:
-    image: mongo:latest
+  mysqldb:
+    image: mysql:5.6
+    container_name: "mysql-db"
     restart: always
-    container_name: "mongodb"
-    environment:
-      - MONGO_DATA_DIR=/db/data
-      - MONGO_LOG_DIR=/dev/null
-    volumes:
-      - ./db/data:/data/db
     ports:
-      - 27017:27017
-    command: mongod --bind_ip_all --logpath=/dev/null # --quiet
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: amazing_toy
+      MYSQL_ROOT_PASSWORD: ProjectSEM4@2020
+      SERVICE_NAME: mysql
+    volumes:
+      - ./db/data:/var/lib/mysql
+    networks:
+      - app-network
 
   web:
     build: .
     links:
-      - mongodb
-    container_name: BRS-Service
+      - mysqldb
+    container_name: AmazingToy-Service
     restart: on-failure
     ports:
       - "8080:8080"
-    environment:
-      - MONGODB_PORT=27017
-      - MONGODB_SCHEMA=brs
-      - MONGODB_HOST=mongodb
-      - LOG_LEVEL=DEBUG
-      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
-      - mongodb
+      - mysqldb
+
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local

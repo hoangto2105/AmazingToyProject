@@ -13,8 +13,8 @@ import vn.aptech.springboot.amazingtoy.model.supplier.Supplier;
 import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -55,7 +55,6 @@ public class Inventory  {
 
     @Basic(optional = false)
     @Column(name = "purchase_date")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date purchaseDate;
 
     public Inventory() {
