@@ -31,7 +31,7 @@ public class CheckoutController {
     private UserService userService;
 
     @RequestMapping(value = "checkout")
-    public String addUser(Model model,HttpSession session) {
+    public String viewCheckout(Model model,HttpSession session) {
         HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
         if (cartItems == null) {
             cartItems = new HashMap<>();
@@ -54,6 +54,11 @@ public class CheckoutController {
             cartItems = new HashMap<>();
         }
         order.setStatus(true);
+        int count = 0;
+        for(Map.Entry<Long,Cart> list: cartItems.entrySet()){
+            count += list.getValue().getProduct().getSavePrice()*list.getValue().getQuantity();
+        }
+        order.setAmount(count);
         orderService.save(order);
         for(Map.Entry<Long,Cart> entry: cartItems.entrySet()){
             OrderDetail orderDetail = new OrderDetail();

@@ -135,9 +135,9 @@
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list mb-30">
                                                     <label>Method Payment  <span class="required">*</span></label>
-                                                    <div th:each="model : ${order}">
-                                                        <input type="radio" th:field="*{methodOrder}" th:value="${model}" class="custom-control-input">
-                                                        <label th:for="${#ids.prev('methodOrder')}"  th:text="${model}"></label>
+                                                    <div class="custom-control custom-radio custom-control-inline" th:each="model : ${T(vn.aptech.springboot.amazingtoy.model.order.PaymentMethod).values()}">
+                                                        <input type="radio" th:field="*{paymentMethod}" th:value="${model}" class="custom-control-input">
+                                                        <label class="custom-control-label" th:for="${#ids.prev('paymentMethod')}"  th:text="${model}"></label>
                                                     </div>
                                                 </div>
                                             </div>
