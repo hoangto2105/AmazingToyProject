@@ -6,10 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import vn.aptech.springboot.amazingtoy.controller.v1.command.UserRegisterFormCommand;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -20,7 +22,11 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
+    public String login(HttpServletRequest httpServletRequest) {
+
+        String referrer = httpServletRequest.getHeader("Referer");
+        httpServletRequest.getSession().setAttribute("return_url_login", referrer);
+
         return "frontend/layout/pages/login";
     }
 

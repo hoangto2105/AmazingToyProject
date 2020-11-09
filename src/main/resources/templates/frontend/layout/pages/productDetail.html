@@ -12,9 +12,10 @@
         <div class="container">
             <div class="breadcrumb">
                 <ul class="d-flex align-items-center">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li class="active"><a href="product.html">Products</a></li>
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{'/collection/' + ${productDetail.getSubcategory().getCategory().getSlug()}}"><span th:utext="${productDetail.getSubcategory().getCategory().getName()}"></span></a></li>
+                    <li><a th:href="@{'/collection/' + ${productDetail.getSubcategory().getCategory().getSlug() + '/' + productDetail.getSubcategory().getSlug()}}"><span th:utext="${productDetail.getSubcategory().getSubName()}"></span></a></li>
+                    <li class="active"><a href="#"><span th:utext="${productDetail.getProductName()}"></span></a></li>
                 </ul>
             </div>
         </div>

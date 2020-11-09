@@ -2,7 +2,9 @@ package vn.aptech.springboot.amazingtoy.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.aptech.springboot.amazingtoy.model.products.BidHistory;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
+import vn.aptech.springboot.amazingtoy.repository.BidHistoryRepository;
 import vn.aptech.springboot.amazingtoy.repository.product.ProductRepository;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
@@ -15,6 +17,9 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    private BidHistoryRepository bidHistoryRepository;
 
     @Override
     public List<Product> findAllPro() {
@@ -38,8 +43,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void update(Product pro) {
-        productRepository.save(pro);
+    public Product update(Product pro) {
+        return productRepository.save(pro);
     }
 
     @Override
@@ -63,5 +68,15 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         Product product = productRepository.findById(id).get();
         productRepository.delete(product);
+    }
+
+    @Override
+    public Product bidAuction(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public BidHistory storeBidHistory(BidHistory bidHistory) {
+        return bidHistoryRepository.save(bidHistory);
     }
 }

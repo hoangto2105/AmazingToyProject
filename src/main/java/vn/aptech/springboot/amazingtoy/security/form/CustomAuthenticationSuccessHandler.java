@@ -29,6 +29,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+
+        HttpSession session = httpServletRequest.getSession();
+        if (session != null) {
+            String redirectUrl = (String) session.getAttribute("return_url_login");
+            if (redirectUrl != null) {
+                // we do not forget to clean this attribute from session
+                session.removeAttribute("return_url_login");
+                // then we redirect
+                redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, redirectUrl);
+            }
+        }
+
         handle(httpServletRequest, httpServletResponse, authentication);
         clearAuthenticationAttributes(httpServletRequest);
     }
