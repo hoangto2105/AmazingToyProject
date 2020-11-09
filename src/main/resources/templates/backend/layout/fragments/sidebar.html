@@ -7,10 +7,9 @@
 <body>
 <aside class="main-sidebar sidebar-dark-primary elevation-4" th:fragment="sidebar">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img th:src="@{/backend/dist/img/AdminLTELogo.png}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+    <a th:href="@{/admin/dashboard}" class="brand-link">
+        <img th:src="@{/frontend/img/logo/logo3.png}" alt="Amazing Model Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
 
     <!-- Sidebar -->
@@ -133,7 +132,7 @@
                                 <p>List All Products</p>
                             </a>
 
-                            <a th:href="@{/admin/product/createFormProduct}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/product/create') ? ' active' : ''}">
+                            <a th:href="@{/admin/product/create}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/product/create') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Create New Product</p>
                             </a>
@@ -225,6 +224,30 @@
                             <a th:href="@{/admin/order}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/order') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Orders Management</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/blog') ? ' menu-open' : ''}">
+                    <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/blog') ? ' active' : ''}">
+                        <i class="nav-icon far fa-plus-square"></i>
+                        <p>
+                            Blog
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="@{/admin/blog}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/blog') ? ' active' : ''}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Blog Management</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/admin/blog/create}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/blog/create') ? ' active' : ''}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Blog Create</p>
                             </a>
                         </li>
                     </ul>

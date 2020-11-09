@@ -12,8 +12,10 @@ import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.model.cart.Cart;
 import vn.aptech.springboot.amazingtoy.model.order.Order;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
+import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.service.OrderDetailService;
 import vn.aptech.springboot.amazingtoy.service.OrderService;
+import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -29,6 +31,9 @@ public class CheckoutController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProductService productService;
 
     @RequestMapping(value = "checkout")
     public String viewCheckout(Model model,HttpSession session) {
@@ -61,12 +66,19 @@ public class CheckoutController {
         order.setAmount(count);
         orderService.save(order);
         for(Map.Entry<Long,Cart> entry: cartItems.entrySet()){
+
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
             orderDetail.setProduct(entry.getValue().getProduct());
             orderDetail.setPrice(entry.getValue().getProduct().getSavePrice());
             orderDetail.setQuantity(entry.getValue().getQuantity());
             orderDetail.setStatus(true);
+
+            Product product = productService.findPk(entry.getValue().getProduct().getId());
+            int quantityTotal = product.getStock() - entry.getValue().getQuantity();
+            product.setStock(quantityTotal);
+
+            productService.update(product);
             orderDetailService.save(orderDetail);
         }
         cartItems = new HashMap<>();
