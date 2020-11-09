@@ -13,8 +13,8 @@
             <div class="breadcrumb">
                 <ul class="d-flex align-items-center">
                     <li><a th:href="@{/}">Home</a></li>
-                    <li><a th:href="@{'/' + ${productDetail.getSubcategory().getCategory().getCategoryID()}}"><span th:utext="${productDetail.getSubcategory().getCategory().getName()}"></span></a></li>
-                    <li><a th:href="@{'/' + ${productDetail.getSubcategory().getSubcatId()}}"><span th:utext="${productDetail.getSubcategory().getSubName()}"></span></a></li>
+                    <li><a th:href="@{'/collection/' + ${productDetail.getSubcategory().getCategory().getSlug()}}"><span th:utext="${productDetail.getSubcategory().getCategory().getName()}"></span></a></li>
+                    <li><a th:href="@{'/collection/' + ${productDetail.getSubcategory().getCategory().getSlug() + '/' + productDetail.getSubcategory().getSlug()}}"><span th:utext="${productDetail.getSubcategory().getSubName()}"></span></a></li>
                     <li class="active"><a href="#"><span th:utext="${productDetail.getProductName()}"></span></a></li>
                 </ul>
             </div>
@@ -62,21 +62,27 @@
                         <ul class="price-table mb-30">
                             <li class="header">
                                 <h5 class="current">Current Price</h5>
-                                <h3 class="price" th:utext="${'$' + productDetail.getUnitPrice()}"></h3>
+                                <h3 class="price" th:utext="${'$' + productDetail.getBidDetail().getCurrentPrice()}"></h3>
                             </li>
                             <li>
                                 <span class="details">Bid Increment</span>
                                 <h5 class="info" th:utext="${'$' + productDetail.getBidDetail().getBidIncrement()}"></h5>
                             </li>
                         </ul>
-                        <div class="product-bid-area">
-                            <form class="product-bid-form">
+                        <div class="product-bid-area" sec:authorize="isAuthenticated()">
+                            <form class="product-bid-form" th:action="@{/auction/bid}" th:object="${bidAuctionRequest}" method="post">
                                 <div class="search-icon">
                                     <img th:src="@{/frontend/img/product/search-icon.png}" alt="search-icon">
                                 </div>
-                                <input type="text" placeholder="Enter you bid amount">
+                                <input type="number" th:field="*{bidAmout}" placeholder="Enter you bid amount">
+                                <span class="text-danger" th:if="${#fields.hasErrors('bidAmout')}" th:errors="*{bidAmout}"></span>
+                                <input type="hidden" th:field="*{id}">
                                 <button type="submit" class="custom-button">Submit a bid</button>
                             </form>
+                            <span class="text-danger" th:if="${bidAmoutError != null}" th:utext="${bidAmoutError}"></span>
+                        </div>
+                        <div class="product-bid-area" sec:authorize="!isAuthenticated()">
+                            <h4 class="text-danger">Please login to be able to bid amout! <a th:href="@{/login}">Sign in</a></h4>
                         </div>
                         <div class="buy-now-area">
                             <a href="#0" class="custom-button">Buy Now: <span th:utext="${'$' + productDetail.unitPrice}"></span></a>
@@ -111,15 +117,15 @@
                             <!-- Product Image End -->
                             <!-- Single Product End -->
                             <div class="side-counter-area">
-                                <div class="side-counter-item">
-                                    <div class="thumb">
-                                        <img th:src="@{/frontend/img/product/icon1.png}" alt="product">
-                                    </div>
-                                    <div class="content">
-                                        <h3 class="count-title"><span class="counter">61</span></h3>
-                                        <p>Active Bidders</p>
-                                    </div>
-                                </div>
+<!--                                <div class="side-counter-item">-->
+<!--                                    <div class="thumb">-->
+<!--                                        <img th:src="@{/frontend/img/product/icon1.png}" alt="product">-->
+<!--                                    </div>-->
+<!--                                    <div class="content">-->
+<!--                                        <h3 class="count-title"><span class="counter">61</span></h3>-->
+<!--                                        <p>Active Bidders</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="side-counter-item">
                                     <div class="thumb">
                                         <img th:src="@{/frontend/img/product/icon2.png}" alt="product">
@@ -134,7 +140,7 @@
                                         <img th:src="@{/frontend/img/product/icon3.png}" alt="product">
                                     </div>
                                     <div class="content">
-                                        <h3 class="count-title"><span class="counter">82</span></h3>
+                                        <h3 class="count-title"><span class="counter" th:utext="${productDetail.getBidDetail().getBidHistories().size()}"></span></h3>
                                         <p>Total Bids</p>
                                     </div>
                                 </div>
@@ -195,8 +201,7 @@
                                     <thead>
                                     <tr>
                                         <th>Bidder</th>
-                                        <th>date</th>
-                                        <th>time</th>
+                                        <th>Date Time</th>
                                         <th>unit price</th>
                                     </tr>
                                     </thead>
@@ -205,15 +210,14 @@
                                         <td data-history="bidder">
                                             <div class="user-info">
                                                 <div class="thumb">
-                                                    <img th:src="${'/backend/dist/img/profile-picture/' + ${bidHistory.getBidder().getProfilePicture()}}" th:alt="${bidHistory.getBidder().getProfilePicture()}">
+                                                    <img th:src="@{'/backend/dist/img/user-picture/' + ${bidHistory.getBidder().getProfilePicture()}}" th:alt="${bidHistory.getBidder().getProfilePicture()}">
                                                 </div>
-                                                <div class="content" th:utext="${${bidHistory.getBidder().getFullName()}}">
+                                                <div class="content" th:utext="${bidHistory.getBidder().getFullName()}">
 
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-history="date" th:utext="${bidHistory.getCreateAt().getDate()}"></td>
-                                        <td data-history="time" th:utext="${bidHistory.getCreateAt().getTime()}"></td>
+                                        <td data-history="date" th:utext="${bidHistory.getCreateAt()}"></td>
                                         <td data-history="unit price" th:utext="${bidHistory.getUnitPrice()}"></td>
                                     </tr>
                                     </tbody>

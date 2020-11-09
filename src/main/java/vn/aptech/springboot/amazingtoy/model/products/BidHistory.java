@@ -19,7 +19,7 @@ import javax.persistence.*;
 public class BidHistory extends BaseEntity {
 
     @OneToOne()
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "user_id")
     private User bidder;
 
     @ManyToOne

@@ -215,22 +215,27 @@
                     <div class="col-xl-9 col-lg-8 col-md-12 ">
                         <nav class="d-none d-lg-block">
                             <ul class="header-bottom-list d-flex">
-                                <li class="active"><a href="index.html">home</i></a></li>
-                                <li><a href="shop.html">shop<i class="fa fa-angle-down"></i></a>
+                                <li class="active"><a th:href="@{/}">home</i></a></li>
+                                <li><a th:href="@{/collections}">Categories<i class="fa fa-angle-down"></i></a>
                                     <!-- Home Version Dropdown Start -->
-                                    <ul class="ht-dropdown dropdown-style-two">
-                                        <li><a href="product.html">product details</a></li>
-                                        <li><a href="compare.html">compare</a></li>
-                                        <li><a href="cart.html">cart</a></li>
-                                        <li><a href="checkout.html">checkout</a></li>
-                                        <li><a href="wishlist.html">wishlist</a></li>
+                                    <ul class="ht-dropdown vertical-menu-list">
+                                        <li th:each="category: ${@getCategoryList}">
+                                            <a th:href="@{'/collection/' + ${category.getSlug()}}" th:utext="${category.getName()}"></a>
+                                            <ul class="ht-dropdown mega-child" style="left: 200px !important;">
+                                                <li th:each="subCategory : ${category.getSubcategories()}">
+                                                    <a th:href="@{'/collection/' + ${category.getSlug() + '/' + subCategory.getSlug()}}" th:utext="${subCategory.getSubName()}"></a>
+                                                </li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                     <!-- Home Version Dropdown End -->
                                 </li>
-                                <li><a href="blog.html">blog<i class="fa fa-angle-down"></i></a>
+                                <li><a th:href="@{/collections}">Collections<i class="fa fa-angle-down"></i></a>
                                     <!-- Home Version Dropdown Start -->
                                     <ul class="ht-dropdown dropdown-style-two">
-                                        <li><a href="single-blog.html">blog details</a></li>
+                                        <li><a th:href="@{/auction-products}">Auction Product</a></li>
+                                        <li><a th:href="@{/new-products}">New Product</a></li>
+                                        <li><a th:href="@{/best-seller}">Best Seller</a></li>
                                     </ul>
                                     <!-- Home Version Dropdown End -->
                                 </li>
