@@ -82,9 +82,12 @@ public class SubcategoryController {
     @RequestMapping(value = "/doUpdateSubcategory", method = RequestMethod.POST)
     public String doUpdate(Model model,
                            @ModelAttribute("subcategory") Subcategory subcategory) {
+        Subcategory subcategoryUpdate = subService.findPk(subcategory.getSubcatId());
         Category category = categoryService.findPk(subcategory.getCategory().getCategoryID());
-        subcategory.setCategory(category);
-        subService.update(subcategory);
+        subcategoryUpdate.setSubName(subcategory.getSubName());
+        subcategoryUpdate.setSlug(RandomStringUtil.makeSlug(subcategory.getSubName()));
+        subcategoryUpdate.setCategory(category);
+        subService.update(subcategoryUpdate);
         return "redirect:/admin/category";
 
     }
