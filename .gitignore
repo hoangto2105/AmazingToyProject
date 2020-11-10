@@ -32,3 +32,4 @@ db/data/*
 *.DS_Store
 
 /src/main/resources/static/
+/database

@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 
@@ -17,6 +18,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Setter
 @Entity
 @Table(name = "sub_categories")
+@Accessors(chain = true)
 public class Subcategory implements Serializable {
 
     private static final long serialVersionUID = 1L;

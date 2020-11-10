@@ -2,9 +2,15 @@ package vn.aptech.springboot.amazingtoy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import vn.aptech.springboot.amazingtoy.model.category.Category;
+import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.user.Address;
 import vn.aptech.springboot.amazingtoy.model.user.Role;
 import vn.aptech.springboot.amazingtoy.model.user.User;
+import vn.aptech.springboot.amazingtoy.repository.category.CategoryRepository;
+import vn.aptech.springboot.amazingtoy.repository.images.ImagesRepository;
+import vn.aptech.springboot.amazingtoy.repository.product.ProductRepository;
+import vn.aptech.springboot.amazingtoy.repository.subcategory.SubcategoryRepository;
 import vn.aptech.springboot.amazingtoy.repository.user.AddressRepository;
 import vn.aptech.springboot.amazingtoy.repository.user.RoleRepository;
 import vn.aptech.springboot.amazingtoy.repository.user.UserRepository;
@@ -12,9 +18,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -28,7 +37,13 @@ public class AmazingToyApplication {
     private PasswordEncoder passwordEncoder;
 
     @Bean
-    CommandLineRunner init(UserRepository userRepository, RoleRepository roleRepository, AddressRepository addressRepository) {
+    CommandLineRunner init(UserRepository userRepository,
+                           RoleRepository roleRepository,
+                           AddressRepository addressRepository,
+                           CategoryRepository categoryRepository,
+                           SubcategoryRepository subcategoryRepository,
+                           ProductRepository productRepository,
+                           ImagesRepository imagesRepository) {
 
         return args -> {
 
@@ -149,6 +164,94 @@ public class AmazingToyApplication {
                 userRepository.save(customer);
 
             }
+
+//            List<Category> categoryList = new ArrayList<>();
+//
+//            categoryList.add(new Category().setName("Airplane").setSlug(RandomStringUtil.makeSlug("Airplane")));
+//
+//            categoryList.add(new Category().setName("Car").setSlug(RandomStringUtil.makeSlug("Car")));
+//
+//            categoryList.add(new Category().setName("MotorBike").setSlug(RandomStringUtil.makeSlug("MotorBike")));
+//
+//            categoryList.add(new Category().setName("Truck").setSlug(RandomStringUtil.makeSlug("Truck")));
+//
+//            categoryRepository.saveAll(categoryList);
+//
+//            List<Subcategory> subcategories = new ArrayList<>();
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Boeing 747")
+//                    .setSlug("Boeing 747")
+//                    .setCategory(categoryRepository.findBySlug("airplane"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Mic 17")
+//                    .setSlug("Mic 17")
+//                    .setCategory(categoryRepository.findBySlug("airplane"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Airbus A320")
+//                    .setSlug("Airbus A320")
+//                    .setCategory(categoryRepository.findBySlug("airplane"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("BMW")
+//                    .setSlug("BMW")
+//                    .setCategory(categoryRepository.findBySlug("car"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Mercedes Benz")
+//                    .setSlug("Mercedes Benz")
+//                    .setCategory(categoryRepository.findBySlug("car"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Toyota")
+//                    .setSlug("Toyota")
+//                    .setCategory(categoryRepository.findBySlug("car"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Harley Davidson")
+//                    .setSlug("Harley Davidson")
+//                    .setCategory(categoryRepository.findBySlug("motorbike"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Ducati")
+//                    .setSlug("Ducati")
+//                    .setCategory(categoryRepository.findBySlug("motorbike"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Kawasaki")
+//                    .setSlug("Kawasaki")
+//                    .setCategory(categoryRepository.findBySlug("motorbike"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Iveco")
+//                    .setSlug("Iveco")
+//                    .setCategory(categoryRepository.findBySlug("truck"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Scania")
+//                    .setSlug("Scania")
+//                    .setCategory(categoryRepository.findBySlug("truck"))
+//            );
+//
+//            subcategories.add(new Subcategory()
+//                    .setSubName("Hyundai")
+//                    .setSlug("Hyundai")
+//                    .setCategory(categoryRepository.findBySlug("truck"))
+//            );
+//
+//            subcategoryRepository.saveAll(subcategories);
         };
     }
 }

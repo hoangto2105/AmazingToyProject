@@ -1,9 +1,12 @@
 package vn.aptech.springboot.amazingtoy.model.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 
@@ -18,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Setter
 @Entity
 @Table(name = "categories")
+@Accessors(chain = true)
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
