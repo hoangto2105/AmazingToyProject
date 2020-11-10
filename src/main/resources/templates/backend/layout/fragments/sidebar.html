@@ -140,6 +140,8 @@
 
                     </ul>
                 </li>
+
+
                 <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' menu-open' : ''}">
                     <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/user') ? ' active' : ''}">
                         <i class="nav-icon far fa-plus-square"></i>
@@ -186,7 +188,7 @@
                         <li class="nav-item">
                             <a th:href="@{/admin/user}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/order/index') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Blog Management</p>
+                                    <p>List all new Blogs</p>
                             </a>
                         </li>
                         <li class="nav-item">

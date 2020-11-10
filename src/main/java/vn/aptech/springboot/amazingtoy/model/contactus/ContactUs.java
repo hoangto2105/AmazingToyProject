@@ -29,7 +29,7 @@ public class ContactUs extends BaseEntity {
     private String subject;
 
     @Column(name="phone")
-    private int phone;
+    private String phone;
 
     @Column(name="message")
     private String message;
