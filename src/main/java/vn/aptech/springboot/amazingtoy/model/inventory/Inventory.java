@@ -15,6 +15,7 @@ import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -55,19 +56,7 @@ public class Inventory  {
 
     @Basic(optional = false)
     @Column(name = "purchase_date")
-    private Date purchaseDate;
-
-    public Inventory() {
-    }
-
-    public Inventory(Integer inventoryID, Integer startingInventory, Integer quantityReceived, Integer inventoryOnHand, Supplier supplier, Product product, Date purchaseDate) {
-        this.inventoryID = inventoryID;
-        this.startingInventory = startingInventory;
-        this.quantityReceived = quantityReceived;
-        this.inventoryOnHand = inventoryOnHand;
-        this.supplier = supplier;
-        this.product = product;
-        this.purchaseDate = purchaseDate;
-    }
+    @CreatedDate
+    private Timestamp purchaseDate = new Timestamp(System.currentTimeMillis());
 }
 
