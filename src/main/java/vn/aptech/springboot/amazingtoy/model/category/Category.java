@@ -10,6 +10,8 @@ import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -27,9 +29,13 @@ public class Category implements Serializable {
     @Column(name = "category_ID")
     private Integer categoryID;
 
+    @NotBlank
+    @Size(min=2)
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
+    @NotBlank
+    @Size(min=2)
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
