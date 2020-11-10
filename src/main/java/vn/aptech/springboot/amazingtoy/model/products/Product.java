@@ -59,6 +59,9 @@ public class Product extends BaseEntity {
     @Column(name = "hot")
     private int hot;
 
+    @Transient
+    private int quantityInventory;
+
     @OneToOne()
     @JoinColumn(name = "bid_detail_id")
     public BidDetail bidDetail;
