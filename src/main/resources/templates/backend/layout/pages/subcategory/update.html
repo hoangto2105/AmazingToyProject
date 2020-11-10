@@ -52,7 +52,9 @@
 
                                 <div>
                                     <label >Categorie Name</label>
-                                    <input  class="form-control" th:field="*{catId.name}" readonly="true" />
+                                    <select th:field="*{category.categoryID}">
+                                        <option th:each="cat : ${categories}" th:value="${cat.getCategoryID()}" th:utext="${cat.getName()}"></option>
+                                    </select>
 
                                 </div>
 
@@ -60,7 +62,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <input type="hidden" th:value="${subcategory.catId}" th:field="*{catId}">
+                                <input type="hidden" th:field="*{subcatId}">
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
