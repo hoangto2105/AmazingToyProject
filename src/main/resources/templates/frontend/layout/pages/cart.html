@@ -12,8 +12,8 @@
             <div class="container">
                 <div class="breadcrumb">
                     <ul class="d-flex align-items-center">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active"><a href="cart.html">Cart</a></li>
+                        <li><a th:href="@{/}">Home</a></li>
+                        <li class="active"><a th:href="@{/cart}">Cart</a></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                             <div class="table-content table-responsive mb-45">
                                 <table>
                                     <thead>
-                                    <tr>
+                                    <tr style="background: black; color: white;">
                                         <th class="product-thumbnail">Image</th>
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
@@ -50,7 +50,7 @@
                                             <form th:action="@{/cart/update}" method="post">
                                                 <input type="hidden" th:value="${map.product.id}" name="id">
                                                 <input type="number" min="1" th:value="${map.quantity}" name="qty">
-                                                <button type="submit" id="updateQuantity">Update</button>
+                                                <button class="btn btn-primary" type="submit">Update</button>
                                             </form>
                                         </td>
                                         <td class="product-subtotal" th:text="${map.subTotal}"></td>
