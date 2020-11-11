@@ -16,7 +16,6 @@ import javax.persistence.*;
 @Accessors
 @Entity
 @Table(name="contactUs")
-
 public class ContactUs extends BaseEntity {
 
     @Column(name="name")
