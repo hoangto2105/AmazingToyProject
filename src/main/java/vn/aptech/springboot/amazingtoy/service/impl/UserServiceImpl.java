@@ -219,6 +219,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     private RuntimeException exception(EntityType entityType, ExceptionType exceptionType, String... args) {
         return ApplicationException.throwException(entityType, exceptionType, args);
     }
