@@ -27,6 +27,17 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String viewDashboard(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findByEmail(authentication.getName());
+
+        model.addAttribute("currentUser", userDto);
+        return "frontend/layout/pages/account/dashboard/dashboard";
+
+    }
+
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(Model model) {
 
