@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.model.cart.Cart;
+import vn.aptech.springboot.amazingtoy.model.cart.CartManager;
 import vn.aptech.springboot.amazingtoy.model.order.Order;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
@@ -19,13 +20,15 @@ import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class CheckoutController {
     @Autowired
+    private CartManager cartManager;
+
+    @Autowired
     private OrderService orderService;
+
     @Autowired
     private OrderDetailService orderDetailService;
 
@@ -35,14 +38,8 @@ public class CheckoutController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "checkout")
-    public String viewCheckout(Model model,HttpSession session) {
-        HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
-        if (cartItems == null) {
-            cartItems = new HashMap<>();
-        }
-        session.setAttribute("myCartItems", cartItems);
-
+    @RequestMapping(value = "/checkout")
+    public String viewCheckout(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         if(email!= "anonymousUser") {
@@ -54,38 +51,25 @@ public class CheckoutController {
     }
     @RequestMapping(value = "/doCheckout", method = RequestMethod.POST)
     public String doCheckout(HttpSession session,@ModelAttribute("order") Order order) {
-        HashMap<Long, Cart> cartItems = (HashMap<Long, Cart>) session.getAttribute("myCartItems");
-        if (cartItems == null) {
-            cartItems = new HashMap<>();
-        }
+        Cart cart = cartManager.getCart(session);
         order.setStatus(true);
-        int count = 0;
-        for(Map.Entry<Long,Cart> list: cartItems.entrySet()){
-            count += list.getValue().getProduct().getSavePrice()*list.getValue().getQuantity();
-        }
-        order.setAmount(count);
+        order.setAmount(cart.getTotal());
         orderService.save(order);
-        for(Map.Entry<Long,Cart> entry: cartItems.entrySet()){
-
+        for(int i=0; i<cart.getItems().size(); i++){
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
-            orderDetail.setProduct(entry.getValue().getProduct());
-            orderDetail.setPrice(entry.getValue().getProduct().getSavePrice());
-            orderDetail.setQuantity(entry.getValue().getQuantity());
+            orderDetail.setProduct(cart.getItems().get(i).getProduct());
+            orderDetail.setPrice(cart.getItems().get(i).getProduct().getSavePrice());
+            orderDetail.setQuantity(cart.getItems().get(i).getQuantity());
             orderDetail.setStatus(true);
 
-            Product product = productService.findPk(entry.getValue().getProduct().getId());
-            int quantityTotal = product.getStock() - entry.getValue().getQuantity();
+            Product product = productService.findPk(cart.getItems().get(i).getProduct().getId());
+            int quantityTotal = product.getStock() - cart.getItems().get(i).getQuantity();
             product.setStock(quantityTotal);
-
             productService.update(product);
             orderDetailService.save(orderDetail);
         }
-        cartItems = new HashMap<>();
-        session.setAttribute("myCartItems", cartItems);
-        session.setAttribute("myCartTotal", 0);
-        session.setAttribute("myCartNum", 0);
+        cartManager.removeCart(session);
         return "frontend/layout/pages/success";
-
     }
 }

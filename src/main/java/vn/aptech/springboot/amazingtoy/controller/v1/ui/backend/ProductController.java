@@ -70,6 +70,8 @@ public class ProductController {
         model.addAttribute("product", product);
         return "backend/layout/pages/image/index";
     }
+
+
     @RequestMapping(value = "/doDefaultImage/{idImage}", method = RequestMethod.GET)
     public String doDefaultImage(@PathVariable("idImage") String id){
         Optional<Image> image = imageService.findPk(Integer.parseInt(id));
@@ -188,7 +190,7 @@ public class ProductController {
     }
 
 
-    //UPDATE - GET
+    //UPDATE PRODUCT - GET
     @RequestMapping(value = "/edit/{productId}")
     public String edit(Model model, @PathVariable("productId") Long productId) {
         Product product = productService.findPk(productId);
@@ -220,6 +222,46 @@ public class ProductController {
         return "backend/layout/pages/product/update";
     }
 
+
+    //UPDATE IMAGE PRODUCT - GET
+    @RequestMapping(value = "/editImage/{imageId}", method = RequestMethod.GET)
+    public String editImage(Model model, @PathVariable("imageId") int id){
+        Optional<Image> image = imageService.findPk(id);
+        if (image.isPresent()) {
+
+            model.addAttribute("image", image.get());
+        }
+        return "backend/layout/pages/image/edit";
+    }
+
+    //UPDATE IMAGE PRODUCT - POST
+
+    @RequestMapping(value = "/doUpdateImage", method = RequestMethod.POST)
+    public String updateImage(@Valid @ModelAttribute("image") Image imageUpdate, @RequestParam("filePicture") MultipartFile multipartFile, RedirectAttributes redirectAttributes) throws IOException {
+
+        Optional<Image> imageOrigin = imageService.findPk(imageUpdate.getImageId());
+
+        if (imageOrigin.isPresent()) {
+            String pictureOrigin =  imageOrigin.get().getName();
+
+            String uniqueFileName = FileUtil.UploadedFile(multipartFile, PRODUCTS_IMAGE_PATH);
+
+            imageOrigin.get().setDescription(imageUpdate.getDescription());
+            imageOrigin.get().setName(uniqueFileName);
+
+            imageService.saveImage(imageOrigin.get());
+            FileUtil.DeletedFile(PRODUCTS_IMAGE_PATH, pictureOrigin);
+
+
+            redirectAttributes.addFlashAttribute("success", "Update image with id " + imageOrigin.get().getImageId() + " successfully");
+            return "redirect:/admin/product/imageList/" + imageOrigin.get().getProduct().getId().toString();
+        }
+
+
+        redirectAttributes.addFlashAttribute("error", "Image not found with id " + imageUpdate.getImageId() + ". Please check id again!");
+        return "redirect:/admin/product/imageList/" + imageUpdate.getProduct().getId().toString();
+    }
+
     //UPDATE - POST
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -243,5 +285,25 @@ public class ProductController {
         return "redirect:/admin/product";
     }
 
+    //DELETE IMAGE
+    @RequestMapping(value = "/deleteImage/{imageId}/product/{productId}", method = RequestMethod.GET)
+    public String deleteImage(RedirectAttributes redirectAttributes, @PathVariable("imageId") int idDelete, @PathVariable("productId") Long productId) {
+
+        Optional<Image> image = imageService.findPk(idDelete);
+
+
+        if (image.get().isMainImage()) {
+            redirectAttributes.addFlashAttribute("error", "Default is not allow to be deleted!");
+            return "redirect:/admin/product/imageList/" + productId.toString();
+        }
+
+        imageService.delete(image.get());
+
+        redirectAttributes.addFlashAttribute("success", "Deleted successfully");
+
+        return "redirect:/admin/product/imageList/" + productId.toString();
+    }
 }
+
+
 

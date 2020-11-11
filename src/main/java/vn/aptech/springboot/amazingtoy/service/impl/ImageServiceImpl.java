@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.aptech.springboot.amazingtoy.model.images.Image;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
+import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.repository.images.ImagesRepository;
 import vn.aptech.springboot.amazingtoy.service.ImageService;
 
@@ -42,7 +43,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void delete(int id) {
-
+    public void delete(Image image) {
+        imgRepository.delete(image);
     }
 }

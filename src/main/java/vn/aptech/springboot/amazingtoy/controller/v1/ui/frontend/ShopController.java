@@ -61,6 +61,5 @@ public class ShopController {
         review.setProduct(product);
         reviewService.create(review);
         return "redirect:/productDetail/" + product.getId();
-
     }
 }
