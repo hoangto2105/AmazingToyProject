@@ -50,7 +50,7 @@
                                             <form th:action="@{/cart/update}" method="post">
                                                 <input type="hidden" th:value="${map.product.id}" name="id">
                                                 <input type="number" min="1" th:value="${map.quantity}" name="qty">
-                                                <button type="submit">Update</button>
+                                                <button type="submit" id="updateQuantity">Update</button>
                                             </form>
                                         </td>
                                         <td class="product-subtotal" th:text="${map.subTotal}"></td>
@@ -113,5 +113,13 @@
         </div>
         <!-- Cart Main Area End -->
     </div>
+<script layout:fragment="scripts">
+    $(document).ready(function(){
+        $('.qty').on('change keyup', function() {
+            console.log('nice');
+        });
+    });
+</script>
+
 </body>
 </html>
