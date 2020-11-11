@@ -84,6 +84,12 @@
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Create New Invoice Detail</p>
                             </a>
+
+
+                            <a th:href="@{/admin/inventory/reportInvoice}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/inventory/reportInvoice') ? ' active' : ''}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Weekly Invoice Report</p>
+                            </a>
                         </li>
 
                     </ul>
