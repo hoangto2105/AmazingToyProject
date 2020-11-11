@@ -14,17 +14,22 @@ import vn.aptech.springboot.amazingtoy.model.cart.CartManager;
 import vn.aptech.springboot.amazingtoy.model.order.Order;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
+import vn.aptech.springboot.amazingtoy.repository.order.OrderRepository;
 import vn.aptech.springboot.amazingtoy.service.OrderDetailService;
 import vn.aptech.springboot.amazingtoy.service.OrderService;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class CheckoutController {
     @Autowired
     private CartManager cartManager;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private OrderService orderService;
@@ -50,7 +55,7 @@ public class CheckoutController {
         return "frontend/layout/pages/checkout";
     }
     @RequestMapping(value = "/doCheckout", method = RequestMethod.POST)
-    public String doCheckout(HttpSession session,@ModelAttribute("order") Order order) {
+    public String doCheckout(Model model,HttpSession session,@ModelAttribute("order") Order order) {
         Cart cart = cartManager.getCart(session);
         order.setStatus(true);
         order.setAmount(cart.getTotal());
@@ -70,6 +75,7 @@ public class CheckoutController {
             orderDetailService.save(orderDetail);
         }
         cartManager.removeCart(session);
+        model.addAttribute("orderTest", orderRepository.getNextId());
         return "frontend/layout/pages/success";
     }
 }

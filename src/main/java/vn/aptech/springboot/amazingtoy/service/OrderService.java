@@ -10,4 +10,5 @@ public interface OrderService {
     Order save(Order order);
     void deleteOrder(Long id);
     Optional<Order> findOrderById(Long id);
+//    List<Order> findOrderedByIdLimitedTo(int limit);
 }
