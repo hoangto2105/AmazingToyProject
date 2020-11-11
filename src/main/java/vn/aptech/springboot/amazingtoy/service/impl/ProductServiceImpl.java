@@ -79,4 +79,20 @@ public class ProductServiceImpl implements ProductService {
     public BidHistory storeBidHistory(BidHistory bidHistory) {
         return bidHistoryRepository.save(bidHistory);
     }
+
+    @Override
+    public List<Product> findProductBySearch(String name) {
+        return productRepository.productSearchList(name);
+    }
+
+    @Override
+    public List<Product> filterProductByPrice(Integer from, Integer to) {
+        return productRepository.filterProductByPrice(from, to);
+    }
+
+    @Override
+    public List<Product> searchProductBySubCategory(Long subCategoryId, String searchProductName) {
+        List<Product> products =  productRepository.searchProductBySubCategory(subCategoryId, searchProductName);
+        return products;
+    }
 }
