@@ -34,22 +34,6 @@
     </div>
     <!-- Categorie Menu & Slider Area End Here -->
 
-    <div class="big-banner pb-50 pb-sm-60">
-        <div class="container big-banner-box">
-            <div class="col-img">
-                <a href="#">
-                    <img th:src="@{/frontend/img/banner/banner.png}" alt="">
-                </a>
-            </div>
-            <div class="col-img">
-                <a href="#">
-                    <img th:src="@{/frontend/img/banner/banner.png}" alt="">
-                </a>
-            </div>
-        </div>
-        <!-- Container End -->
-    </div>
-
     <!-- Hot Deal Products Start Here -->
     <div class="hot-deal-products off-white-bg pb-50 pb-sm-50">
         <div class="container">
@@ -122,15 +106,6 @@
     </div>
     <!-- Hot Deal Products End Here -->
 
-    <!-- Big Banner Start Here -->
-    <div class="container">
-        <div class="message-box">
-            <div class="message-box-inner">
-                <h2>Freeship for order over 500$</h2>
-            </div>
-        </div>
-    </div>
-    <!-- Big Banner End Here -->
     <!-- Arrivals Products Area Start Here -->
     <div class="arrivals-product pb-85 pb-sm-45 mt-100">
         <div class="container">
@@ -158,10 +133,9 @@
                                 <!-- Product Image Start -->
                                 <div class="pro-img">
                                     <a th:href="@{'/product/' + ${productArrival.getSlug()}}">
-                                        <img th:each="image : ${productArrival.getImagesCollection()}" th:if="${image.mainImage} == true" class="primary-img" width="268px" height="268px" th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}">
-                                        <img class="secondary-img" th:src="@{'/backend/dist/img/products/' + ${productArrival.imagesCollection[1].getName()}}" width="268px" height="268px" th:alt="${productArrival.imagesCollection[1].getName()}">
+                                        <img style="height: 382px; width: auto" th:each="image : ${productArrival.getImagesCollection()}" th:if="${image.mainImage} == true" class="primary-img" th:src="@{'/backend/dist/img/products/' + ${image.getName()}}" th:alt="${image.getName()}">
+                                        <img style="height: 382px; width: auto" class="secondary-img" th:src="@{'/backend/dist/img/products/' + ${productArrival.imagesCollection[1].getName()}}" th:alt="${productArrival.imagesCollection[1].getName()}">
                                     </a>
-                                    <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                                 </div>
                                 <!-- Product Image End -->
                                 <!-- Product Content Start -->
@@ -177,7 +151,6 @@
                                             <a th:href="@{'/cart/add/' + ${productArrival.getId()}}" title="Add to Cart"> + Add To Cart</a>
                                         </div>
                                         <div class="actions-secondary">
-                                            <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
                                             <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
                                         </div>
                                     </div>
@@ -958,7 +931,6 @@
                                         <img class="primary-img" th:src="@{/frontend/img/products/2.jpg}" alt="single-product">
                                         <img class="secondary-img" th:src="@{/frontend/img/products/2.jpg}" alt="single-product">
                                     </a>
-                                    <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                                 </div>
                                 <!-- Product Image End -->
                                 <!-- Product Content Start -->
@@ -1814,7 +1786,7 @@
     <div class="main-brand-banner pt-95 pb-100 pt-sm-55 pb-sm-60">
         <div class="container">
             <div class="section-ttitle mb-20">
-                <h2>Producer</h2>
+                <h2>Supplier</h2>
             </div>
             <!-- Brand Banner Start -->
             <div class="brand-banner owl-carousel">
