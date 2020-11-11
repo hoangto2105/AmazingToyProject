@@ -53,7 +53,7 @@
                 <div class="header-top">
                     <ul>
                         <li><a href="#">Free Shipping on order over $99</a></li>
-                        <li><a th:href="@{/cart}">Shopping Cart</a></li>
+                        <li><a th:href="@{/searchOrder}">View Your Order</a></li>
                         <li><a th:href="@{/wishlist}">My WishList</a></li>
                     </ul>
                     <ul>
@@ -152,36 +152,49 @@
                     <!-- Categorie Search Box End Here -->
                     <!-- Cart Box Start Here -->
                     <div class="col-lg-4 col-md-12">
-                        <div class="cart-box mt-all-30">
+                            <div class="cart-box mt-all-30">
                             <ul class="d-flex justify-content-lg-end justify-content-center align-items-center">
-                                <li><a th:href="@{/cart}"><i class="lnr lnr-cart"></i><span class="my-cart"><span class="total-pro"><th:block th:text="${session.myCartNum}"></th:block></span><span>cart</span></span></a>
+                                <li th:if="${session.gioHang != null}"><a th:href="@{/cart}"><i class="lnr lnr-cart"></i><span class="my-cart"><span class="total-pro"><th:block th:text="${session.gioHang.itemCount}"></th:block></span><span>cart</span></span></a>
                                     <ul class="ht-dropdown cart-box-width">
                                         <li>
                                             <!-- Cart Box Start -->
-                                            <div class="single-cart-box" th:each="map : ${session.myCartItems}">
-                                                <div class="cart-img">
-                                                    <a th:href="@{'/productDetail/' + ${map.value.product.id}}"><img th:each="image: ${map.value.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image"></a>
-                                                    <span class="pro-quantity" th:text="${map.value.quantity} + 'X'"></span>
-                                                </div>
-                                                <div class="cart-content">
-                                                    <h6><a th:href="@{'/productDetail/' + ${map.value.product.id}}" th:text="${map.value.product.productName}"></a></h6>
-                                                    <div style="display: flex; align-items: center";>
-                                                        <span th:text="${map.value.product.getSavePrice()}+' X '+ ${map.value.quantity} + ' = '"></span>
-                                                        <span class="cart-price" th:text="${map.value.product.getSavePrice()}*${map.value.quantity}"></span>
+                                            <div class="single-cart-box" th:each="map : ${session.gioHang.items}">
+                                                    <div class="cart-img">
+                                                        <a th:href="@{'/productDetail/' + ${map.product.id}}"><img th:each="image: ${map.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image"></a>
+                                                        <span class="pro-quantity" th:text="${map.quantity} + 'X'"></span>
+                                                    </div>
+                                                    <div class="cart-content">
+                                                        <h6><a th:href="@{'/productDetail/' + ${map.product.id}}" th:text="${map.product.productName}"></a></h6>
+                                                        <div style="display: flex; align-items: center";>
+                                                            <span th:text="${map.product.getSavePrice()}+' X '+ ${map.quantity} + ' = '"></span>
+                                                            <span class="cart-price" th:text="${map.subTotal}"></span>
+                                                        </div>
                                                     </div>
 
-
-                                                </div>
-                                                <a class="del-icone" th:href="@{'/cart/remove/'+${map.value.product.id}}"><i class="ion-close"></i></a>
+                                                <a class="del-icone" th:href="@{'/cart/remove/'+${map.product.id}}"><i class="ion-close"></i></a>
                                             </div>
+
                                             <!-- Cart Box End -->
                                             <!-- Cart Footer Inner Start -->
                                             <div class="cart-footer">
                                                 <ul class="price-content">
-                                                    <li>Total <span th:text="${session.myCartTotal}"></span></li>
+                                                    <li>Total <span th:text="${session.gioHang.total}"></span></li>
                                                 </ul>
                                                 <div class="cart-actions text-center">
                                                     <a class="cart-checkout" th:href="@{/checkout}">Checkout</a>
+                                                </div>
+                                            </div>
+                                            <!-- Cart Footer Inner End -->
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li th:unless="${session.gioHang != null}"><a th:href="@{/cart}"><i class="lnr lnr-cart"></i><span class="my-cart"><span class="total-pro">0</span><span>cart</span></span></a>
+                                    <ul class="ht-dropdown cart-box-width">
+                                        <li>
+                                            <!-- Cart Footer Inner Start -->
+                                            <div class="cart-footer">
+                                                <div class="cart-actions text-center">
+                                                    <p class="cart-checkout">No items cart</p>
                                                 </div>
                                             </div>
                                             <!-- Cart Footer Inner End -->
@@ -196,6 +209,7 @@
 
                                 </li>
                             </ul>
+                        </div>
                         </div>
                     </div>
                     <!-- Cart Box End Here -->

@@ -30,10 +30,9 @@
                     <div class="col-md-12">
                         <div class="coupon-accordion" sec:authorize="!isAuthenticated()">
                             <!-- ACCORDION START -->
-                            <h3>Returning customer? <span id="showlogin">Click here to login</span></h3>
+                            <h3>You have an account? <span id="showlogin">Click here to login</span></h3>
                             <div id="checkout-login" class="coupon-content">
                                 <div class="coupon-info">
-                                    <p class="coupon-text">Please login to be able to checkout.</p>
                                     <form action="#" th:action="@{/login}" method="post">
                                         <p class="form-row-first">
                                             <label>Username or email <span class="required">*</span></label>
@@ -45,13 +44,6 @@
                                         </p>
                                         <p class="form-row">
                                             <input type="submit" value="Login">
-                                            <label>
-                                                <input type="checkbox" name="remember-me" id="remember-me">
-                                                Remember me
-                                            </label>
-                                        </p>
-                                        <p class="lost-password">
-                                            <a href="#">Lost your password?</a>
                                         </p>
                                     </form>
                                 </div>
@@ -250,14 +242,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="cart_item" th:each="map: ${session.myCartItems}">
+                                    <tr class="cart_item" th:each="map: ${session.gioHang.items}">
                                         <td class="product-image">
-                                            <img width="70" height="70" th:each="image: ${map.value.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image">
+                                            <img width="70" height="70" th:each="image: ${map.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image">
                                         </td>
-                                        <td class="product-name" th:text="${map.value.product.productName}"></td>
-                                        <td class="product-quantity" th:text="'X ' + ${map.value.quantity}"></td>
+                                        <td class="product-name" th:text="${map.product.productName}"></td>
+                                        <td class="product-quantity" th:text="'X ' + ${map.quantity}"></td>
                                         <td class="product-total">
-                                            <span class="amount" th:text="${map.value.product.savePrice} * ${map.value.quantity}"></span>
+                                            <span class="amount" th:text="${map.subTotal}"></span>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -266,19 +258,19 @@
                                         <th></th>
                                         <th></th>
                                         <th>Cart Subtotal</th>
-                                        <td><span class="amount" th:text="${session.myCartTotal}"></span></td>
+                                        <td><span class="amount" th:text="${session.gioHang.total}"></span></td>
                                     </tr>
                                     <tr class="cart-subtotal">
                                         <th></th>
                                         <th></th>
                                         <th>Price Ship</th>
-                                        <td><span class="amount" th:text="${session.myCartTotal} * 0.1"></span></td>
+                                        <td><span class="amount" th:text="${session.gioHang.total} * 0.1"></span></td>
                                     </tr>
                                     <tr class="order-total">
                                         <th></th>
                                         <th></th>
                                         <th>Order Total</th>
-                                        <td><span class=" total amount" th:text="${session.myCartTotal+(session.myCartTotal * 0.1)}"></span>
+                                        <td><span class=" total amount" th:text="${session.gioHang.total+(session.gioHang.total * 0.1)}"></span>
                                         </td>
                                     </tr>
                                     </tfoot>
