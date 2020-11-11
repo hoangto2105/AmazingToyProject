@@ -16,4 +16,7 @@ public interface ProductService {
     void delete(Long id);
     Product bidAuction(Product product);
     BidHistory storeBidHistory(BidHistory bidHistory);
+    List<Product> findProductBySearch(String name);
+    List<Product> filterProductByPrice(Integer from, Integer to);
+    List<Product> searchProductBySubCategory(Long subCategoryId, String searchProductName);
 }

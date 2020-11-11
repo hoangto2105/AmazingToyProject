@@ -49,9 +49,10 @@
                         <!-- Price Filter Options Start -->
                         <div class="search-filter mb-40">
                             <h3 class="sidebar-title">filter by price</h3>
-                            <form action="#" class="sidbar-style">
-                                <div id="slider-range"></div>
-                                <input type="text" id="amount" class="amount-range" readonly="">
+                            <form action="#" th:action="@{/collections/}" class="sidbar-style" method="get">
+                                    min :<input type="number" id="from" name="from" value="0" style="margin-right: 10px; width: 60px"/>
+                                max :<input type="number" id="to" name="to" value="0" style="width:60px" />
+                                <input type="submit" value="Filter" />
                             </form>
                         </div>
                         <!-- Price Filter Options End -->
@@ -384,9 +385,12 @@
                                             <div class="pro-content">
                                                 <div class="pro-info">
                                                     <h4><a th:href="@{'/product/' + ${product.getSlug()}}" th:utext="${product.getProductName()}"></a></h4>
-                                                    <p>
-                                                        <span class="price" th:if="${product.getSavePrice() == 0}" th:utext="${'$' + product.unitPrice}"></span>
-                                                        <span class="price" th:unless="${product.getSavePrice() == 0}" th:utext="${'$' + product.savePrice}"></span>
+                                                    <p th:if="${product.getSavePrice() == 0}">
+                                                        <span class="price" th:utext="${'$' + product.unitPrice}"></span>
+                                                    </p>
+                                                    <p th:unless="${product.getSavePrice() == 0}">
+                                                        <span class="price" th:utext="${'$' + product.getSavePrice()}"></span>
+                                                        <del class="prev-price" th:utext="${'$' + product.unitPrice}"></del>
                                                     </p>
                                                     <div class="label-product l_sale" th:if="${product.getSavePrice() > 0}"><span th:utext="${product.getSavePrice() * 100 / product.getUnitPrice()}"></span><span class="symbol-percent">%</span></div>
                                                 </div>
