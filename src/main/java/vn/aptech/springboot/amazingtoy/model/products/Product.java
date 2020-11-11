@@ -14,6 +14,7 @@ import vn.aptech.springboot.amazingtoy.model.review.Review;
 import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.user.Address;
 import vn.aptech.springboot.amazingtoy.model.user.BaseEntity;
+import vn.aptech.springboot.amazingtoy.model.wishlist.Wishlist;
 
 import java.util.Collection;
 
@@ -71,6 +72,12 @@ public class Product extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Subcategory subcategory;
+
+    @ManyToOne
+    @JoinColumn(name = "wishlist_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Wishlist wishlist;
 
 
     @Column(name = "inventory_shipped")

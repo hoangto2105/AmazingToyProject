@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import vn.aptech.springboot.amazingtoy.model.blog.Blog;
 import vn.aptech.springboot.amazingtoy.model.order.Order;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
+import vn.aptech.springboot.amazingtoy.model.wishlist.Wishlist;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -65,6 +66,11 @@ public class User extends BaseEntity {
     )
     private Set<Role> roles;
 
+    @OneToOne
+    @JoinColumn(name = "id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Wishlist wishlist;
 
     public User() {
     }
