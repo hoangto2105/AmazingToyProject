@@ -12,6 +12,7 @@ public interface ProductService {
 
     Page<Product> findAllByPaging(Pageable pageable);
     List<Product> findAllPro();
+    List<Product> findAllBySalePrice();
     Product create(Product pro);
     Product update(Product pro);
     Product findPk(Long id);

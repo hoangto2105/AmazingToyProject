@@ -73,13 +73,6 @@ public class Product extends BaseEntity {
     @ToString.Exclude
     private Subcategory subcategory;
 
-    @ManyToOne
-    @JoinColumn(name = "wishlist_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Wishlist wishlist;
-
-
     @Column(name = "inventory_shipped")
     private Integer inventoryShipped;
 

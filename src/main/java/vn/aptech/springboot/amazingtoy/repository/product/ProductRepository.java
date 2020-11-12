@@ -36,6 +36,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select * from products p order by p.save_price asc", nativeQuery = true)
     Page<Product> sortProductByMuchDiscount(Pageable pageable);
 
+    @Query(value = "select * from products p where p.save_price", nativeQuery = true)
+    List<Product> findAllBySalePrice();
+
 
 
 

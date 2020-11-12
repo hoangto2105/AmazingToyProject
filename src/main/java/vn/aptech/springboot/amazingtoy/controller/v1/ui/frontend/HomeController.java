@@ -39,6 +39,7 @@ public class HomeController {
     public String index(Model model) {
         List<Product> productAuctionList = new ArrayList<>();
         List<Product> productArrivals = new ArrayList<>();
+        List<Product> productSalesPrice = productService.findAllBySalePrice();
         List<Category> categories = categoryService.findAllCat();
         SearchProductRequest searchProductRequest = new SearchProductRequest();
 
@@ -60,6 +61,7 @@ public class HomeController {
             }
         }
 
+        model.addAttribute("productSalesPrice", productSalesPrice);
         model.addAttribute("searchProductRequest", searchProductRequest);
         model.addAttribute("productArrivals", productArrivals);
         model.addAttribute("productAuctionList", productAuctionList);
@@ -74,30 +76,30 @@ public class HomeController {
         return modelAndView;
     }
 
-//    @RequestMapping(value = "/search", method = RequestMethod.GET)
-//    public String productSearch(Model model, @RequestParam("query") String name, @RequestParam("poscats") Long subCategoryId) {
-//
-//        List<Product> products;
-//        String productName = name.trim().toLowerCase();
-//
-//        if (subCategoryId > 0) {
-//            products = productService.searchProductBySubCategory(subCategoryId, productName);
-//        } else {
-//            products = productService.findProductBySearch(productName);
-//        }
-//
-//        model.addAttribute("products", products);
-//        return "frontend/layout/pages/productCollections";
-//    }
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String productSearch(Model model, @RequestParam("query") String name, @RequestParam("poscats") Long subCategoryId) {
 
-//    @RequestMapping(value = "/collections/", method = RequestMethod.GET)
-//    public String productFilterByPrice(Model model, @RequestParam("from") Integer fromPrice,
-//                                       @RequestParam("to") Integer toPrice) {
-//
-//        List<Product> products = productService.filterProductByPrice(fromPrice, toPrice);
-//
-//        model.addAttribute("products", products);
-//        return "frontend/layout/pages/productCollections";
-//    }
+        List<Product> products;
+        String productName = name.trim().toLowerCase();
+
+        if (subCategoryId > 0) {
+            products = productService.searchProductBySubCategory(subCategoryId, productName);
+        } else {
+            products = productService.findProductBySearch(productName);
+        }
+
+        model.addAttribute("products", products);
+        return "frontend/layout/pages/productCollections";
+    }
+
+    @RequestMapping(value = "/collections/", method = RequestMethod.GET)
+    public String productFilterByPrice(Model model, @RequestParam("from") Integer fromPrice,
+                                       @RequestParam("to") Integer toPrice) {
+
+        List<Product> products = productService.filterProductByPrice(fromPrice, toPrice);
+
+        model.addAttribute("products", products);
+        return "frontend/layout/pages/productCollections";
+    }
 
 }
