@@ -56,6 +56,7 @@ public class CheckoutController {
     }
     @RequestMapping(value = "/doCheckout", method = RequestMethod.POST)
     public String doCheckout(Model model,HttpSession session,@ModelAttribute("order") Order order) {
+
         Cart cart = cartManager.getCart(session);
         order.setStatus(true);
         order.setAmount(cart.getTotal());

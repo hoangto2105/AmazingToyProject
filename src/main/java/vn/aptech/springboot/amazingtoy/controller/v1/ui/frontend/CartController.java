@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.aptech.springboot.amazingtoy.model.cart.Cart;
 import vn.aptech.springboot.amazingtoy.model.cart.CartManager;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
@@ -28,16 +29,25 @@ public class CartController {
     }
 
     @RequestMapping(value = "/add/{id}", method = RequestMethod.GET) // them san pham vao gio hang
-    public String add(HttpSession session, @PathVariable("id") Long id, @RequestParam(value = "qty", required = false, defaultValue = "1") int qty){
+    public String add(HttpSession session, @PathVariable("id") Long id, @RequestParam(value = "qty", required = false, defaultValue = "1") int qty, RedirectAttributes redirectAttributes){
         Product product = productService.findPk(id); // lay ve san pham
+
+        if (product.getStock() < qty) {
+            redirectAttributes.addFlashAttribute("outofstock", "Quantity can not be greater than the stock!");
+            return "redirect:/product/" + product.getSlug();
+        }
         Cart cart = cartManager.getCart(session); //lay ve gio hang
         cart.addItem(product,qty); // them san pham vao gio hang
         return "frontend/layout/pages/cart";
     }
 
     @RequestMapping(value = "/addMulti", method = RequestMethod.POST) // them nhieu san pham vao gio hang
-    public String addMultiQuantity(HttpSession session, @RequestParam("id") Long id, @RequestParam(value = "qty") int qty){
+    public String addMultiQuantity(HttpSession session, @RequestParam("id") Long id, @RequestParam(value = "qty") int qty, RedirectAttributes redirectAttributes){
         Product product = productService.findPk(id); // lay ve san pham
+        if (product.getStock() < qty) {
+            redirectAttributes.addFlashAttribute("outofstock", "Quantity can not be greater than the stock!");
+            return "redirect:/product/" + product.getSlug();
+        }
         Cart cart = cartManager.getCart(session); //lay ve gio hang
         cart.addItem(product,qty); // them san pham vao gio hang
         return "frontend/layout/pages/cart";

@@ -7,10 +7,11 @@ import java.util.List;
 
 public interface WishlistService {
 
-    List<Wishlist> findAllWishlist();
+    List<Wishlist> findAllByUser(Long userId);
     Wishlist create(Wishlist wishlist);
     void update(Wishlist wishlist);
     Wishlist findPk(Long id);
+    Wishlist checkExists(Long productId, Long userId);
     void delete(Long id);
 
 }

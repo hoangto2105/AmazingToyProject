@@ -35,8 +35,9 @@ public class Wishlist implements Serializable {
     private User user;
 
 
-    @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "product_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Product> products;
+    private Product product;
 }

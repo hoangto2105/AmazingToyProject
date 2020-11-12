@@ -81,9 +81,11 @@
                                 </form>
                             </div>
                             <div class="pro-ref mt-20">
-<!--                                <p><span class="in-stock" th:if="${product.getStock()>0}"><i class="ion-checkmark-round"></i> IN STOCK</span></p>-->
+                                <p th:if="${productDetail.getStock() == 0}"><span class="out-stock" ><i class="fa fa-times"></i> OUT OF STOCK</span></p>
+                                <p th:unless="${productDetail.getStock() == 0}"><span class="in-stock" ><i class="ion-checkmark-round"></i> IN STOCK (<th:block th:utext="${productDetail.getStock()}"></th:block>)</span></p>
+                                <p th:if="${outofstock != null}"><span class="out-stock" ><i class="fa fa-times"></i> <th:block th:utext="${outofstock}"></th:block></span></p>
 
-<!--                                <p><span class="out-stock" th:unless="${product.getStock()>0}"><i class="fa fa-times"></i> OUT OF STOCK</span></p>-->
+
                             </div>
                             <div class="socila-sharing mt-25">
                                 <ul class="d-flex">

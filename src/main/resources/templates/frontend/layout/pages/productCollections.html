@@ -253,23 +253,23 @@
 
                                 <ul class="blog-pagination">
                                     <li th:if="${products.number ne 0}">
-                                        <a th:if="${#request.getParameter('size') != null}" th:href="@{/collections(page=${products.number lt 2 ? 1 : products.number}, size=${#request.getParameter('size')})}"><i class="fa fa-angle-left"></i>
+                                        <a th:if="${#request.getParameter('size') != null and #request.getParameter('order') != null}" th:href="@{/collections(page=${products.number lt 2 ? 1 : products.number}, size=${#request.getParameter('size')}, order=${#request.getParameter('order')})}"><i class="fa fa-angle-left"></i>
                                         </a>
-                                        <a th:unless="${#request.getParameter('size') != null}" th:href="@{/collections(page=${products.number lt 2 ? 1 : products.number})}"><i class="fa fa-angle-left"></i>
+                                        <a th:unless="${#request.getParameter('size') != null and #request.getParameter('order') != null}" th:href="@{/collections(page=${products.number lt 2 ? 1 : products.number})}"><i class="fa fa-angle-left"></i>
                                         </a>
                                     </li>
                                     <li th:classappend="${i eq products.number + 1} ? 'active'"
                                         th:each="i : ${#numbers.sequence( products.number + 1, products.totalPages > 10 + products.number ? products.number + 10 : products.totalPages, 1)}">
-                                        <a th:if="${#request.getParameter('size') != null}" th:href="@{/collections(page=${i}, size=${#request.getParameter('size')})}" th:text="${i}"
+                                        <a th:if="${#request.getParameter('size') != null and #request.getParameter('order') != null}" th:href="@{/collections(page=${i}, size=${#request.getParameter('size')}, order=${#request.getParameter('order') != null})}" th:text="${i}"
                                            th:title="${'Page '+ i}"></a>
-                                        <a th:unless="${#request.getParameter('size') != null}" th:href="@{/collections(page=${i})}" th:text="${i}"
+                                        <a th:unless="${#request.getParameter('size') != null and #request.getParameter('order') != null}" th:href="@{/collections(page=${i})}" th:text="${i}"
                                            th:title="${'Page '+ i}"></a>
                                     </li>
                                     <li th:if="${products.number + 10 < products.totalPages}"><a href="#"></a></li>
                                     <li th:if="${products.number + 1 ne products.totalPages}">
-                                        <a th:if="${#request.getParameter('size') != null}" th:href="@{/collections(page=${products.number + 2}, size=${#request.getParameter('size')})}"><i class="fa fa-angle-right"></i>
+                                        <a th:if="${#request.getParameter('size') != null and #request.getParameter('order') != null}" th:href="@{/collections(page=${products.number + 2}, size=${#request.getParameter('size')}, order=${#request.getParameter('order') != null})}"><i class="fa fa-angle-right"></i>
                                         </a>
-                                        <a th:unless="${#request.getParameter('size') != null}" th:href="@{/collections(page=${products.number + 2})}"><i class="fa fa-angle-right"></i>
+                                        <a th:unless="${#request.getParameter('size') != null and #request.getParameter('order') != null}" th:href="@{/collections(page=${products.number + 2})}"><i class="fa fa-angle-right"></i>
                                         </a>
                                     </li>
                                 </ul>

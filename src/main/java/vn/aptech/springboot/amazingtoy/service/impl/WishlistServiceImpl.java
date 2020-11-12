@@ -10,6 +10,7 @@ import vn.aptech.springboot.amazingtoy.service.WishlistService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WishlistServiceImpl implements WishlistService {
@@ -19,14 +20,8 @@ public class WishlistServiceImpl implements WishlistService {
 
 
     @Override
-    public List<Wishlist> findAllWishlist() {
-        List<Wishlist> result = new ArrayList<>();
-        Iterable<Wishlist> listWishlist = wishlistRepository.findAll();
-        for (Wishlist w : listWishlist) {
-
-            result.add(w);
-        }
-        return result;
+    public List<Wishlist> findAllByUser(Long userId) {
+        return wishlistRepository.findAllByUserId(userId);
     }
 
     @Override
@@ -51,6 +46,12 @@ public class WishlistServiceImpl implements WishlistService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Wishlist checkExists(Long productId, Long userId) {
+        Wishlist wishlist = wishlistRepository.findByProductId(productId, userId).orElse(null);
+        return wishlist;
     }
 
     @Override

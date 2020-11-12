@@ -13,6 +13,7 @@ import vn.aptech.springboot.amazingtoy.model.wishlist.Wishlist;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -65,12 +66,6 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
-
-    @OneToOne
-    @JoinColumn(name = "id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Wishlist wishlist;
 
     public User() {
     }

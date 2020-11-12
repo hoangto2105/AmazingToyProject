@@ -20,6 +20,7 @@ import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 import vn.aptech.springboot.amazingtoy.service.WishlistService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +50,7 @@ public class WishlistUserController {
 
         User user = userService.findUserByEmail(authentication.getName()); // get user by email
 
-        Wishlist wishlist = user.getWishlist();
+        List<Wishlist> wishlist = wishlistService.findAllByUser(user.getId());
 
         model.addAttribute("wishlist", wishlist);
 
@@ -58,12 +59,25 @@ public class WishlistUserController {
 
 
     @RequestMapping(value = "/add/{id}", method = RequestMethod.GET)
-    public String add(@PathVariable("id") Long id){
-        Product product = productService.findPk(id);
-        Wishlist wishlist = new Wishlist();
-      //  wishlist.setProducts();
-        wishlistService.create(wishlist);
-        return "frontend/layout/pages/wishlist";
+    public String add(HttpServletRequest httpServletRequest, @PathVariable("id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getName() == null) {
+            return "redirect:/login";
+        }
+        User user = userService.findUserByEmail(authentication.getName()); // get user by email
+        Wishlist wishlistCurrent = wishlistService.checkExists(id, user.getId());
+        if (wishlistCurrent != null) {
+            return "redirect:" + httpServletRequest.getHeader("Referer").toString();
+        } else {
+            Product product = productService.findPk(id);
+
+            Wishlist wishlist = new Wishlist();
+            wishlist.setProduct(product);
+            wishlist.setUser(user);
+            wishlistService.create(wishlist);
+        }
+
+        return "redirect:/account/wishlist";
     }
 
 
