@@ -66,10 +66,7 @@
 
                                                     <div class="col-md-6 text-right">
                                                         <p class="font-weight-bold mb-4">Payment Details</p>
-                                                        <p class="mb-1"><span class="text-muted">VAT: </span> 1425782</p>
-                                                        <p class="mb-1"><span class="text-muted">VAT ID: </span> 10253642</p>
-                                                        <p class="mb-1"><span class="text-muted">Payment Type: </span> Root</p>
-                                                        <p class="mb-1"><span class="text-muted">Name: </span> John Doe</p>
+                                                        <p class="mb-1"><span class="text-muted" th:text="${order.paymentMethod}"> </span></p>
                                                     </div>
                                                 </div>
 
@@ -81,17 +78,19 @@
                                                                 <th class="border-0 text-uppercase small font-weight-bold">ID</th>
                                                                 <th class="border-0 text-uppercase small font-weight-bold">Item</th>
                                                                 <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
-                                                                <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">Price</th>
                                                                 <th class="border-0 text-uppercase small font-weight-bold">Total</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
                                                             <tr th:each="map : ${order.getOrderDetails()}">
-                                                                <td>Image</td>
+                                                                <td class="product-image">
+                                                                <img width="70" height="70" th:each="image: ${map.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image">
+                                                            </td>
                                                                 <td th:text="${map.product.productName}"></td>
                                                                 <td th:text="${map.quantity}"></td>
                                                                 <td th:text="${map.price}"></td>
-                                                                <td>chua lam</td>
+                                                                <td th:text="${map.price * map.quantity}"></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>

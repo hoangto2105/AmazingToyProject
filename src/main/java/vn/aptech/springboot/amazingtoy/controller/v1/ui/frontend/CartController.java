@@ -61,9 +61,13 @@ public class CartController {
         return "frontend/layout/pages/cart";
     }
     @RequestMapping(value = "/update", method = RequestMethod.POST) //sua san pham trong gio hang
-    public String update(HttpSession session, @RequestParam("id") Long id, @RequestParam("qty") int qty){
+    public String update(HttpSession session, @RequestParam("id") Long id, @RequestParam("qty") int qty, RedirectAttributes redirectAttributes){
         Product product = productService.findPk(id); //lay ve san pham
         Cart cart = cartManager.getCart(session); // lay ve gio hang
+        if (product.getStock() < qty) {
+            redirectAttributes.addFlashAttribute("outofstock", "Quantity can not be greater than the stock!");
+            return "redirect:/cart";
+        }
         cart.updateItem(product,qty);
         return "frontend/layout/pages/cart";
     }

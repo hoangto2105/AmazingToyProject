@@ -12,6 +12,7 @@ import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.model.cart.Cart;
 import vn.aptech.springboot.amazingtoy.model.cart.CartManager;
 import vn.aptech.springboot.amazingtoy.model.order.Order;
+import vn.aptech.springboot.amazingtoy.model.order.StatusType;
 import vn.aptech.springboot.amazingtoy.model.orderdetail.OrderDetail;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
 import vn.aptech.springboot.amazingtoy.repository.order.OrderRepository;
@@ -60,6 +61,7 @@ public class CheckoutController {
         Cart cart = cartManager.getCart(session);
         order.setStatus(true);
         order.setAmount(cart.getTotal());
+        order.setStatusType(StatusType.Confirm);
         orderService.save(order);
         for(int i=0; i<cart.getItems().size(); i++){
             OrderDetail orderDetail = new OrderDetail();
@@ -68,7 +70,6 @@ public class CheckoutController {
             orderDetail.setPrice(cart.getItems().get(i).getProduct().getSavePrice());
             orderDetail.setQuantity(cart.getItems().get(i).getQuantity());
             orderDetail.setStatus(true);
-
             Product product = productService.findPk(cart.getItems().get(i).getProduct().getId());
             int quantityTotal = product.getStock() - cart.getItems().get(i).getQuantity();
             product.setStock(quantityTotal);
