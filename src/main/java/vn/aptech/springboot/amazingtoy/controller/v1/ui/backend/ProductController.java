@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,6 +24,7 @@ import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 import vn.aptech.springboot.amazingtoy.service.*;
 import vn.aptech.springboot.amazingtoy.util.FileUtil;
+import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
 import javax.validation.Valid;
 import java.io.File;
@@ -134,7 +136,24 @@ public class ProductController {
     //CREATE - POST
 
     @RequestMapping(value= "/create", method = RequestMethod.POST)
-    public String create(@Valid ProductStoreFormCommand productStoreFormCommand, BindingResult bindingResult) {
+    public String create(@Valid @ModelAttribute("productStoreFormCommand") ProductStoreFormCommand productStoreFormCommand, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        Product checkSlugExists = productService.findBySlug(RandomStringUtil.makeSlug(productStoreFormCommand.getProductName()));
+        Product checkSkuExists = productService.findBySKU(productStoreFormCommand.getSku());
+        if (checkSlugExists != null) {
+            redirectAttributes.addFlashAttribute("slugErr", "Product name is exists!");
+            return "redirect:/admin/product/create";
+        }
+
+        if (checkSkuExists != null) {
+            redirectAttributes.addFlashAttribute("skuErr", "SKU is exists!");
+            return "redirect:/admin/product/create";
+        }
+
+        if (productStoreFormCommand.getUnitPrice() <= 0) {
+            redirectAttributes.addFlashAttribute("unitPrice", "Unit price greater than 0");
+            return "redirect:/admin/product/create";
+        }
 
         if (bindingResult.hasErrors()) {
             return "backend/layout/pages/product/create";
@@ -191,7 +210,7 @@ public class ProductController {
 
 
     //UPDATE PRODUCT - GET
-    @RequestMapping(value = "/edit/{productId}")
+    @RequestMapping(value = "/edit/{productId}", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable("productId") Long productId) {
         Product product = productService.findPk(productId);
         if(product != null) {
@@ -266,9 +285,43 @@ public class ProductController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String edit(Model model,
-                           @ModelAttribute("product") Product product) {
-        Subcategory subcategory = subcategoryService.findPk(product.getSubcategory().getSubcatId());
-        product.setSubcategory(subcategory);
+                           @ModelAttribute("productUpdateFormCommand") ProductUpdateFormCommand productUpdateFormCommand) {
+
+        Product product = productService.findPk(productUpdateFormCommand.getId());
+        Subcategory subcategory = subcategoryService.findPk(productUpdateFormCommand.getCategory());
+
+        if (product.getProductType() == ProductType.Auction) {
+
+            product.setSlug(productUpdateFormCommand.getSlug());
+            product.setSku(productUpdateFormCommand.getSku());
+            product.setProductName(productUpdateFormCommand.getProductName());
+            product.setProductDescription(productUpdateFormCommand.getProductDescription());
+            product.setProductContent(productUpdateFormCommand.getProductContent());
+            product.setUnitPrice(productUpdateFormCommand.getUnitPrice());
+            product.setSavePrice(productUpdateFormCommand.getSavePrice());
+            product.setUnitWeight(productUpdateFormCommand.getUnitWeight());
+            product.setStock(productUpdateFormCommand.getStock());
+            product.setProductType(productUpdateFormCommand.getProductType());
+            BidDetail bidDetail = bidDetailService.stored(new BidDetail()
+                    .setBidIncrement(productUpdateFormCommand.getBidIncrement())
+                    .setAuctionStart(productUpdateFormCommand.getAuctionStart())
+                    .setAuctionEnd(productUpdateFormCommand.getAuctionEnd()));
+            product.setBidDetail(bidDetail);
+            product.setSubcategory(subcategory);
+        } else {
+            product.setSlug(productUpdateFormCommand.getSlug());
+            product.setSku(productUpdateFormCommand.getSku());
+            product.setProductName(productUpdateFormCommand.getProductName());
+            product.setProductDescription(productUpdateFormCommand.getProductDescription());
+            product.setProductContent(productUpdateFormCommand.getProductContent());
+            product.setUnitPrice(productUpdateFormCommand.getUnitPrice());
+            product.setSavePrice(productUpdateFormCommand.getSavePrice());
+            product.setUnitWeight(productUpdateFormCommand.getUnitWeight());
+            product.setStock(productUpdateFormCommand.getStock());
+            product.setProductType(productUpdateFormCommand.getProductType());
+            product.setSubcategory(subcategory);
+        }
+
         productService.update(product);
         return "redirect:/admin/product";
 

@@ -15,6 +15,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findBySlug(String slug);
 
+    Product findBySku(String sku);
+
     @Query(value = "select * from products p where product_name like '%' :name '%'", nativeQuery = true)
     List<Product> productSearchList(String name);
 

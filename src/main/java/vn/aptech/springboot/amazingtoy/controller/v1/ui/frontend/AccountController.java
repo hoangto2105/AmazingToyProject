@@ -14,10 +14,16 @@ import vn.aptech.springboot.amazingtoy.controller.v1.command.UserUpdateFormComma
 import vn.aptech.springboot.amazingtoy.dto.mapper.UserMapper;
 import vn.aptech.springboot.amazingtoy.dto.model.user.AddressDto;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
+import vn.aptech.springboot.amazingtoy.model.products.Product;
+import vn.aptech.springboot.amazingtoy.model.user.User;
+import vn.aptech.springboot.amazingtoy.model.wishlist.Wishlist;
 import vn.aptech.springboot.amazingtoy.service.UserService;
+import vn.aptech.springboot.amazingtoy.service.WishlistService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "account")
@@ -27,6 +33,9 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private WishlistService wishlistService;
+
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String viewDashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -34,6 +43,29 @@ public class AccountController {
 
         model.addAttribute("currentUser", userDto);
         return "frontend/layout/pages/account/dashboard/dashboard";
+
+    }
+
+    @RequestMapping(value = "/wishlist", method = RequestMethod.GET)
+    public String myWishList(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getName() == null) {
+            return "redirect:/login";
+        }
+
+        List<Product> productWishList = new ArrayList<>();
+        User user = userService.findUserByEmail(authentication.getName()); // get user by email
+
+        List<Wishlist> wishlist = wishlistService.findAllByUser(user.getId());
+
+        for (Wishlist wish : wishlist) {
+            productWishList.add(wish.getProduct());
+        }
+
+        model.addAttribute("productWishList", productWishList);
+        model.addAttribute("wishlist", wishlist);
+
+        return "frontend/layout/pages/account/wishlist";
 
     }
 
