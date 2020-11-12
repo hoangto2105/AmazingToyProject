@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Accessors
+@Accessors(chain = true)
 @Entity
 @Table(name="abouts")
 public class About extends BaseEntity {

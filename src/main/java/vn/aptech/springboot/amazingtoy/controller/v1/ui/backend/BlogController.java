@@ -11,15 +11,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.aptech.springboot.amazingtoy.dto.model.user.UserDto;
 import vn.aptech.springboot.amazingtoy.dto.model.user.blog.BlogDto;
 import vn.aptech.springboot.amazingtoy.model.blog.Blog;
+import vn.aptech.springboot.amazingtoy.model.images.Image;
 import vn.aptech.springboot.amazingtoy.model.user.User;
 import vn.aptech.springboot.amazingtoy.service.BlogService;
 import vn.aptech.springboot.amazingtoy.service.UserService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "admin/blog")
@@ -76,4 +79,13 @@ public class BlogController {
         blogService.update(blogDto);
         return "redirect:/admin/blog";
     }
+    //DELETE
+    @RequestMapping(value="/delete/{idDelete}", method=RequestMethod.GET)
+    public String deleteBlog(RedirectAttributes redirectAttributes, @PathVariable("idDelete") String id) throws IOException {
+        BlogDto blogDto = blogService.findById(Long.parseLong(id));
+        blogService.delete(Long.parseLong(id));
+        redirectAttributes.addFlashAttribute("success","Delete blog"+blogDto.getTitle()+"Successfully");
+        return "redirect:/admin/blog";
+    }
+
 }

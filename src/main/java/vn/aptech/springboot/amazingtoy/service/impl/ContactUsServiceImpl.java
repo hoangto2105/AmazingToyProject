@@ -35,6 +35,7 @@ public class ContactUsServiceImpl implements ContactUsService {
             contactUsDto.setName(contactUs.getName());
             contactUsDto.setPhone(contactUs.getPhone());
             contactUsDto.setMessage(contactUs.getMessage());
+            contactUsDto.setSubject(contactUs.getSubject());
             result.add(contactUsDto);
         }
         return result;

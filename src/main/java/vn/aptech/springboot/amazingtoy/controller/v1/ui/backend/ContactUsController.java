@@ -34,6 +34,7 @@ public class ContactUsController {
 
     }
 
+
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(Model model, @PathVariable("id") Long id){
 
