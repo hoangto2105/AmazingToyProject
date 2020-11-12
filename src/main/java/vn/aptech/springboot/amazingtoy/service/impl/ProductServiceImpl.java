@@ -1,6 +1,9 @@
 package vn.aptech.springboot.amazingtoy.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vn.aptech.springboot.amazingtoy.model.products.BidHistory;
 import vn.aptech.springboot.amazingtoy.model.products.Product;
@@ -20,6 +23,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private BidHistoryRepository bidHistoryRepository;
+
+    @Override
+    public Page<Product> findAllByPaging(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
 
     @Override
     public List<Product> findAllPro() {
@@ -94,5 +102,25 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> searchProductBySubCategory(Long subCategoryId, String searchProductName) {
         List<Product> products =  productRepository.searchProductBySubCategory(subCategoryId, searchProductName);
         return products;
+    }
+
+    @Override
+    public Page<Product> sortProductByPriceAsc(Pageable pageable) {
+        return productRepository.sortProductByAsc(pageable);
+    }
+
+    @Override
+    public Page<Product> sortProductByPriceDesc(Pageable pageable) {
+        return productRepository.sortProductByDesc(pageable);
+    }
+
+    @Override
+    public Page<Product> sortNewProduct(Pageable pageable) {
+        return productRepository.sortNewProduct(pageable);
+    }
+
+    @Override
+    public Page<Product> sortProductByMuchDiscount(Pageable pageable) {
+        return productRepository.sortProductByMuchDiscount(pageable);
     }
 }
