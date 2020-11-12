@@ -8,6 +8,7 @@ import vn.aptech.springboot.amazingtoy.model.subcategory.Subcategory;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.List;
 
@@ -29,11 +30,11 @@ public class ProductUpdateFormCommand {
     private String productDescription;
 
     private String productContent;
-
-    @NotNull
+    
+    @Size(min = 1)
     private int unitPrice;
 
-    @NotNull
+    @Size(min = 1)
     private int savePrice;
 
     private double unitWeight;

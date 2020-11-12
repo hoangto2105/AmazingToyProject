@@ -40,24 +40,6 @@ public class WishlistUserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = {"/",""}, method = RequestMethod.GET)
-    public String showWishlist(Model model)
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getName() == null) {
-            return "redirect:/login";
-        }
-
-        User user = userService.findUserByEmail(authentication.getName()); // get user by email
-
-        List<Wishlist> wishlist = wishlistService.findAllByUser(user.getId());
-
-        model.addAttribute("wishlist", wishlist);
-
-        return "frontend/layout/pages/wishlist";
-    }
-
-
     @RequestMapping(value = "/add/{id}", method = RequestMethod.GET)
     public String add(HttpServletRequest httpServletRequest, @PathVariable("id") Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

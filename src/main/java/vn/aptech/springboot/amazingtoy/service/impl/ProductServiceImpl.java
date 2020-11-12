@@ -78,6 +78,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product findBySKU(String sku) {
+        return productRepository.findBySku(sku);
+    }
+
+    @Override
     public void delete(Long id) {
         Product product = productRepository.findById(id).get();
         productRepository.delete(product);

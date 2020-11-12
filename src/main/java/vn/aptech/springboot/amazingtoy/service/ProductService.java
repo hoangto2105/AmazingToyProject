@@ -17,6 +17,7 @@ public interface ProductService {
     Product update(Product pro);
     Product findPk(Long id);
     Product findBySlug(String productSlug);
+    Product findBySKU(String sku);
     void delete(Long id);
     Product bidAuction(Product product);
     BidHistory storeBidHistory(BidHistory bidHistory);

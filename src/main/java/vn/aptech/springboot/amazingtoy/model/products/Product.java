@@ -19,6 +19,8 @@ import vn.aptech.springboot.amazingtoy.model.wishlist.Wishlist;
 import java.util.Collection;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -43,6 +45,8 @@ public class Product extends BaseEntity {
     private String productContent;
 
     @Column(name = "unit_price", nullable = false)
+    @NotNull
+    @Size(min = 1)
     private int unitPrice;
 
     @Column(name = "save_price", nullable = false)
