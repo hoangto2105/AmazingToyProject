@@ -65,7 +65,8 @@ display: -webkit-box; -webkit-box-orient: vertical" th:utext="${blog.description
 
                                         <div>
 
-                                            <a style="margin:5px" class="btn btn-danger " th:href="@{/admin/blog/delete/{idDelete}(idDelete=${blog.id})}" onclick="return confirm('Are you sure you want to Remove?');" >Delete </a>
+                                            <a style="margin:5px" class="btn btn-danger " th:href="@{/admin/blog/delete/{idDelete}(idDelete=${blog.id})}"
+                                               onclick="return confirm('Are you sure you want to Remove?');" >Delete </a>
 
                                         </div></td>
 

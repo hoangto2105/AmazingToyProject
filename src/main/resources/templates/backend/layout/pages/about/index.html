@@ -37,13 +37,14 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="example1" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Image </th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -53,6 +54,15 @@
                                     <td th:utext="${about.description}"></td>
                                     <td>
                                         <img th:src="@{'/backend/dist/img/about/' + ${about.image}}" width="50" height="50" th:alt="${about.image}" />
+                                    </td>
+                                    <td><div><a style="margin:5px" class="btn btn-info"
+                                                th:href="@{'/admin/about/displayUpdate/'+${about.id}}">Update</a>
+                                    </div>
+                                        <div>
+                                            <a style="margin:5px" class="btn btn-danger"
+                                               th:href="@{/admin/about/delete/{idDelete}(idDelete=${about.id})}"
+                                               onclick="return confirm('Are you sure to Remove?');">Delete</a>
+                                        </div>
                                     </td>
 
                                 </tr>
@@ -72,6 +82,16 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<!-- page script -->
+<script layout:fragment="scripts">
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+    });
+</script>
 </body>
 </html>
 

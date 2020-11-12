@@ -192,42 +192,20 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a th:href="@{/admin/user}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/order/index') ? ' active' : ''}">
+                            <a th:href="@{/admin/blog}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/blog/index') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
                                     <p>List all new Blogs</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/admin/user}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/order/create') ? ' active' : ''}">
+                            <a th:href="@{/admin/blog/create}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/blog/create') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Create</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/about') ? ' menu-open' : ''}">
-                    <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/about') ? ' active' : ''}">
-                        <i class="nav-icon far fa-plus-square"></i>
-                        <p>
-                            About
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a th:href="@{/admin/user}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/about/index') ? ' active' : ''}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>About Management</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a th:href="@{/admin/user}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/about/create') ? ' active' : ''}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>About</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+
 
                 <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/about') ? ' menu-open' : ''}">
                     <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/about') ? ' active' : ''}">
@@ -263,7 +241,7 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a th:href="@{/admin/contactUs/index}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/product/index') ? ' active' : ''}">
+                            <a th:href="@{/admin/contactUs/index}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/contactUs/index') ? ' active' : ''}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List Message</p>
                             </a>
