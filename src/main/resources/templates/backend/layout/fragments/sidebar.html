@@ -38,30 +38,30 @@
                     </a>
                 </li>
 
-                <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/supplier') ? ' menu-open' : ''}">
-                    <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/supplier') ? ' active' : ''}">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Supplier
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
+<!--                <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/supplier') ? ' menu-open' : ''}">-->
+<!--                    <a href="#" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/supplier') ? ' active' : ''}">-->
+<!--                        <i class="nav-icon fas fa-table"></i>-->
+<!--                        <p>-->
+<!--                            Supplier-->
+<!--                            <i class="fas fa-angle-left right"></i>-->
+<!--                        </p>-->
+<!--                    </a>-->
+<!--                    <ul class="nav nav-treeview">-->
 
-                        <li class="nav-item">
-                            <a th:href="@{/admin/supplier/index}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/supplier/index') ? ' active' : ''}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List All Supplier</p>
-                            </a>
+<!--                        <li class="nav-item">-->
+<!--                            <a th:href="@{/admin/supplier/index}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/supplier/index') ? ' active' : ''}">-->
+<!--                                <i class="far fa-circle nav-icon"></i>-->
+<!--                                <p>List All Supplier</p>-->
+<!--                            </a>-->
 
-                            <a th:href="@{/admin/supplier/createFormSupplier}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/supplier/createFormSupplier') ? ' active' : ''}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create New Supplier</p>
-                            </a>
-                        </li>
+<!--                            <a th:href="@{/admin/supplier/createFormSupplier}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/supplier/createFormSupplier') ? ' active' : ''}">-->
+<!--                                <i class="far fa-circle nav-icon"></i>-->
+<!--                                <p>Create New Supplier</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
 
-                    </ul>
-                </li>
+<!--                    </ul>-->
+<!--                </li>-->
 
 
                 <li class="nav-item has-treeview" th:classappend="${#request.getServletPath().contains('/admin/inventory') ? ' menu-open' : ''}">
@@ -86,10 +86,10 @@
                             </a>
 
 
-                            <a th:href="@{/admin/inventory/reportInvoice}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/inventory/reportInvoice') ? ' active' : ''}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Weekly Invoice Report</p>
-                            </a>
+<!--                            <a th:href="@{/admin/inventory/reportInvoice}" class="nav-link" th:classappend="${#request.getServletPath().contains('/admin/inventory/reportInvoice') ? ' active' : ''}">-->
+<!--                                <i class="far fa-circle nav-icon"></i>-->
+<!--                                <p>Weekly Invoice Report</p>-->
+<!--                            </a>-->
                         </li>
 
                     </ul>
