@@ -77,7 +77,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String productSearch(Model model, @RequestParam("query") String name, @RequestParam("poscats") Long subCategoryId) {
+    public String productSearch(Model model, @RequestParam("query") String name,
+                                @RequestParam("poscats") Long subCategoryId) {
 
         List<Product> products;
         String productName = name.trim().toLowerCase();
@@ -89,7 +90,7 @@ public class HomeController {
         }
 
         model.addAttribute("products", products);
-        return "frontend/layout/pages/productCollections";
+        return "frontend/layout/pages/productSearch";
     }
 
     @RequestMapping(value = "/collections/", method = RequestMethod.GET)
@@ -99,7 +100,7 @@ public class HomeController {
         List<Product> products = productService.filterProductByPrice(fromPrice, toPrice);
 
         model.addAttribute("products", products);
-        return "frontend/layout/pages/productCollections";
+        return "frontend/layout/pages/productSearch";
     }
 
 }

@@ -111,7 +111,7 @@ public class ShopProductController {
                                         @RequestParam(value = "order", required = false) String orderby) {
 
         int pageDefault = 1;
-        int sizeDefault = 3;
+        int sizeDefault = 6;
 
         if (page != null && !page.isEmpty()) {
             pageDefault = Integer.parseInt(page);

@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findBySku(String sku);
 
-    @Query(value = "select * from products p where product_name like '%' :name '%'", nativeQuery = true)
+    @Query(value = "select * from products p where p.product_name like '%' :name '%'", nativeQuery = true)
     List<Product> productSearchList(String name);
 
     @Query(value = "select * from products p where  p.subcategory_id = :subCategoryId && p.product_name like '%' :name '%'", nativeQuery = true)
