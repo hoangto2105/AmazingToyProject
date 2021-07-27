@@ -30,3 +30,7 @@ db/data/*
 
 #mac-os
 *.DS_Store
+
+#/src/main/resources/static/
+#/database
+*.icloud

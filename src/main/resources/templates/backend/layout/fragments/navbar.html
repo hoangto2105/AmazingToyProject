@@ -118,10 +118,30 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="fas fa-th-large"></i>
+        <li class="nav-item dropdown user-menu show">
+
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                <img th:src="@{'/backend/dist/img/user-picture/' + ${#request.userPrincipal.principal.profilePicture}}" class="user-image" th:alt="${#request.userPrincipal.principal.profilePicture}">
             </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right show" style="left: inherit; right: 0px;">
+                <!-- User image -->
+                <div class="text-center">
+                    <img th:src="@{'/backend/dist/img/user-picture/' + ${#request.userPrincipal.principal.profilePicture}}" width="70" height="70" class="img-circle" th:alt="${#request.userPrincipal.principal.profilePicture}">
+                    <div>
+                        <span th:utext="${#request.userPrincipal.principal.getFullName()}"></span><br>
+                        <small>Member since <span th:utext="${#request.userPrincipal.principal.createAt}"></span></small>
+                    </div>
+                </div>
+                <!-- Menu Footer-->
+                <div class="user-footer">
+                    <div class="float-left">
+                        <a th:href="@{/admin/profile}" class="btn btn-default btn-flat">Setting</a>
+                    </div>
+                    <div class="float-right">
+                        <a th:href="@{/logout}" class="btn btn-default btn-flat">Logout</a>
+                    </div>
+                </div>
+            </div>
         </li>
     </ul>
 </nav>

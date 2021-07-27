@@ -29,6 +29,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+
+        HttpSession session = httpServletRequest.getSession();
+        if (session != null) {
+            String redirectUrl = (String) session.getAttribute("return_url_login");
+            if (redirectUrl != null) {
+                // we do not forget to clean this attribute from session
+                session.removeAttribute("return_url_login");
+                // then we redirect
+                redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, redirectUrl);
+            }
+        }
+
         handle(httpServletRequest, httpServletResponse, authentication);
         clearAuthenticationAttributes(httpServletRequest);
     }
@@ -54,10 +66,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     protected String determineTargetUrl(final Authentication authentication) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("USER", "/");
+        roleTargetUrlMap.put("CUSTOMER", "/");
         roleTargetUrlMap.put("ADMIN", "/admin/dashboard");
         roleTargetUrlMap.put("STAFF", "/admin/dashboard");
 
+        return getRoles(authentication, roleTargetUrlMap);
+    }
+
+    static String getRoles(Authentication authentication, Map<String, String> roleTargetUrlMap) {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();

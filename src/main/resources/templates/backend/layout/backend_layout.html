@@ -10,8 +10,16 @@
     <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
     <!-- Tempusdominus Bbootstrap 4 -->
     <link rel="stylesheet" th:href="@{/backend/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+    <!-- Select2 -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/select2/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css}">
     <!-- iCheck -->
     <link rel="stylesheet" th:href="@{/backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
     <!-- JQVMap -->
@@ -27,7 +35,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
 
     <!-- Navbar -->
@@ -60,6 +68,17 @@
 </script>
 <!-- Bootstrap 4 -->
 <script th:src="@{/backend/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Select2 -->
+<script th:src="@{/backend/plugins/select2/js/select2.full.min.js}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script th:src="@{/backend/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+<!-- bs-custom-file-input -->
+<script th:src="@{/backend/plugins/bs-custom-file-input/bs-custom-file-input.min.js}"></script>
+<!-- DataTables -->
+<script th:src="@{/backend/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
 <!-- ChartJS -->
 <script th:src="@{/backend/plugins/chart.js/Chart.min.js}"></script>
 <!-- Sparkline -->
@@ -74,6 +93,8 @@
 <script th:src="@{/backend/plugins/daterangepicker/daterangepicker.js}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script th:src="@{/backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+<!-- Bootstrap Switch -->
+<script th:src="@{/backend/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
 <!-- Summernote -->
 <script th:src="@{/backend/plugins/summernote/summernote-bs4.min.js}"></script>
 <!-- overlayScrollbars -->
@@ -84,5 +105,6 @@
 <script th:src="@{/backend/dist/js/pages/dashboard.js}"></script>
 <!-- AdminLTE for demo purposes -->
 <script th:src="@{/backend/dist/js/demo.js}"></script>
+<script layout:fragment="scripts"></script>
 </body>
 </html>
