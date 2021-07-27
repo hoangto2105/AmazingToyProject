@@ -33,3 +33,4 @@ db/data/*
 
 #/src/main/resources/static/
 #/database
+*.icloud
